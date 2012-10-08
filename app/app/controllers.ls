@@ -66,8 +66,11 @@ mod.MyCtrl1 = <[ $scope ]> +++ ($scope) ->
   $scope.title = "Myctrl1"
   $scope.moreProducts = (which)->
       console.log \more
-      $scope.results[which]products.push name: 'newly added'
+      $scope.results[which]products.push name: 'newly added'+which
   $scope.search = 'HTC'
+  $scope.blah = (which)->
+    
+  $scope.cc = 1
   $scope.results =
       * name: 'ONE'
         categoryKey: 'htc:one'
@@ -81,8 +84,43 @@ mod.MyCtrl1 = <[ $scope ]> +++ ($scope) ->
         categoryKey: 'htc:desire'
         products:
           * name: 'Desire HD'
+          * name: 'Desire MD'
+          * name: 'Desire LD'
       * name: 'Accessory: case'
-        products: []
+        products: 
+          * name: 'Mickey Mouse'
+          * name: 'Crystal Shell'
+          * name: 'Extreme Thin'
+      * name: 'Accessory: case'
+        products: 
+          * name: 'Mickey Mouse'
+          * name: 'Mickey Mouse'
+          * name: 'Mickey Mouse'
+      * name: 'Accessory: case'
+        products: 
+          * name: 'Mickey Mouse'
+          * name: 'Mickey Mouse'
+          * name: 'Mickey Mouse'
+      * name: 'Accessory: case'
+        products: 
+         * name: 'Mickey Mouse'
+         * name: 'Mickey Mouse'
+         * name: 'Mickey Mouse'
+      * name: 'Accessory: case'
+        products: 
+         * name: 'Mickey Mouse'
+         * name: 'Mickey Mouse'
+         * name: 'Mickey Mouse'
+      * name: 'Accessory: case'
+        products: 
+         * name: 'Mickey Mouse'
+         * name: 'Mickey Mouse'
+         * name: 'Mickey Mouse'
+      * name: 'Accessory: case'
+        products: 
+         * name: 'Mickey Mouse'
+         * name: 'Mickey Mouse'
+         * name: 'Mickey Mouse'
 
 mod.MyCtrl2 = [
   '$scope'

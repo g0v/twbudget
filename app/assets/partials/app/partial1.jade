@@ -1,6 +1,9 @@
 div(ng-controller="MyCtrl1")
-    span h1 {{title}}
-    p This is the partial for view 1.
-    ul.products(when-scrolled='moreProducts(0)')
-      li.product(ng-repeat="product in results[0].products",style="width: 300; height: 300")
-        span {{ product.name }}
+    div.categories
+      div.category(style="left:{{i*300+30}}px",ng-repeat="(i,result) in results")
+        button.btn(style="text-align:center;") {{ result.name }}
+        ul.thumbnails.products(when-scrolled='moreProducts(i)')
+          li.span3.product.(ng-repeat="product in result.products",class="product{{cc}}")
+            img(src="img/htc-one.jpg")
+            h3 {{ product.name }}
+            p {{ product.description }} qwertyuaisdfghjzkxcvbj
