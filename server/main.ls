@@ -27,5 +27,5 @@
         <~ @ensureAuthenticated
         @response.send 'ok '+@request.user.username
 
-    #@include \auth
+    @include \auth
     @get '/:what': sendFile \index.html

@@ -45,6 +45,7 @@ findOrCreateUser = (profile, provider, done) ->
 
     for _provider, strategy_class of Strategy => let strategy_class, provider = _provider.toLowerCase!
         config = @config.authproviders[provider]
+        return unless config
         strategy = do
             params = { callbackURL: @config.base_uri + "auth/#provider/callback" } <<< if config.client_id => do
                 clientID: config.client_id
