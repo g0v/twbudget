@@ -28,9 +28,8 @@
     @get '/1/products/:query': ->
         err, res <~ Product.find!
         .exec
-        results = [for i in [1 to 10]
+        results = for i in [1 to 10]
             name: \ONE, categoryKey: \htc:one, products: res
-        ]
         @response.send results
 
     @get '/1/profile': ->
