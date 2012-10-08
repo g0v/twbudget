@@ -62,65 +62,14 @@ mod.Profile = <[ $scope $http ]> +++ ($scope, $http) ->
         console.log "logged in"
         $scope.name = name
 
-mod.MyCtrl1 = <[ $scope ]> +++ ($scope) ->
-  $scope.title = "Myctrl1"
-  $scope.moreProducts = (which)->
-      console.log \more
-      $scope.results[which]products.push name: 'newly added'+which
+mod.MyCtrl1 = <[ $scope ProductSearch ]> +++ ($scope, productSearch) ->
+  $scope.moreProducts = productSearch.moreResults
   $scope.search = 'HTC'
   $scope.blah = (which)->
     
   $scope.cc = 1
-  $scope.results =
-      * name: 'ONE'
-        categoryKey: 'htc:one'
-        products:
-          * name: 'ONE X'
-          * name: 'ONE S'
-          * name: 'ONE A'
-          * name: 'ONE B'
-          * name: 'ONE C'
-      * name: 'Desire'
-        categoryKey: 'htc:desire'
-        products:
-          * name: 'Desire HD'
-          * name: 'Desire MD'
-          * name: 'Desire LD'
-      * name: 'Accessory: case'
-        products: 
-          * name: 'Mickey Mouse'
-          * name: 'Crystal Shell'
-          * name: 'Extreme Thin'
-      * name: 'Accessory: case'
-        products: 
-          * name: 'Mickey Mouse'
-          * name: 'Mickey Mouse'
-          * name: 'Mickey Mouse'
-      * name: 'Accessory: case'
-        products: 
-          * name: 'Mickey Mouse'
-          * name: 'Mickey Mouse'
-          * name: 'Mickey Mouse'
-      * name: 'Accessory: case'
-        products: 
-         * name: 'Mickey Mouse'
-         * name: 'Mickey Mouse'
-         * name: 'Mickey Mouse'
-      * name: 'Accessory: case'
-        products: 
-         * name: 'Mickey Mouse'
-         * name: 'Mickey Mouse'
-         * name: 'Mickey Mouse'
-      * name: 'Accessory: case'
-        products: 
-         * name: 'Mickey Mouse'
-         * name: 'Mickey Mouse'
-         * name: 'Mickey Mouse'
-      * name: 'Accessory: case'
-        products: 
-         * name: 'Mickey Mouse'
-         * name: 'Mickey Mouse'
-         * name: 'Mickey Mouse'
+  $scope.results <- productSearch.search("htc")
+  console.log \got results
 
 mod.MyCtrl2 = [
   '$scope'
