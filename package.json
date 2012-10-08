@@ -25,6 +25,7 @@
     "passport-facebook": "*",
     "passport-github": "*",
     "passport-twitter": "*",
+    "Q": "*",
     "brunch": ">= 1.4 < 1.5",
 
     "javascript-brunch": ">= 1.0 < 1.5",

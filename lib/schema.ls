@@ -12,6 +12,11 @@ s =
         meta: {}
         tags: []
 
+s.ItemSchema = Schema do
+        product: String
+        price: Number
+        merchant: String
+
 module.exports = { [name, mongoose.model name, s[name + 'Schema']] for name in
     <[ Product ]>
 }

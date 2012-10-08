@@ -1,3 +1,5 @@
+{Product} = require \../lib/schema
+
 @include = ->
     @passport = require \passport
     CookieStore = require \cookie-sessions
@@ -22,6 +24,11 @@
     @helper ensureAuthenticated: (next) ->
         if @request?isAuthenticated! => return next!
         @response.send 401
+
+    @get '/1/products/:query': ->
+        err, res <~ Product.find!
+        .exec
+        @response.send res
 
     @get '/1/profile': ->
         <~ @ensureAuthenticated
