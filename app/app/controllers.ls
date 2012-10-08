@@ -64,8 +64,9 @@ mod.Profile = <[ $scope $http ]> +++ ($scope, $http) ->
 
 mod.MyCtrl1 = <[ $scope ]> +++ ($scope) ->
   $scope.title = "Myctrl1"
-  $scope.moreProducts = ->
-      $scope.products.push name: 'newly added'
+  $scope.moreProducts = (which)->
+      console.log \more
+      $scope.results[which]products.push name: 'newly added'
   $scope.search = 'HTC'
   $scope.results =
       * name: 'ONE'
@@ -73,6 +74,9 @@ mod.MyCtrl1 = <[ $scope ]> +++ ($scope) ->
         products:
           * name: 'ONE X'
           * name: 'ONE S'
+          * name: 'ONE A'
+          * name: 'ONE B'
+          * name: 'ONE C'
       * name: 'Desire'
         categoryKey: 'htc:desire'
         products:
