@@ -31,12 +31,15 @@ mod.AppCtrl = [
       return ''
 ]
 
-mod.MyCtrl1 = [
-  '$scope'
-
-(s) ->
-  s.Title = "MyCtrl1"
-]
+mod.MyCtrl1 = <[ $scope ]> +++ ($scope) ->
+  console.log \myctrl1
+  $scope.title = "Myctrl1"
+  $scope.moreProducts = ->
+      $scope.products.push name: 'newly added'
+  $scope.products =
+      * name: 'this'
+      * name: 'that'
+      * name: 'foo'
 
 mod.MyCtrl2 = [
   '$scope'

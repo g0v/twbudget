@@ -1,6 +1,6 @@
-p This is the partial for view 1.
-ul
-  li.product(style="width: 300; height: 300")
-  li.product(style="width: 300; height: 300")
-  li.product(style="width: 300; height: 300")
-    
+div(ng-controller="MyCtrl1")
+    span h1 {{title}}
+    p This is the partial for view 1.
+    ul.products(when-scrolled='moreProducts()')
+      li.product(ng-repeat="product in products",style="width: 300; height: 300")
+        span {{ product.name }}
