@@ -3,4 +3,5 @@ _public
 app/assets/*.html
 app/assets/partials/app/*.html
 server/*.js
+lib/*.js
 *.swp
