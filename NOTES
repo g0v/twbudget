@@ -1,0 +1,19 @@
+--
+product model:
+  name
+  image
+  
+  brand
+  excerpt
+  description
+  variant
+  meta: { material, dimension, ... }
+  tags: [....] # category, etc
+
+
+item model:
+  merchant
+  price
+  url / merchat-id
+  
+  
