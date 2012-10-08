@@ -1,5 +1,6 @@
 node_modules
 _public
 app/assets/*.html
-app/assets/partials/*.html
+app/assets/partials/app/*.html
+server/*.js
 *.swp

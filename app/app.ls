@@ -10,5 +10,5 @@ App.config [ '$routeProvider' '$locationProvider'
     .otherwise redirectTo: \/view1
 
   # Without serve side support html5 must be disabled.
-  $locationProvider.html5Mode false
+  $locationProvider.html5Mode true
 ]

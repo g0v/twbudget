@@ -16,6 +16,15 @@
     "test": "testacular test/testacular.config.js"
   },
   "dependencies": {
+    "zappajs": "0.4.x",
+    "mongoose": "*",
+    "passport": "*",
+    "bcrypt": "*",
+    "cookie-sessions": "git://github.com/clkao/cookie-sessions.git",
+    "passport-local": "*",
+    "passport-facebook": "*",
+    "passport-github": "*",
+    "passport-twitter": "*",
     "brunch": ">= 1.4 < 1.5",
 
     "javascript-brunch": ">= 1.0 < 1.5",
