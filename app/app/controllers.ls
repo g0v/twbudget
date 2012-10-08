@@ -66,10 +66,19 @@ mod.MyCtrl1 = <[ $scope ]> +++ ($scope) ->
   $scope.title = "Myctrl1"
   $scope.moreProducts = ->
       $scope.products.push name: 'newly added'
-  $scope.products =
-      * name: 'this'
-      * name: 'that'
-      * name: 'foo'
+  $scope.search = 'HTC'
+  $scope.results =
+      * name: 'ONE'
+        categoryKey: 'htc:one'
+        products:
+          * name: 'ONE X'
+          * name: 'ONE S'
+      * name: 'Desire'
+        categoryKey: 'htc:desire'
+        products:
+          * name: 'Desire HD'
+      * name: 'Accessory: case'
+        products: []
 
 mod.MyCtrl2 = [
   '$scope'
