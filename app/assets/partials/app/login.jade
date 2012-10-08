@@ -1,0 +1,23 @@
+#login-holder.modal.fade(ng-model="loginShown", ng-controller="LoginController",ui-modal)
+    a.btn.close(data-dismiss="modal") &times;
+    div.modal-header
+        h1 Login
+    div.modal-body
+      .row-fluid
+        .span6
+            form(ng-submit="submit()")
+                label email
+                input.email.login-inp(type="text",ng-model="email")
+                label Password
+                input.password.login-inp(type="password",ng-model="password")
+                div.clear
+                input.btn.btn-primary.submit-login(type="submit",value="Login")
+        .span6
+            p Login with:
+            a.btn.btn-primary.login-github(onclick="window.open('/auth/github', 'auth', 'height=400,width=400,modal=yes,alwaysRaised=yes')") Github
+            a.btn.btn-primary.login-twitter(onclick="window.open('/auth/twitter', 'auth', 'height=400,width=400,modal=yes,alwaysRaised=yes')") Twitter
+            a.btn.btn-primary.login-facebook(onclick="window.open('/auth/facebook', 'auth', 'height=400,width=400,modal=yes,alwaysRaised=yes')") facebook
+        div.clearfix
+        div.alert.alert-error(ng-show="message",ng-model="message") {{ message }}
+
+    div.modal-footer

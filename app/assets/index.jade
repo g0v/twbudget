@@ -36,6 +36,7 @@ html(lang='en')
       .container.main-content
         div(ng-view)
         div Angular Brunch seed app: v<span app-version></span>
+      div(ng-include="'/partials/app/login.html'")
       .push
 
     footer.footer

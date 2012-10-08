@@ -31,8 +31,38 @@ mod.AppCtrl = [
       return ''
 ]
 
+mod.LoginController = <[ $scope $http authService ]> +++ ($scope, $http, authService) ->
+    $scope.$on 'event:auth-loginRequired' ->
+      console.log \authrequired
+      $scope.loginShown = true
+    $scope.$on 'event:auth-loginConfirmed' ->
+      $scope.loginShown = false
+
+    window.addEventListener 'message' ({data}) ->
+        <- $scope.$apply
+        if data.auth
+            $scope.message = ''
+            authService.loginConfirmed!
+        if data.authFailed
+            $scope.message = data.message || 'login failed'
+
+    $scope.message = ''
+    $scope.submit = ->
+        $http.post 'auth/login' $scope{email, password}
+        .success ->
+            $scope.message = ''
+            authService.loginConfirmed!
+        .error ->
+            $scope.message = if typeof it is \object => it.message else it
+
+
+mod.Profile = <[ $scope $http ]> +++ ($scope, $http) ->
+    $scope.name = 'Guest';
+    $http.get('/1/profile')success {name} ->
+        console.log "logged in"
+        $scope.name = name
+
 mod.MyCtrl1 = <[ $scope ]> +++ ($scope) ->
-  console.log \myctrl1
   $scope.title = "Myctrl1"
   $scope.moreProducts = ->
       $scope.products.push name: 'newly added'
@@ -48,4 +78,4 @@ mod.MyCtrl2 = [
   s.Title = "MyCtrl2"
 ]
 
-angular.module('app.controllers', []).controller(mod)
+angular.module('app.controllers', ['http-auth-interceptor']).controller(mod)
