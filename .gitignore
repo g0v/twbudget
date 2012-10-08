@@ -2,3 +2,4 @@ node_modules
 _public
 app/assets/*.html
 app/assets/partials/*.html
+*.swp
