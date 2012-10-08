@@ -1,9 +1,9 @@
 div(ng-controller="MyCtrl1")
-    div.categories
+    div.categories(id="categories",when-h-scrolled='updateblah()')
       div.category(style="left:{{i*300+30}}px",ng-repeat="(i,result) in results")
         button.btn(style="text-align:center;") {{ result.name }}
-        ul.thumbnails.products(when-scrolled='moreProducts(i)')
-          li.span3.product.(ng-repeat="product in result.products",class="product{{cc}}")
+        ul.thumbnails.products(when-scrolled='moreProducts(i)',ng-class='"product"+blah(i)')
+          li.span3.product(ng-repeat="product in result.products")
             img(src="img/htc-one.jpg")
             h3 {{ product.name }}
             p {{ product.description }} qwertyuaisdfghjzkxcvbj

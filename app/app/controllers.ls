@@ -63,10 +63,17 @@ mod.Profile = <[ $scope $http ]> +++ ($scope, $http) ->
         $scope.name = name
 
 mod.MyCtrl1 = <[ $scope ProductSearch ]> +++ ($scope, productSearch) ->
+  $scope.updateblah = (which) ->
+    i = parseInt $('#categories')scrollLeft!/150
+    if $scope.category_index_old!=i then
+      $scope.category_index_old = i
+  $scope.blah = (which) ->
+    i = 1 + Math.abs which - parseInt $('#categories')scrollLeft!/150
+    if i>=3 then i=3
+    i
+
   $scope.moreProducts = productSearch.moreResults
   $scope.search = 'HTC'
-  $scope.blah = (which)->
-    
   $scope.cc = 1
   $scope.results <- productSearch.search("htc")
   console.log \got results
