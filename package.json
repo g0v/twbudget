@@ -23,6 +23,7 @@
 
     "css-brunch": ">= 1.0 < 1.5",
     "less-brunch": ">= 1.0 < 1.5",
+    "sass-brunch": ">= 1.0 < 1.5",
 
     "jade-brunch": ">= 1.0 < 1.5",
     "static-jade-brunch": "*",
