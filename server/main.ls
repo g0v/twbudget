@@ -1,4 +1,4 @@
-{Product} = require \../lib/schema
+{Product,BudgetItem} = require \../lib/schema
 
 @include = ->
     @passport = require \passport
@@ -35,6 +35,31 @@
     @get '/1/profile': ->
         <~ @ensureAuthenticated
         @response.send 'ok '+@request.user.username
+
+    @get '/1/budgetitems': ->
+        err, item <~ BudgetItem.find!
+        .exec
+        @response.send item
+
+    @post '/1/budgetitems/:key/:what': ->
+        key = @params.key
+        done = (err, item) ~>
+            console.log item
+            if @params.what in <[likes confuses hates]>
+                item[@params.what]addToSet @request.user?username ? 'guest'
+                err <~ item.save
+                console.log err
+                @response.send item
+            else
+                @response.send item
+
+        err, item <- BudgetItem.findOne 'key': key
+        return done(null, item) if item?id
+        item = new BudgetItem do
+            key: key
+        err <- item.save
+        return done(err, null) if err
+        done(null, item)
 
     @include \auth
     @get '/:what': sendFile \index.html

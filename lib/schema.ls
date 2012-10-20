@@ -17,6 +17,12 @@ s.ItemSchema = Schema do
         price: Number
         merchant: String
 
+s.BudgetItemSchema = Schema do
+    key: String
+    likes: []
+    confuses: []
+    hates: []
+
 module.exports = { [name, mongoose.model name, s[name + 'Schema']] for name in
-    <[ Product ]>
+    <[ Product BudgetItem ]>
 }
