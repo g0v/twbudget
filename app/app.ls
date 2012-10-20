@@ -6,6 +6,7 @@ App.config [ '$routeProvider' '$locationProvider'
   $routeProvider
     .when \/view1, templateUrl: \/partials/app/partial1.html
     .when \/view2, templateUrl: \/partials/app/partial2.html
+    .when \/view3, templateUrl: \/partials/app/partial3.html
     .when \/profile, templateUrl: \/partials/app/profile.html
     # Catch all
     .otherwise redirectTo: \/view1
