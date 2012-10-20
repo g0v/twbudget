@@ -19,6 +19,9 @@ s.ItemSchema = Schema do
 
 s.BudgetItemSchema = Schema do
     key: String
+    nlikes: Number
+    nconfuses: Number
+    nhates: Number
     likes: []
     confuses: []
     hates: []

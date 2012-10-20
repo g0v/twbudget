@@ -46,9 +46,11 @@
         done = (err, item) ~>
             console.log item
             if @params.what in <[likes confuses hates]>
-                item[@params.what]addToSet @request.user?username ? 'guest'
-                err <~ item.save
-                console.log err
+                errr, updated <~ item.update {
+                    $inc: "n#{@params.what}": 1
+                    $addToSet: hates: @request.user?username ? 'foo'
+                }, safe: 1
+                console.log errr, updated
                 @response.send item
             else
                 @response.send item
