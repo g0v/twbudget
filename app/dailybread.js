@@ -43,8 +43,7 @@ dailybread = function () {
         os_path + '/lib/vendor/raphael-min.js',
         os_path + '/lib/aggregator.js',
         os_path + '/app/dailybread/css/dailybread.css',
-        os_path + '/app/dailybread/js/cofog.js',
-        os_path + '/app/dailybread/js/dailybread.js'
+        os_path + '/app/dailybread/js/cofog.js'
       ],
       complete: function () { jQuery(function ($) { db_init() } ); }
     });
