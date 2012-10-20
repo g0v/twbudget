@@ -1,6 +1,21 @@
-p This is the partial for view 2.
-p
-  | Showing of 'interpolate' filter:
-  | {{ 'Current version is v%VERSION%.' | interpolate }}
-img.img-polaroid(src="img/300x200.gif")
-i.icon-search
+.container
+    #dailybread
+        h2.page-header
+          | The Daily Bread
+          small  Costs for the British Taxpayer per Day
+        #preloader(style='text-align: center; padding: 100px;')
+          img(src='img/ajax-loader.gif', style='vertical-align: top;')
+          span.txt loading javascript libraries
+        #content-wrap(style='display: none;')
+          #db-topbar.layout-row.layout-3col-15-70-15
+            #db-salary.layout-col.layout-col-1
+              h2 Salary
+              p £22,000
+            #db-slider.layout-col.layout-col-2
+              h2 Select your salary
+              .wdmmg-slider
+            #db-tax.layout-col.layout-col-3
+              h2 Your tax
+              p £8,621
+    script
+      dailybread();
