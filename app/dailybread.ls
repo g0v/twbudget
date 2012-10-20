@@ -29,7 +29,6 @@ OpenSpending.DailyBread = (elem) ->
   @formatCurrency = (val, prec, sym, dec, sep) ->
     val /= @divby
     prec = (if prec? then 2 else prec)
-    prec = 0
     sym = sym or "$"
     dec = dec or "."
     sep = sep or ","
