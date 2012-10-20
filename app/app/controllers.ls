@@ -79,8 +79,10 @@ mod.MyCtrl1 = <[ $scope ProductSearch ]> +++ ($scope, productSearch) ->
   console.log \got results
 
 mod.DailyBread = <[ $scope $http ]> +++ ($scope, $http) ->
+    $scope.tax = 80000
     $scope.$watch 'tax' ->
-       window.__db?setTax $scope.tax
+      console.log \tax $scope.tax
+      window.__db?setTax $scope.tax
 
 mod.MyCtrl2 = [
   '$scope'

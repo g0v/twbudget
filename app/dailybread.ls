@@ -1,25 +1,6 @@
 OpenSpending ?= {}
 <- $
 TAXMAN_URL = "http://taxman.openspending.org"
-formatCurrency = (val, prec, sym, dec, sep) ->
-  prec = (if prec? then 2 else prec)
-  prec = 0
-  sym = sym or "$"
-  dec = dec or "."
-  sep = sep or ","
-  str = undefined
-  valAry = val.toFixed(prec).split(".")
-  sepAry = []
-  i = valAry[0].length
-
-  while i > 2
-    sepAry.unshift valAry[0].slice(i - 3, i)
-    i -= 3
-  sepAry.unshift valAry[0].slice(0, i)  if i isnt 0
-  str = sym + sepAry.join(sep)
-  str += dec + valAry[1]  if prec > 0
-  str
-
 OpenSpending.DailyBread = (elem) ->
   self = this
   @$e = $(elem)
@@ -30,7 +11,6 @@ OpenSpending.DailyBread = (elem) ->
 
   @init = ->
     @setSalary 22000 # default starting salary
-    console.log @$e.find(".wdmmg-slider")
     @$e.find(".wdmmg-slider").slider
       value: @salaryVal
       min: 10000
@@ -45,9 +25,28 @@ OpenSpending.DailyBread = (elem) ->
 
     @$e.delegate ".db-area-col", "click", self.handleClick
 
+  @formatCurrency = (val, prec, sym, dec, sep) ->
+    prec = (if prec? then 2 else prec)
+    prec = 0
+    sym = sym or "$"
+    dec = dec or "."
+    sep = sep or ","
+    str = undefined
+    valAry = val.toFixed(prec).split(".")
+    sepAry = []
+    i = valAry[0].length
+
+    while i > 2
+      sepAry.unshift valAry[0].slice(i - 3, i)
+      i -= 3
+    sepAry.unshift valAry[0].slice(0, i)  if i isnt 0
+    str = sym + sepAry.join(sep)
+    str += dec + valAry[1]  if prec > 0
+    str
+
+
   @setTax = (tax) ->
       @taxVal = parseFloat(tax)
-      console.log @taxVal
       self.draw!
 
   @sliderSlide = (evt, sld) ->
@@ -103,15 +102,7 @@ OpenSpending.DailyBread = (elem) ->
     self.salaryVal = salary
 
   @getTaxVal = ->
-    rq = $.getJSON(TAXMAN_URL + "/gb?callback=?",
-      year: 2009
-      indirects: true
-      income: self.salaryVal
-    )
-    rq.then (data) ->
-      self.taxVal = data.calculation.directs.total + data.calculation.indirects.total
-
-    rq
+    @taxVal = 80000
 
   @draw = (sliderUpdate) ->
     _draw = ->
@@ -127,14 +118,12 @@ OpenSpending.DailyBread = (elem) ->
           i += 1
 
     taxUndef = (typeof self.taxVal is "undefined" or not self.taxVal?)
-    if sliderUpdate or taxUndef
-      self.getTaxVal().then _draw
-    else
-      _draw()
+    if taxUndef => self.getTaxVal()
+    _draw()
 
   @drawTotals = ->
-    $('#db-salary p').text formatCurrency(self.salaryVal, 0)
-    $('#db-tax p').text formatCurrency(self.taxVal, 0)
+    $('#db-salary p').text @formatCurrency(self.salaryVal, 0)
+    $('#db-tax p').text @formatCurrency(self.taxVal, 0)
 
   @drawTier = (tierId, sliderUpdate) ->
     tdAry = self.taxAndDataForTier(tierId)
@@ -144,7 +133,6 @@ OpenSpending.DailyBread = (elem) ->
     t = self.tiers[tierId] = self.tiers[tierId] or $("<div class='db-tier' data-db-tier='" + tierId + "'></div>").appendTo(self.$e)
     data = data.sort (a,b) -> b.2 - a.2
         .slice(0, 10)
-    console.log data
     n = data.length
     w = 100.0 / n
     icons = _.map(data, (d) ->
@@ -162,9 +150,8 @@ OpenSpending.DailyBread = (elem) ->
     
     # Update values
     valEls = t.find(".db-area-value")
-    console.log tax
-    _.each data, (area, idx) ->
-      valEls.eq(idx).text formatCurrency(tax * area[2], 2)
+    _.each data, (area, idx) ~>
+      valEls.eq(idx).text @formatCurrency(tax * area[2], 2)
 
     t.show()
 
