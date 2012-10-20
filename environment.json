@@ -1,0 +1,10 @@
+{"authproviders": {
+    "facebook": {
+        "client_id": "278354422273748",
+        "secret": "60cd3abadc8135f3eb5d1101b95becef"
+    }
+},
+"base_uri": "http://local.host:8000/"
+
+}
+
