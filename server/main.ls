@@ -37,7 +37,7 @@
         @response.send 'ok '+@request.user.username
 
     @get '/1/budgetitems': ->
-        err, item <~ BudgetItem.find!
+        err, item <~ BudgetItem.find {}, 'key nhates nconfuses nlikes'
         .exec
         @response.send item
 
@@ -46,11 +46,14 @@
         done = (err, item) ~>
             console.log item
             if @params.what in <[likes confuses hates]>
-                errr, updated <~ item.update {
+                console.log item._id
+                user_id = @request.user?username ? 'guest'
+
+                errr, updated <~ BudgetItem.update {_id: item._id, "#{@params.what}": {$ne: user_id}}, do 
                     $inc: "n#{@params.what}": 1
-                    $addToSet: hates: @request.user?username ? 'foo'
-                }, safe: 1
+                    $push: { "#{@params.what}": user_id }
                 console.log errr, updated
+                err, item <~ BudgetItem.findOne 'key': key
                 @response.send item
             else
                 @response.send item
