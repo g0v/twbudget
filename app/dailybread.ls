@@ -182,11 +182,11 @@ OpenSpending.DailyBread = (elem) ->
       paper = undefined
       iconUrl = $(e).data("svg-url")
       paper = Raphael(e, iconRad + iconRad, iconRad + iconRad + 5)
-      paper.circle(iconRad, iconRad, iconRad).attr
+      paper.circle(iconRad, iconRad, iconRad).attr do
         fill: '#830242'
         stroke: "none"
 
-      paper.circle(iconRad, iconRad, iconRad - 2).attr
+      paper.circle(iconRad, iconRad, iconRad - 2).attr do
         fill: "none"
         stroke: '#eee'
         opacity: 0.8
