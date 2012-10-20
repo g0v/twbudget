@@ -78,6 +78,10 @@ mod.MyCtrl1 = <[ $scope ProductSearch ]> +++ ($scope, productSearch) ->
   $scope.results <- productSearch.search("htc")
   console.log \got results
 
+mod.DailyBread = <[ $scope $http ]> +++ ($scope, $http) ->
+    $scope.$watch 'tax' ->
+       window.__db?setTax $scope.tax
+
 mod.MyCtrl2 = [
   '$scope'
 

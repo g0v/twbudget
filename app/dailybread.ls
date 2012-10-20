@@ -30,6 +30,7 @@ OpenSpending.DailyBread = (elem) ->
 
   @init = ->
     @setSalary 22000 # default starting salary
+    console.log @$e.find(".wdmmg-slider")
     @$e.find(".wdmmg-slider").slider
       value: @salaryVal
       min: 10000
@@ -43,6 +44,11 @@ OpenSpending.DailyBread = (elem) ->
         self.sliderChange.apply self, arguments_
 
     @$e.delegate ".db-area-col", "click", self.handleClick
+
+  @setTax = (tax) ->
+      @taxVal = parseFloat(tax)
+      console.log @taxVal
+      self.draw!
 
   @sliderSlide = (evt, sld) ->
     self.setSalary sld.value

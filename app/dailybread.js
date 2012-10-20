@@ -20,6 +20,7 @@ dailybread = function () {
       $('#preloader .txt').html('loading data');
       
       var db = new OpenSpending.DailyBread($('#dailybread'));   
+      window.__db = db;
 
       new OpenSpending.Aggregator({
         apiUrl: 'http://openspending.org/api',
