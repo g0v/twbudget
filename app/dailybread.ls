@@ -9,6 +9,7 @@ OpenSpending.DailyBread = (elem) ->
   @areas = []
   @iconLookup = (name) ->
 
+  @divby = 365
   @init = ->
     @setSalary 22000 # default starting salary
     @$e.find(".wdmmg-slider").slider
@@ -26,6 +27,7 @@ OpenSpending.DailyBread = (elem) ->
     @$e.delegate ".db-area-col", "click", self.handleClick
 
   @formatCurrency = (val, prec, sym, dec, sep) ->
+    val /= @divby
     prec = (if prec? then 2 else prec)
     prec = 0
     sym = sym or "$"
