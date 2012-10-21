@@ -34,7 +34,7 @@
 
     @get '/1/profile': ->
         <~ @ensureAuthenticated
-        @response.send 'ok '+@request.user.username
+        @response.send @request.user
 
     @get '/1/budgetitems': ->
         err, item <~ BudgetItem.find {}, 'key nhates nconfuses nlikes'

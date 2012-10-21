@@ -58,8 +58,8 @@ mod.LoginController = <[ $scope $http authService ]> +++ ($scope, $http, authSer
 
 mod.Profile = <[ $scope $http ]> +++ ($scope, $http) ->
     $scope.name = 'Guest';
-    $http.get('/1/profile')success {name} ->
-        console.log "logged in"
+    $http.get('/1/profile')success ({name}:res) ->
+        console.log "logged in", res
         $scope.name = name
 
 mod.MyCtrl1 = <[ $scope ProductSearch ]> +++ ($scope, productSearch) ->
