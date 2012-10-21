@@ -28,16 +28,17 @@ rect { fill: none; }
 .icon-big-ban-circle    {width:32px;height:32px;background:url(/img/glyphicons.png) -432px -912px no-repeat;}
 .text-btn {font-size:12px!important;}
 #container {
-  position:absolute;width:1000px;top:0;left:50%;margin-left:-500px;top:0;height:100%;
+  position:absolute;width:1000px;top:85px;left:50%;margin-left:-500px;height:610px;
 }
-#container-inner { position:absolute;margin-top:90px; }
+#container-inner { position:absolute;margin-top:0px; }
 </style>
 <div id="container"><div id="container-inner">
 <div id="detail"><div id="detail-inner">
     <div style="height:200px;position:relative;">
     <h3><i class="icon-big-info-sign"></i><span id="detail-depname">中央研究院</span></h3>
     <div style="position:absolute;top:0;left:0;margin-top:100px;width:100%;text-align:center;"><span id="detail-amount" style="font-size:48px;text-shadow: #999 3px 3px 2px;">248.01億</span></div>
-<div style="position:absolute;top:0;left:0;margin-top:190px;width:100%;text-align:right;">屬於<span id="detail-cat">教育支出項目</span></div>
+<div style="position:absolute;top:0;left:0;margin-top:190px;width:100%;text-align:right;">屬於<span id="detail-cat">教育支出</span>項目
+</div>
 </div>
 <hr>
 <div class="input-append" style="margin-left:23px;">
@@ -112,8 +113,9 @@ function foo() {
       .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; })
       .on("click", function(d) { 
          var i;
-         detail_depname.innerText = d.name;
-         detail_amount.innerText = ((d.size/100000000)|0)+"億";
+         $("#detail-depname").text(d.name);
+         $("#detail-amount").text(((d.size/100000000)|0)+"億");
+         $("#detail-cat").text(d.cat);
 
          var tags = $("#tags");
          var bgobj = badgedata["view3/"+d.name];
