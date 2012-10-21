@@ -83,6 +83,7 @@ mod.DailyBread = <[ $scope $http ]> +++ ($scope, $http) ->
     $scope.$watch 'tax' ->
       console.log \tax $scope.tax
       window.__db?setTax $scope.tax
+    dailybread!
 
 mod.MyCtrl2 = [
   '$scope'

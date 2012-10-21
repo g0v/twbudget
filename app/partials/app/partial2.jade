@@ -1,13 +1,13 @@
 .container
     #dailybread(ng-controller="DailyBread")
-        h2.page-header The Daily Bread
-          small  Costs for the British Taxpayer per Day
+        h2.page-header 每日支出
+          small 納稅人每日支付些什麼？
         #preloader(style='text-align: center; padding: 100px;')
-          img(src='img/ajax-loader.gif', style='vertical-align: top;')
-          span.txt loading javascript libraries
+          span.txt loading
         #content-wrap(style='display: none;')
           #db-topbar.layout-row.layout-3col-15-70-15
-           form
-            input(type="text",id="db-tax",name="db-tax",ng-model="tax")
-    script
-      dailybread();
+           form.form-inline
+            label 每年繳納稅金
+              .input-prepend
+                  span.add-on $
+                  input.input-small(type="text",type="numbrer",id="db-tax",name="db-tax",ng-model="tax")

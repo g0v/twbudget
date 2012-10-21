@@ -26,7 +26,7 @@ dailybread = function () {
         apiUrl: 'http://openspending.org/api',
         dataset: 'twbudget',
         drilldowns: ['cat', 'depcat', 'name'],
-        cuts: ['year:2012'],
+        cuts: ['year:2013'],
         rootNodeLabel: 'Total', 
         breakdown: 'topname',
         callback: function (data) { db_load_data(db, data); }

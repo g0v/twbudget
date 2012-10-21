@@ -9,6 +9,7 @@ findOrCreateUser = (profile, provider, done) ->
     err, user <- User.findOne 'accounts.id': profile.id, 'accounts.provider': provider
     return done(null, user) if user?id
 
+    console.log profile
     # XXX check email for existing user
     user = new User do
         accounts: [ provider: provider, id: profile.id ]
