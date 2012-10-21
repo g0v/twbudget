@@ -8,6 +8,8 @@ User = s.UserSchema = new Schema do
     email: { type: String, +sparse, +unique }
     salt: { type: String }
     hash: { type: String }
+    votepref: String
+    votearea: String
     accounts: []
 
 User.virtual('password')
