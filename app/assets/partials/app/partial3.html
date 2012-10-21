@@ -48,11 +48,12 @@ rect { fill: none; }
 </div>
 <hr>
 <div style="text-align:center;"><span class="label">透過按一下表達你對於此預算的看法！</span></div>
-<div class="btn-toolbar" style="margin-left:20px;"><div class="btn-group">
-<button class="btn text-btn"><span id="vote1">78</span>人<br><i class="icon-big-plus"></i><br>希望追加</button>
-<button class="btn text-btn"><span id="vote2">3</span>人<br><i class="icon-big-question-sign"></i><br>表示不懂</button>
-<button class="btn text-btn"><span id="vote3">5</span>人<br><i class="icon-big-minus"></i><br>建議減少</button>
-<button class="btn text-btn btn-danger"><span id="vote4">1萬</span>人<br><i class="icon-big-ban-circle"></i><br>要求刪除</button>
+<div class="btn-toolbar" style="margin-left:20px;" ng-controller="BudgetItem"><div class="btn-group">
+<input type="hidden" ng-model="key" id="budgetkey">
+<button class="btn text-btn" ng-click="like()"><span id="vote1">78</span>人<br><i class="icon-big-plus"></i><br>希望追加</button>
+<button class="btn text-btn" ng-click="confuse()"><span id="vote2">3</span>人<br><i class="icon-big-question-sign"></i><br>表示不懂</button>
+<button class="btn text-btn" ng-click="hate()"><span id="vote3">5</span>人<br><i class="icon-big-minus"></i><br>建議減少</button>
+<button class="btn text-btn btn-danger" ng-click="cut()"><span id="vote4">1萬</span>人<br><i class="icon-big-ban-circle"></i><br>要求刪除</button>
 </div></div>
   </div></div>
     <script type="text/javascript" src="staticjs/output.json"></script>
@@ -116,7 +117,7 @@ function foo() {
          $("#detail-depname").text(d.name);
          $("#detail-amount").text(((d.size/100000000)|0)+"億");
          $("#detail-cat").text(d.cat);
-
+         $("#budgetkey").val("view3/"+d.cat+"/"+d.name);
          var tags = $("#tags");
          var bgobj = badgedata["view3/"+d.name];
          tags.empty();
