@@ -18,4 +18,11 @@ mod.ProductSearch = <[ $http ]> +++ ($http) ->
       console.log \more
       results[which]products.push name: 'newly added'
 
+mod.BudgetItem = <[ $http ]> +++ ($http) ->
+    get: (cb) ->
+        $http.get('/1/budgetitems')success cb
+    update: (key, verb, cb) ->
+        $http.post("/1/budgetitems/#key/#verb")success cb
+
+
 angular.module('app.services', []).factory(mod)
