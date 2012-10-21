@@ -118,7 +118,7 @@ function foo() {
          $("#detail-cat").text(d.cat);
          angular.element("#BudgetItem").scope().key="view3:"+d.cat+":"+d.name;
          var tags = $("#tags");
-         var bgobj = badgedata["view3/"+d.name];
+         var bgobj = badgedata?badgedata["view3/"+d.name]:null;
          tags.empty();
          for(i=0;i<4;i++) 
            $("#vote"+(i+1)).text("0");
