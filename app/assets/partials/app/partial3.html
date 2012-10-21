@@ -105,7 +105,7 @@ function foo() {
 
   var nodes = treemap.nodes(root)
       .filter(function(d) { return !d.children; });
-
+  var lastcell = null;
   var cell = svg.selectAll("g")
       .data(nodes)
     .enter().append("svg:g")
@@ -113,6 +113,7 @@ function foo() {
       .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; })
       .on("mouseover", function(d) { 
          var i;
+         if(d==lastcell) return; else lastcell=d;
          $("#detail-depname").text(d.name);
          $("#detail-amount").text(((d.size/100000000)|0)+"億");
          $("#detail-cat").text(d.cat);
@@ -127,9 +128,9 @@ function foo() {
              tags.append($("<span class='badge'>"+bgobj.tags[i]+"</span>")).append(" ");
            }
            tags.append($("<span class='badge'>. . . . .</span>")).append(" ");
-           for(i=0;i<bgobj.vote.length;i++)
+           /*for(i=0;i<bgobj.vote.length;i++)
              $("#vote"+(i+1)).text(bgobj.vote[i]>=10000?((bgobj.vote[i]/10000)|0)+"萬":bgobj.vote[i]);
-           }
+           }*/
       })
       .on("click", function(d) { 
          return zoom(node == d.parent ? root : d.parent);
