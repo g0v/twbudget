@@ -10,6 +10,7 @@
     @app.use @passport.initialize!
     @app.use @passport.session!
     @use @app.router
+    @app.set("trust proxy", true);
 
     RealBin = require \path .dirname do
         require \fs .realpathSync __filename
