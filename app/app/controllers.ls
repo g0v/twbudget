@@ -80,10 +80,10 @@ mod.MyCtrl1 = <[ $scope ProductSearch ]> +++ ($scope, productSearch) ->
 
 mod.BudgetItem = <[ $scope BudgetItem ]> +++ ($scope, BudgetItem) ->
     $scope <<< do
-        nlike: '???'
-        nconfuse: '???'
-        nhate: '???'
-        ncut: '???'
+        nlikes: '???'
+        nconfuses: '???'
+        nhates: '???'
+        ncuts: '???'
         like: -> BudgetItem.update $scope.key, \likes, -> $scope.nlike = it.nlike
         hate: -> BudgetItem.update $scope.key, \hates, ->
         confuse: -> BudgetItem.update $scope.key, \confuses, ->
