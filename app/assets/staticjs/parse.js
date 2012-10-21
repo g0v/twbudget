@@ -7,13 +7,16 @@ function add(root, list, idx, value) {
  if(!root["childhash"]) root.childhash = {};
  if(!root.childhash[list[idx]]) root.childhash[list[idx]] = {};
  if(idx<list.length-1) add(root.childhash[list[idx]], list, idx+1, value);
- else root.childhash[list[idx]].value = value;
+ else {
+   root.childhash[list[idx]].value = value;
+   root.childhash[list[idx]].cat = list[0];
+ }
 }
 function reorg(node, child) {
   var i,n;
   node.children = [];
   for(i in child) {
-    n = {"name": i, "size": child[i]["value"]};
+    n = {"name": i, "size": child[i]["value"], "cat": child[i]["cat"]};
     if(child[i]["childhash"]) reorg(n, child[i].childhash);
     node.children.push(n);
   }
