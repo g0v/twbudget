@@ -84,10 +84,13 @@ mod.BudgetItem = <[ $scope BudgetItem ]> +++ ($scope, BudgetItem) ->
         nconfuse: '???'
         nhate: '???'
         ncut: '???'
-        like: -> BudgetItem.update $scope.key, \likes, -> console.log it
+        like: -> BudgetItem.update $scope.key, \likes, -> $scope.nlike = it.nlike
         hate: -> BudgetItem.update $scope.key, \hates, ->
         confuse: -> BudgetItem.update $scope.key, \confuses, ->
         cut: -> BudgetItem.update $scope.key, \cuts, ->
+
+    BudgetItem.get (res) ->
+        console.log res
 
 mod.DailyBread = <[ $scope $http ]> +++ ($scope, $http) ->
     $scope.tax = 80000
