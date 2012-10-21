@@ -37,13 +37,14 @@
         @response.send @request.user
 
     @get '/1/budgetitems': ->
-        err, item <~ BudgetItem.find {}, 'key nhates nconfuses nlikes'
+        err, item <~ BudgetItem.find {}, 'key nhates nconfuses nlikes ncuts'
         .exec
         @response.send item
 
     @get '/1/budgetitems/:key': ->
-        err, item <~ BudgetItem.findOne {key: @params.key}, 'key nhates nconfuses nlikes'
+        err, item <~ BudgetItem.findOne {key: @params.key}, 'key nhates nconfuses nlikes ncuts'
         .exec
+        console.log @params.key, item
         @response.send item
 
     @post '/1/budgetitems/:key/tags/:tag': ->

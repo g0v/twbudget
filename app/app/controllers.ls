@@ -82,8 +82,9 @@ mod.BudgetItem = <[ $scope BudgetItem ]> +++ ($scope, BudgetItem) ->
 
     $scope.$watch \key ->
         console.log \keychanged
-        res <- BudgetItem.load $scope.key
-        conosle.log res, \updatemeplease
+        res <- BudgetItem.get $scope.key
+        console.log res
+        $scope <<< res{nlikes,nhates,ncuts,nconfuses}
     $scope <<< do
         nlikes: '???'
         nconfuses: '???'
