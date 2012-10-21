@@ -13,6 +13,7 @@ findOrCreateUser = (profile, provider, done) ->
     user = new User do
         accounts: [ provider: provider, id: profile.id ]
         email: profile.emails?0?value
+        name: profile.name
     err <- user.save
     return done(err, null) if err
     console.log \newuser, user
