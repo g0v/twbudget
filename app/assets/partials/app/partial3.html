@@ -1,0 +1,216 @@
+<script type="text/javascript" src="staticjs/d3.js"></script>
+<script type="text/javascript" src="staticjs/d3.layout.js"></script>
+<style type="text/css">
+.chart {
+  display: block;
+  maring:0;
+  position:absolute;top:0;left:20px;box-shadow:1px 5px 5px #888;
+  cursor:pointer;
+}
+
+text { font-size: 11px; }
+
+rect { fill: none; }
+#detail {
+  position:absolute;top:0;left:640px;
+  width:340px;height:600px;
+  background:#eee;box-shadow:1px 5px 5px #888;
+}
+
+#detail-inner {
+  margin:10px;height:580px;
+  background:#eee;
+}
+.icon-big-plus          {width:32px;height:32px;background:url(/img/glyphicons.png) -0px -912px no-repeat;}
+.icon-big-minus         {width:32px;height:32px;background:url(/img/glyphicons.png) -48px -912px no-repeat;}
+.icon-big-info-sign {width:32px;height:32px;background:url(/img/glyphicons.png) -240px -912px no-repeat;}
+.icon-big-question-sign {width:32px;height:32px;background:url(/img/glyphicons.png) -192px -912px no-repeat;}
+.icon-big-ban-circle    {width:32px;height:32px;background:url(/img/glyphicons.png) -432px -912px no-repeat;}
+.text-btn {font-size:12px!important;}
+#container {
+  position:absolute;width:1000px;top:0;left:50%;margin-left:-500px;top:0;height:100%;
+}
+#container-inner { position:absolute;margin-top:90px; }
+</style>
+<div id="container"><div id="container-inner">
+<div id="detail"><div id="detail-inner">
+    <div style="height:200px;position:relative;">
+    <h3><i class="icon-big-info-sign"></i><span id="detail-depname">中央研究院</span></h3>
+    <div style="position:absolute;top:0;left:0;margin-top:100px;width:100%;text-align:center;"><span id="detail-amount" style="font-size:48px;text-shadow: #999 3px 3px 2px;">248.01億</span></div>
+<div style="position:absolute;top:0;left:0;margin-top:190px;width:100%;text-align:right;">屬於<span id="detail-cat">教育支出項目</span></div>
+</div>
+<hr>
+<div class="input-append" style="margin-left:23px;">
+  <input class="span2" size="13" type="text" placeholder="例如: 林益世"><button class="btn" type="button">標記相關人士</button>
+</div>
+<div id="tags" style="height:130px;overflow-x:hidden">
+</div>
+<hr>
+<div style="text-align:center;"><span class="label">透過按一下表達你對於此預算的看法！</span></div>
+<div class="btn-toolbar" style="margin-left:20px;"><div class="btn-group">
+<button class="btn text-btn"><span id="vote1">78</span>人<br><i class="icon-big-plus"></i><br>希望追加</button>
+<button class="btn text-btn"><span id="vote2">3</span>人<br><i class="icon-big-question-sign"></i><br>表示不懂</button>
+<button class="btn text-btn"><span id="vote3">5</span>人<br><i class="icon-big-minus"></i><br>建議減少</button>
+<button class="btn text-btn btn-danger"><span id="vote4">1萬</span>人<br><i class="icon-big-ban-circle"></i><br>要求刪除</button>
+</div></div>
+  </div></div>
+    <script type="text/javascript" src="staticjs/output.json"></script>
+    <script type="text/javascript" src="staticjs/parse.js"></script>
+    <div id="body">
+      <div id="footer">
+        <div style="visibility:hidden"><select>
+          <option value="size">Size</option>
+          <option value="count">Count</option>
+        </select></div>
+      </div>
+    </div>
+</div></div>
+
+<script type="text/javascript">
+var badgedata = null;
+var xbox = document.getElementById("x");
+var detail_cat = document.getElementById("detail-cat");
+var detail_depname = document.getElementById("detail-depname");
+var detail_amount = document.getElementById("detail-amount");
+var w = 680 - 80,
+    h = 780 - 180,
+    x = d3.scale.linear().range([0, w]),
+    y = d3.scale.linear().range([0, h]),
+    color = d3.scale.category20c(),
+    root,
+    node;
+
+var treemap = d3.layout.treemap()
+    .round(false)
+    .size([w, h])
+    .sticky(true)
+    .value(function(d) { return d.size; });
+
+var svg = d3.select("#body").append("div")
+    .attr("class", "chart")
+    .style("width", w + "px")
+    .style("height", h + "px")
+  .append("svg:svg")
+    .attr("width", w)
+    .attr("height", h)
+  .append("svg:g")
+    .attr("transform", "translate(.5,.5)");
+
+
+//d3.json("flare.json", function(data) {
+var data = parse(raw);
+function foo() {
+  node = root = data;
+
+  var nodes = treemap.nodes(root)
+      .filter(function(d) { return !d.children; });
+
+  var cell = svg.selectAll("g")
+      .data(nodes)
+    .enter().append("svg:g")
+      .attr("class", "cell")
+      .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; })
+      .on("click", function(d) { 
+         var i;
+         detail_depname.innerText = d.name;
+         detail_amount.innerText = ((d.size/100000000)|0)+"億";
+
+         var tags = $("#tags");
+         var bgobj = badgedata["view3/"+d.name];
+         tags.empty();
+         for(i=0;i<4;i++) 
+           $("#vote"+(i+1)).text("0");
+         if(bgobj) {
+           for(i=0;i<bgobj.tags.length;i++) {
+             tags.append($("<span class='badge'>"+bgobj.tags[i]+"</span>")).append(" ");
+           }
+           tags.append($("<span class='badge'>. . . . .</span>")).append(" ");
+           for(i=0;i<bgobj.vote.length;i++)
+             $("#vote"+(i+1)).text(bgobj.vote[i]>=10000?((bgobj.vote[i]/10000)|0)+"萬":bgobj.vote[i]);
+         }
+         return zoom(node == d.parent ? root : d.parent);
+      });
+
+
+
+  cell.append("svg:rect")
+      .attr("width", function(d) { return (d.dx>1?d.dx - 1:0); })
+      .attr("height", function(d) { return (d.dy>1?d.dy - 1:0); })
+      .style("fill", function(d) { return color(d.parent.name); });
+
+  cell.append("svg:text")
+      .attr("class", "name")
+      .attr("x", function(d) { return d.dx / 2; })
+      .attr("y", function(d) { return d.dy / 2-7; })
+      .attr("dy", ".35em")
+      .attr("text-anchor", "middle")
+      .text(function(d) { return d.name; })
+      .style("opacity", function(d) { 
+         d.box = this.getBBox();
+         d.w=this.getComputedTextLength();  
+         return (d.dx>d.w) ? 1 : 0; });
+  cell.append("svg:text")
+      .attr("class", "amount")
+      .attr("x", function(d) { return d.dx / 2; })
+      .attr("y", function(d) { return d.dy / 2+7; })
+      .attr("dy", ".35em")
+      .attr("text-anchor", "middle")
+      .text(function(d) { return ((parseInt(d.size)/1000000)|0)/100+"億"; })
+      .style("opacity", function(d) { 
+         d.box = this.getBBox();
+         d.h = d.box.y + d.box.height
+         d.w = this.getComputedTextLength();
+         return (d.dx > d.w && d.h<d.dy)?1:0;
+      });
+  d3.select(window).on("click", function() { zoom(root); });
+
+  d3.select("select").on("change", function() {
+    treemap.value(this.value == "size" ? size : count).nodes(root);
+    zoom(node);
+  });
+};
+foo();
+function size(d) {
+  return d.size;
+}
+
+function count(d) {
+  return 1;
+}
+
+var dx = 0;
+function zoom(d) {
+  var kx = w / d.dx, ky = h / d.dy;
+  x.domain([d.x, d.x + d.dx]);
+  y.domain([d.y, d.y + d.dy]);
+
+  var t = svg.selectAll("g.cell").transition()
+      .duration(d3.event.altKey ? 7500 : 750)
+      .attr("transform", function(d) { return "translate(" + x(d.x) + "," + y(d.y) + ")"; });
+
+  t.select("rect")
+      .attr("width", function(d) { return (kx*d.dx>1?kx * d.dx - 1:0); })
+      .attr("height", function(d) { return (ky*d.dy>1?ky * d.dy - 1:0); })
+
+  t.select("text.name")
+      .attr("x", function(d) { return kx * d.dx / 2; })
+      .attr("y", function(d) { return ky * d.dy / 2 - 7; })
+      .style("opacity", function(d) { return (kx * d.dx > this.getBBox().width) ? 1 : 0; });
+
+  t.select("text.amount")
+      .attr("x", function(d) { return kx * d.dx / 2; })
+      .attr("y", function(d) { return ky * d.dy / 2 + 7; })
+      .style("opacity", function(d) { 
+         var bbox = this.getBBox();
+         return (kx*d.dx > d.w && ky*d.dy > d.h ? 1 : 0);
+      });
+
+  node = d;
+  d3.event.stopPropagation();
+}
+
+jQuery.ajax({url: "/staticjs/stats.json"}).done(function(data) {
+  badgedata = data;
+});
+
+</script>
