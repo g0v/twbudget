@@ -1,0 +1,58 @@
+#treemap-root
+  script(src="/staticjs/output.json")
+  script(src="/staticjs/parse.js")
+  script(src="/staticjs/treemap.js")
+    alert("ok");
+  #treeroot-inner
+    #debitmask 2,500億
+  button#treemap-backbtn.btn
+    i.icon-big-back
+  #budget-detail(ng-controller="BudgetItem")
+    #budget-detail-inner
+      #budget-detail-info
+        h3
+          i.icon-big-info-sign(style="margin-top:-3px")
+          span#budget-detail-depname-field 教育部
+        #budget-detail-amount
+          span#budget-detail-amount-field 2,100億
+        #budget-detail-category
+          屬於
+          span#budget-detail-category-field 教育支出
+          項目
+      hr
+      #budget-tagger
+        .input-append
+          input.span2(ng-model="tagname",size="13",type="text",placeholder="例如: 林益世")
+          button.btn(type="button",ng-click="addtag()") 標記相關人士
+        #budget-tags
+          span.badge(ng-repeat="tag in tags") {{tag}}
+      hr
+      #budget-vote
+        #budget-vote-label
+          span.label 透過按一下表達你對於此預算的看法！
+        #BudgetItem.btn-toolbar
+          .btn-group
+            button.btn.vote-btn(ng-click="like()")
+              span#vote1 {{nlikes || 0}} 人
+              br
+              i.icon-big-plus
+              br
+              希望追加
+            button.btn.vote-btn(ng-click="confuse()")
+              span#vote2 {{nconfuses || 0}} 人
+              br
+              i.icon-big-question-sign 
+              br
+              表示不懂
+            button.btn.vote-btn(ng-click="hate()")
+              span#vote3 {{nhates || 0}} 人
+              br
+              i.icon-big-minus
+              br
+              建議減少
+            button.btn.vote-btn.btn-danger(ng-click="cut()")
+              span#vote4 {{ncuts || 0}} 人
+              br
+              i.icon-big-ban-circle
+              br
+              要求刪除
