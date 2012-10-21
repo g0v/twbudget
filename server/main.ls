@@ -53,8 +53,7 @@
         tag = @params.tag
 
         done = (err, item) ~>
-            item.update $push: tags: tag
-            errr, updated <~ item.save!
+            errr, updated <~ item.update $addToSet: tags: tag
             console.log errr, updated
             err, item <~ BudgetItem.findOne 'key': key
             @response.send item

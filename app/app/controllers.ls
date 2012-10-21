@@ -82,7 +82,7 @@ mod.BudgetItem = <[ $scope BudgetItem ]> +++ ($scope, BudgetItem) ->
 
     update_from_item = (res) ->
         console.log \updatingscope, res
-        $scope <<< res{nlikes,nhates,ncuts,nconfuses}
+        $scope <<< res{nlikes,nhates,ncuts,nconfuses,tags}
 
     $scope.$watch \key ->
         console.log \keychanged
