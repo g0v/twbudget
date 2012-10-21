@@ -98,8 +98,7 @@ mod.BudgetItem = <[ $scope BudgetItem ]> +++ ($scope, BudgetItem) ->
         hate: -> BudgetItem.update $scope.key, \hates, update_from_item
         confuse: -> BudgetItem.update $scope.key, \confuses, update_from_item
         cut: -> BudgetItem.update $scope.key, \cuts, update_from_item
-        addtag: -> BudgetItem.addtag $scope.key, $scope.tagname, ->
-            console.log \tagged, it
+        addtag: -> BudgetItem.addtag $scope.key, $scope.tagname, update_from_item
 
 mod.DailyBread = <[ $scope $http ]> +++ ($scope, $http) ->
     $scope.tax = 80000

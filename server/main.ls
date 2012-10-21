@@ -43,7 +43,7 @@
         @response.send item
 
     @get '/1/budgetitems/:key': ->
-        err, item <~ BudgetItem.findOne {key: @params.key}, 'key nhates nconfuses nlikes ncuts'
+        err, item <~ BudgetItem.findOne {key: @params.key}, 'key nhates nconfuses nlikes ncuts tags'
         .exec
         console.log @params.key, item
         @response.send item
