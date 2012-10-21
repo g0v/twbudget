@@ -45,6 +45,7 @@ rect { fill: none; }
   <input class="span2" ng-model="tagname" size="13" type="text" placeholder="例如: 林益世"><button class="btn" type="button" ng-click="addtag()">標記相關人士</button>
 </div>
 <div id="tags" style="height:80px;overflow-x:hidden">
+  <span class="badge" ng-repeat="tag in tags">{{tag}}</span>
 </div>
 <hr>
 <div style="text-align:center;"><span class="label">透過按一下表達你對於此預算的看法！</span></div>
@@ -119,15 +120,6 @@ function foo() {
          $("#detail-cat").text(d.cat);
          var scope = angular.element("#BudgetItem").scope()
          scope.$apply(function() { scope.key="view3:"+d.cat+":"+d.name; });
-         var tags = $("#tags");
-         var bgobj = badgedata?badgedata["view3/"+d.name]:null;
-         tags.empty();
-         if(bgobj) {
-           for(i=0;i<bgobj.tags.length;i++) {
-             tags.append($("<span class='badge'>"+bgobj.tags[i]+"</span>")).append(" ");
-           }
-           tags.append($("<span class='badge'>. . . . .</span>")).append(" ");
-         }
       })
       .on("click", function(d) { 
          return zoom(node == d.parent ? root : d.parent);
