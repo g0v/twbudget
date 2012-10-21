@@ -46,7 +46,7 @@
         .exec
         @response.send item
 
-    @post '/1/budgetitems/:key/tag/:tag': ->
+    @post '/1/budgetitems/:key/tags/:tag': ->
         key = @params.key
         tag = @params.tag
 

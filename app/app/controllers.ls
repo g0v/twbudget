@@ -79,6 +79,11 @@ mod.MyCtrl1 = <[ $scope ProductSearch ]> +++ ($scope, productSearch) ->
   console.log \got results
 
 mod.BudgetItem = <[ $scope BudgetItem ]> +++ ($scope, BudgetItem) ->
+
+    $scope.$watch \key ->
+        console.log \keychanged
+        res <- BudgetItem.load $scope.key
+        conosle.log res, \updatemeplease
     $scope <<< do
         nlikes: '???'
         nconfuses: '???'
@@ -88,9 +93,8 @@ mod.BudgetItem = <[ $scope BudgetItem ]> +++ ($scope, BudgetItem) ->
         hate: -> BudgetItem.update $scope.key, \hates, ->
         confuse: -> BudgetItem.update $scope.key, \confuses, ->
         cut: -> BudgetItem.update $scope.key, \cuts, ->
-
-    BudgetItem.get (res) ->
-        console.log res
+        addtag: -> BudgetItem.addtag $scope.key, $scope.tagname, ->
+            console.log \tagged, it
 
 mod.DailyBread = <[ $scope $http ]> +++ ($scope, $http) ->
     $scope.tax = 80000
