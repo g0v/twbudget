@@ -78,6 +78,14 @@ mod.MyCtrl1 = <[ $scope ProductSearch ]> +++ ($scope, productSearch) ->
   $scope.results <- productSearch.search("htc")
   console.log \got results
 
+mod.BudgetItem = <[ $scope BudgetItem ]> +++ ($scope, BudgetItem) ->
+    $scope.budgetkey = ''
+    $scope <<< do
+        like: ->
+        hate: ->
+        confuse: ->
+        cut: ->
+
 mod.DailyBread = <[ $scope $http ]> +++ ($scope, $http) ->
     $scope.tax = 80000
     $scope.$watch 'tax' ->
