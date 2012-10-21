@@ -13,12 +13,12 @@ text { font-size: 11px; }
 rect { fill: none; }
 #detail {
   position:absolute;top:0;left:640px;
-  width:340px;height:600px;
+  width:340px;height:520px;
   background:#eee;box-shadow:1px 5px 5px #888;
 }
 
 #detail-inner {
-  margin:10px;height:580px;
+  margin:10px;height:500px;
   background:#eee;
 }
 .icon-big-plus          {width:32px;height:32px;background:url(/img/glyphicons.png) -0px -912px no-repeat;}
@@ -28,12 +28,12 @@ rect { fill: none; }
 .icon-big-ban-circle    {width:32px;height:32px;background:url(/img/glyphicons.png) -432px -912px no-repeat;}
 .text-btn {font-size:12px!important;}
 #container {
-  position:absolute;width:1000px;top:85px;left:50%;margin-left:-500px;height:610px;
+  position:absolute;width:1000px;top:105px;left:50%;margin-left:-500px;height:610px;
 }
 #container-inner { position:absolute;margin-top:0px; }
 </style>
 <div id="container"><div id="container-inner">
-<div id="detail"><div id="detail-inner">
+<div id="detail" ng-controller="BudgetItem"><div id="detail-inner">
     <div style="height:200px;position:relative;">
     <h3><i class="icon-big-info-sign"></i><span id="detail-depname">中央研究院</span></h3>
     <div style="position:absolute;top:0;left:0;margin-top:100px;width:100%;text-align:center;"><span id="detail-amount" style="font-size:48px;text-shadow: #999 3px 3px 2px;">248.01億</span></div>
@@ -42,13 +42,13 @@ rect { fill: none; }
 </div>
 <hr>
 <div class="input-append" style="margin-left:23px;">
-  <input class="span2" size="13" type="text" placeholder="例如: 林益世"><button class="btn" type="button">標記相關人士</button>
+  <input class="span2" ng-model="tagname" size="13" type="text" placeholder="例如: 林益世"><button class="btn" type="button" ng-click="addtag()">標記相關人士</button>
 </div>
-<div id="tags" style="height:130px;overflow-x:hidden">
+<div id="tags" style="height:80px;overflow-x:hidden">
 </div>
 <hr>
 <div style="text-align:center;"><span class="label">透過按一下表達你對於此預算的看法！</span></div>
-<div id="BudgetItem" class="btn-toolbar" style="margin-left:20px;" ng-controller="BudgetItem"><div class="btn-group">
+<div id="BudgetItem" class="btn-toolbar" style="margin-left:20px;"><div class="btn-group">
 <button class="btn text-btn" ng-click="like()"><span id="vote1">{{nlikes}}</span>人<br><i class="icon-big-plus"></i><br>希望追加</button>
 <button class="btn text-btn" ng-click="confuse()"><span id="vote2">{{nconfuses}}</span>人<br><i class="icon-big-question-sign"></i><br>表示不懂</button>
 <button class="btn text-btn" ng-click="hate()"><span id="vote3">{{nhates}}</span>人<br><i class="icon-big-minus"></i><br>建議減少</button>
@@ -74,7 +74,7 @@ var detail_cat = document.getElementById("detail-cat");
 var detail_depname = document.getElementById("detail-depname");
 var detail_amount = document.getElementById("detail-amount");
 var w = 680 - 80,
-    h = 780 - 180,
+    h = 700 - 180,
     x = d3.scale.linear().range([0, w]),
     y = d3.scale.linear().range([0, h]),
     color = d3.scale.category20c(),
