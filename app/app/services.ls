@@ -22,6 +22,7 @@ mod.BudgetItem = <[ $http ]> +++ ($http) ->
     get: (key, cb) ->
         $http.get("/1/budgetitems/#key")success cb
     update: (key, verb, cb) ->
+        console.log \updating, key, verb
         $http.post("/1/budgetitems/#key/#verb")success cb
     addtag: (key, tag, cb) ->
         $http.post("/1/budgetitems/#key/tags/#tag")success cb

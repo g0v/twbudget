@@ -80,20 +80,24 @@ mod.MyCtrl1 = <[ $scope ProductSearch ]> +++ ($scope, productSearch) ->
 
 mod.BudgetItem = <[ $scope BudgetItem ]> +++ ($scope, BudgetItem) ->
 
+    update_from_item = (res) ->
+        console.log \updatingscope, res
+        $scope <<< res{nlikes,nhates,ncuts,nconfuses}
+
     $scope.$watch \key ->
         console.log \keychanged
         res <- BudgetItem.get $scope.key
         console.log res
-        $scope <<< res{nlikes,nhates,ncuts,nconfuses}
+        update_from_item res
     $scope <<< do
         nlikes: '???'
         nconfuses: '???'
         nhates: '???'
         ncuts: '???'
-        like: -> BudgetItem.update $scope.key, \likes, -> $scope.nlike = it.nlike
-        hate: -> BudgetItem.update $scope.key, \hates, ->
-        confuse: -> BudgetItem.update $scope.key, \confuses, ->
-        cut: -> BudgetItem.update $scope.key, \cuts, ->
+        like: -> BudgetItem.update $scope.key, \likes, update_from_item
+        hate: -> BudgetItem.update $scope.key, \hates, update_from_item
+        confuse: -> BudgetItem.update $scope.key, \confuses, update_from_item
+        cut: -> BudgetItem.update $scope.key, \cuts, update_from_item
         addtag: -> BudgetItem.addtag $scope.key, $scope.tagname, ->
             console.log \tagged, it
 
