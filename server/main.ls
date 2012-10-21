@@ -71,7 +71,7 @@
             console.log item
             if @params.what in <[likes confuses hates cuts]>
                 console.log item._id
-                user_id = @request.user?username ? 'guest'
+                user_id = @request.user?username ? @request.ip
 
                 errr, updated <~ BudgetItem.update {_id: item._id, "#{@params.what}": {$ne: user_id}}, do 
                     $inc: "n#{@params.what}": 1
