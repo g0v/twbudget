@@ -49,10 +49,10 @@ rect { fill: none; }
 <hr>
 <div style="text-align:center;"><span class="label">透過按一下表達你對於此預算的看法！</span></div>
 <div id="BudgetItem" class="btn-toolbar" style="margin-left:20px;"><div class="btn-group">
-<button class="btn text-btn" ng-click="like()"><span id="vote1">{{nlikes}}</span>人<br><i class="icon-big-plus"></i><br>希望追加</button>
-<button class="btn text-btn" ng-click="confuse()"><span id="vote2">{{nconfuses}}</span>人<br><i class="icon-big-question-sign"></i><br>表示不懂</button>
-<button class="btn text-btn" ng-click="hate()"><span id="vote3">{{nhates}}</span>人<br><i class="icon-big-minus"></i><br>建議減少</button>
-<button class="btn text-btn btn-danger" ng-click="cut()"><span id="vote4">{{ncuts}}</span>人<br><i class="icon-big-ban-circle"></i><br>要求刪除</button>
+<button class="btn text-btn" ng-click="like()"><span id="vote1">{{nlikes || 0}}</span>人<br><i class="icon-big-plus"></i><br>希望追加</button>
+<button class="btn text-btn" ng-click="confuse()"><span id="vote2">{{nconfuses || 0}}</span>人<br><i class="icon-big-question-sign"></i><br>表示不懂</button>
+<button class="btn text-btn" ng-click="hate()"><span id="vote3">{{nhates || 0 }}</span>人<br><i class="icon-big-minus"></i><br>建議減少</button>
+<button class="btn text-btn btn-danger" ng-click="cut()"><span id="vote4">{{ncuts || 0}}</span>人<br><i class="icon-big-ban-circle"></i><br>要求刪除</button>
 </div></div>
   </div></div>
     <script type="text/javascript" src="staticjs/output.json"></script>
@@ -117,7 +117,8 @@ function foo() {
          $("#detail-depname").text(d.name);
          $("#detail-amount").text(((d.size/100000000)|0)+"億");
          $("#detail-cat").text(d.cat);
-         angular.element("#BudgetItem").scope().key="view3:"+d.cat+":"+d.name;
+         var scope = angular.element("#BudgetItem").scope()
+         scope.$apply(function() { scope.key="view3:"+d.cat+":"+d.name; });
          var tags = $("#tags");
          var bgobj = badgedata?badgedata["view3/"+d.name]:null;
          tags.empty();
@@ -164,7 +165,6 @@ function foo() {
          return (d.dx > d.w && d.h<d.dy)?1:0;
       });
   d3.select(document.body).on("click", function() { zoom(root); });
-  d3.select("#detail").on("click", function() { d3.event.stopPropogation(); return false;});
 
   d3.select("select").on("change", function() {
     treemap.value(this.value == "size" ? size : count).nodes(root);
