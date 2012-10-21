@@ -121,8 +121,6 @@ function foo() {
          var tags = $("#tags");
          var bgobj = badgedata?badgedata["view3/"+d.name]:null;
          tags.empty();
-         for(i=0;i<4;i++) 
-           $("#vote"+(i+1)).text("0");
          if(bgobj) {
            for(i=0;i<bgobj.tags.length;i++) {
              tags.append($("<span class='badge'>"+bgobj.tags[i]+"</span>")).append(" ");
@@ -165,7 +163,8 @@ function foo() {
          d.w = this.getComputedTextLength();
          return (d.dx > d.w && d.h<d.dy)?1:0;
       });
-  d3.select(window).on("click", function() { zoom(root); });
+  d3.select(document.body).on("click", function() { zoom(root); });
+  d3.select("#detail").on("click", function() { d3.event.stopPropogation(); return false;});
 
   d3.select("select").on("change", function() {
     treemap.value(this.value == "size" ? size : count).nodes(root);
