@@ -10,7 +10,7 @@
 
 text { font-size: 11px; }
 
-rect { fill: none; }
+rect { fill: none; stroke-width:5px;}
 #detail {
   position:absolute;top:0;left:640px;
   width:340px;height:520px;
@@ -21,6 +21,7 @@ rect { fill: none; }
   margin:10px;height:500px;
   background:#eee;
 }
+.icon-big-back          {width:32px;height:32px;background:url(/img/glyphicons.png) -48px -1056px no-repeat;}
 .icon-big-plus          {width:32px;height:32px;background:url(/img/glyphicons.png) -0px -912px no-repeat;}
 .icon-big-minus         {width:32px;height:32px;background:url(/img/glyphicons.png) -48px -912px no-repeat;}
 .icon-big-info-sign {width:32px;height:32px;background:url(/img/glyphicons.png) -240px -912px no-repeat;}
@@ -31,8 +32,12 @@ rect { fill: none; }
   position:absolute;width:1000px;top:105px;left:50%;margin-left:-500px;height:610px;
 }
 #container-inner { position:absolute;margin-top:0px; }
+#button-back {
+  position:absolute;top:472px;left:560px;opacity:0.8;z-index:10;opacity:1;
+}
 </style>
 <div id="container"><div id="container-inner">
+<button class="btn" id="button-back"><i class="icon-big-back"></i></button>
 <div id="detail" ng-controller="BudgetItem"><div id="detail-inner">
     <div style="height:200px;position:relative;">
     <h3><i class="icon-big-info-sign"></i><span id="detail-depname">中央研究院</span></h3>
@@ -74,6 +79,7 @@ var xbox = document.getElementById("x");
 var detail_cat = document.getElementById("detail-cat");
 var detail_depname = document.getElementById("detail-depname");
 var detail_amount = document.getElementById("detail-amount");
+$("#button-back").hide();
 var w = 680 - 80,
     h = 700 - 180,
     x = d3.scale.linear().range([0, w]),
@@ -107,6 +113,7 @@ function foo() {
   var nodes = treemap.nodes(root)
       .filter(function(d) { return !d.children; });
   var lastcell = null;
+  var lockcell = null;
   var cell = svg.selectAll("g")
       .data(nodes)
     .enter().append("svg:g")
@@ -114,7 +121,7 @@ function foo() {
       .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; })
       .on("mouseover", function(d) { 
          var i;
-         if(d==lastcell) return; else lastcell=d;
+         if(lockcell || d==lastcell) return; else lastcell=d;
          $("#detail-depname").text(d.name);
          $("#detail-amount").text(((d.size/100000000)|0)+"億");
          $("#detail-cat").text(d.cat);
@@ -122,7 +129,27 @@ function foo() {
          scope.$apply(function() { scope.key="view3:"+d.cat+":"+d.name; });
       })
       .on("click", function(d) { 
-         return zoom(node == d.parent ? root : d.parent);
+         for(i in this) console.log(i);
+         console.log($(this).find("rect").css("stroke:#000"));
+         if(lockcell) lockcell.find("rect").css({"stroke": "none"});
+         if(!lockcell || lockcell.get(0)!=$(this).get(0)) {
+           $(this).find("rect").css({"stroke": "rgb(255,0,0)"});
+           lockcell = $(this);
+           $("#detail-depname").text(d.name);
+           $("#detail-amount").text(((d.size/100000000)|0)+"億");
+           $("#detail-cat").text(d.cat);
+           var scope = angular.element("#BudgetItem").scope()
+           scope.$apply(function() { scope.key="view3:"+d.cat+":"+d.name; });
+         } else { lockcell=null; }
+         if(node!=d.parent) {
+           $("#button-back").fadeIn("slow");
+           if(lockcell==null) lockcell = d;
+           return zoom(d.parent);
+         } else {
+           //if(d.name==lockcell.name) { lockcell = null; return zoom(root); }
+           //else lockcell = d;
+         }
+         //return zoom(node == d.parent ? root : d.parent);
       });
 
 
@@ -156,7 +183,7 @@ function foo() {
          d.w = this.getComputedTextLength();
          return (d.dx > d.w && d.h<d.dy)?1:0;
       });
-  d3.select(document.body).on("click", function() { zoom(root); });
+  d3.select("#button-back").on("click",function() { zoom(root); $("#button-back").fadeOut("slow"); });
 
   d3.select("select").on("change", function() {
     treemap.value(this.value == "size" ? size : count).nodes(root);
