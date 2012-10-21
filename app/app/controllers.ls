@@ -79,12 +79,14 @@ mod.MyCtrl1 = <[ $scope ProductSearch ]> +++ ($scope, productSearch) ->
   console.log \got results
 
 mod.BudgetItem = <[ $scope BudgetItem ]> +++ ($scope, BudgetItem) ->
-    $scope.budgetkey = ''
+    $scope.key = ''
     $scope <<< do
-        like: ->
-        hate: ->
-        confuse: ->
-        cut: ->
+        like: -> 
+            console.log \like
+            BudgetItem.update $scope.key, \likes, ->
+        hate: -> BudgetItem.update $scope.key, \hates, ->
+        confuse: -> BudgetItem.update $scope.key, \confuses, ->
+        cut: -> BudgetItem.update $scope.key, \cuts, ->
 
 mod.DailyBread = <[ $scope $http ]> +++ ($scope, $http) ->
     $scope.tax = 80000

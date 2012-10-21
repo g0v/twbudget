@@ -22,9 +22,11 @@ s.BudgetItemSchema = Schema do
     nlikes: Number
     nconfuses: Number
     nhates: Number
+    ncuts: Number
     likes: []
     confuses: []
     hates: []
+    cuts: []
 
 module.exports = { [name, mongoose.model name, s[name + 'Schema']] for name in
     <[ Product BudgetItem ]>

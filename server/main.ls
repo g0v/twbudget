@@ -45,7 +45,7 @@
         key = @params.key
         done = (err, item) ~>
             console.log item
-            if @params.what in <[likes confuses hates]>
+            if @params.what in <[likes confuses hates cuts]>
                 console.log item._id
                 user_id = @request.user?username ? 'guest'
 
