@@ -41,6 +41,29 @@
         .exec
         @response.send item
 
+    @get '/1/budgetitems/:key': ->
+        err, item <~ BudgetItem.findOne {key: @params.key}, 'key nhates nconfuses nlikes'
+        .exec
+        @response.send item
+
+    @post '/1/budgetitems/:key/tag/:tag': ->
+        key = @params.key
+        tag = @params.tag
+
+        done = (err, item) ~>
+            item.update $push: tags: tag
+            errr, updated <~ item.save!
+            console.log errr, updated
+            err, item <~ BudgetItem.findOne 'key': key
+            @response.send item
+
+        err, item <- BudgetItem.findOne 'key': key
+        return done(null, item) if item?id
+        item = new BudgetItem do
+            key: key
+        err <- item.save
+        return done(err, null) if err
+        done(null, item)
     @post '/1/budgetitems/:key/:what': ->
         key = @params.key
         done = (err, item) ~>

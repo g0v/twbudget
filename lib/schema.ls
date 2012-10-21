@@ -27,6 +27,7 @@ s.BudgetItemSchema = Schema do
     confuses: []
     hates: []
     cuts: []
+    tags: []
 
 module.exports = { [name, mongoose.model name, s[name + 'Schema']] for name in
     <[ Product BudgetItem ]>
