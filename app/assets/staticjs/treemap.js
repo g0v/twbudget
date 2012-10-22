@@ -46,7 +46,7 @@ var CurrencyData = [
   ["座","冰島",2000080000000],
   ["坪","帝寶",2500000],
   ["支","iPhone5",25900],
-  ["座","in2的小島",2000080000000]
+  ["座","硬兔的小島",2000080000000]
 ]; //todo: merge with scope
 
 function CurrencyConvert(v,idx,full) {
