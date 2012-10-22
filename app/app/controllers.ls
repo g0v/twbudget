@@ -98,7 +98,8 @@ mod.BudgetItem = <[ $scope BudgetItem ]> +++ ($scope, BudgetItem) ->
         hate: -> BudgetItem.update $scope.key, \hates, update_from_item
         confuse: -> BudgetItem.update $scope.key, \confuses, update_from_item
         cut: -> BudgetItem.update $scope.key, \cuts, update_from_item
-        addtag: -> BudgetItem.addtag $scope.key, $scope.tagname, update_from_item
+        addtag: -> 
+          if $scope.tagname then BudgetItem.addtag $scope.key, $scope.tagname, update_from_item
         units: [
           ["" \元 \1 ]
           <[份 營養午餐 25]>
