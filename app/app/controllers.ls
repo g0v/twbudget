@@ -99,6 +99,25 @@ mod.BudgetItem = <[ $scope BudgetItem ]> +++ ($scope, BudgetItem) ->
         confuse: -> BudgetItem.update $scope.key, \confuses, update_from_item
         cut: -> BudgetItem.update $scope.key, \cuts, update_from_item
         addtag: -> BudgetItem.addtag $scope.key, $scope.tagname, update_from_item
+        units: [
+          ["" \元 \1 ]
+          <[份 營養午餐 25]>
+          <[份 營養午餐(回扣) 30]>
+          <[人 的一年薪水 308000]>
+          <[座 釣魚台 80000000]>
+          <[秒 太空旅遊 16666]>
+          <[碗 鬍鬚張魯肉飯 68]>
+          <[個 便當 50]>
+          <[杯 珍奶 30]>
+          <[份 雞排加珍奶 60]>
+          <[個 晨水匾 700000000]>
+          <[個 夢想家 200000000]>
+          <[個 林益世(粗估) 83000000]>
+          <[座 冰島 2000080000000]>
+          <[坪 帝寶 2500000]>
+          <[支 iPhone5 25900]>
+          <[座 in2的小島 2000080000000]>
+        ]
 
 mod.DailyBread = <[ $scope $http ]> +++ ($scope, $http) ->
     $scope.tax = 80000

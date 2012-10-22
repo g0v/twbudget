@@ -1,20 +1,32 @@
-#treemap-root
+#treemap-root(ng-controller="BudgetItem")
   script(src="/staticjs/output.json")
   script(src="/staticjs/parse.js")
   script(src="/staticjs/treemap.js")
     alert("ok");
-  #treeroot-inner
+  #treemap-root-inner
     #debitmask 2,500億
   button#treemap-backbtn.btn
     i.icon-big-back
-  #budget-detail(ng-controller="BudgetItem")
+  #budget-unit
+    .input-prepend.input-append
+      span.add-on 單位換算
+      select.span2(id="unit-selector",onchange="update_unit()")
+        option(ng-repeat="unit in units",value="{{$index}}"){{unit[1]}}
+      button.btn(type="button",onclick="update_unit(-1)") 隨便來一個
+      button.btn(type="button") 我要加單位
+  #budget-detail
     #budget-detail-inner
       #budget-detail-info
         h3
           i.icon-big-info-sign(style="margin-top:-3px")
           span#budget-detail-depname-field 教育部
         #budget-detail-amount
-          span#budget-detail-amount-field 2,100億
+          #budget-detail-amount-field1 
+            span#budget-detail-amount-field1-value 2,100億
+            span#budget-detail-amount-field1-unit 元
+          &#x0028;即為
+          span#budget-detail-amount-field2 2,100億元
+          )
         #budget-detail-category
           屬於
           span#budget-detail-category-field 教育支出
