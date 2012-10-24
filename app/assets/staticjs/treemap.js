@@ -33,7 +33,7 @@ var CurrencyData = [
   ["", "元", 1],
   ["份","營養午餐",25],
   ["份","營養午餐(回扣)",30],
-  ["人","的一年薪水",308000],
+  ["人的","年薪",308000],
   ["座","釣魚台",80000000],
   ["分鐘","太空旅遊",1000000],
   ["碗","鬍鬚張魯肉飯",68],
@@ -193,8 +193,10 @@ var unit_selector;
 var budget_unit=0;
 function update_unit(idx) {
   unit_selector=$("#unit-selector"); // move to sth like $(doc).ready
-  if(idx==-1) budget_unit = parseInt(Math.random()*CurrencyData.length);
-  else if(idx==undefined) budget_unit = unit_selector.val(); 
+  if(idx==-1) {
+    budget_unit = parseInt(Math.random()*CurrencyData.length);
+    $("#unit-selector option:eq("+budget_unit+")").attr("selected","selected");
+  } else if(idx==undefined) budget_unit = unit_selector.val(); 
   else budget_unit = idx;
   update_detail_amount();
   d3.selectAll("text.amount").text(function(d) { 

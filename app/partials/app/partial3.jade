@@ -13,7 +13,24 @@
       select.span2(id="unit-selector",onchange="update_unit()")
         option(ng-repeat="unit in units",value="{{$index}}"){{unit[1]}}
       button.btn(type="button",onclick="update_unit(-1)") 隨便來一個
-      button.btn(type="button") 我要加單位
+      button.btn.disabled(data-toggle="modal",onclick='/*$("#myModal").modal()*/') 我要加單位
+      .modal#myModal.fade(role="dialog",tabindex="-1",aria-labelledby="budget-addunit-label",aria-hidden="true")
+        .modal-header
+          button.close(type="button",data-dismiss="modal",aria-hidden="true") x
+          h3#budget-addunit-label 我要加單位
+        .modal-body(style="text-align:center")
+          .input-append
+          span.add-on 一
+          input.input-mini(ng-model="addunit_quan",type="text",placeholder="量詞,如:個 或 塊")
+          input.input-medium(ng-model="addunit_unit",type="text",placeholder="單位,如:蘋果 或 金條")
+          span.add-on 等於
+          input.span2(ng-model="addunit_gold",type="text",placeholder="價錢,如:50 或 2000 (全數字)")
+          span.add-on 元
+          #budget-addunit-result 
+            預覽: 一{{addunit_quan}}{{addunit_unit}} 等於 {{addunit_gold}} 元
+        .modal-footer
+          button.btn(data-dismiss="modal",aria-hidden="true") 取消
+          button.btn.btn-primary 送出
   #budget-detail
     #budget-detail-inner
       #budget-detail-info
