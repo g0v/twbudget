@@ -76,9 +76,9 @@ function foo(data) {
       .on("mouseover", function(d) { 
          var i;
          if(lockcell || d==lastcell) return; else lastcell=d;
-         $("#budget-detail-depname-field").text(d.name);
+         //$("#budget-detail-depname-field").text(d.name);
+         //$("#budget-detail-category-field").text(d.cat);
          update_detail_amount();
-         $("#budget-detail-category-field").text(d.cat);
          var scope = angular.element("#BudgetItem").scope()
          scope.$apply(function() { scope.key="view3:"+d.cat+":"+d.name; });
       })
@@ -87,8 +87,9 @@ function foo(data) {
          if(!lockcell || lockcell.get(0)!=$(this).get(0)) {
            $(this).find("rect").css({"stroke": "rgb(255,0,0)"});
            lockcell = $(this);
-           $("#budget-detail-depname-field").text(d.name);
-           $("#budget-detail-category-field").text(d.cat);
+           //$("#budget-detail-depname-field").text(d.name);
+           //$("#budget-detail-category-field").text(d.cat);
+           update_detail_amount();
            var scope = angular.element("#BudgetItem").scope()
            scope.$apply(function() { scope.key="view3:"+d.cat+":"+d.name; });
          } else { lockcell=null; }
@@ -98,9 +99,15 @@ function foo(data) {
          }
          //return zoom(node == d.parent ? root : d.parent);
       });
-
-
-
+  var _k=1, _n=1;
+  var _n = svg.selectAll("g.cell")[0].length;
+  svg.selectAll("g.cell").filter(function(d,i) { 
+    if(parseInt(Math.random()*_n)==_k-1) {
+      _k--; 
+      lastcell = d;
+      update_detail_amount();
+    } _n--;
+  });
   cell.append("svg:rect")
       .attr("width", function(d) { return (d.dx>1?d.dx - 1:0); })
       .attr("height", function(d) { return (d.dy>1?d.dy - 1:0); })
@@ -174,9 +181,9 @@ function zoom(d) {
   d3.event.stopPropagation();
 }
 
-foo(parse(raw));
 var unit_selector;
 var budget_unit=0;
+foo(parse(raw));
 function update_unit(idx) {
   unit_selector=$("#unit-selector"); // move to sth like $(doc).ready
   if(idx==-1) {
@@ -200,6 +207,8 @@ function update_unit(idx) {
 
 function update_detail_amount() {
   if(lastcell) {
+    $("#budget-detail-depname-field").text(lastcell.name);
+    $("#budget-detail-category-field").text(lastcell.cat);
     alt_unit = (budget_unit==0?parseInt(Math.random()*(CurrencyData.length-1))+1:0);
     $("#budget-detail-amount-field1-value").text(
       CurrencyConvert(lastcell.size,budget_unit)+CurrencyData[budget_unit][0]);
