@@ -62,12 +62,12 @@ function CurrencyConvert(v,idx,full) {
   return v+(full?c[0]+c[1]:"");
 }
 var lastcell = null;
+var lockcell = null;
 function foo(data) {
   node = root = data;
 
   var nodes = treemap.nodes(root)
       .filter(function(d) { return !d.children; });
-  var lockcell = null;
   var cell = svg.selectAll("g.cell")
       .data(nodes)
     .enter().append("svg:g")
@@ -94,11 +94,7 @@ function foo(data) {
          } else { lockcell=null; }
          if(node!=d.parent) {
            $("#treemap-backbtn").fadeIn("slow");
-           if(lockcell==null) lockcell = d;
            return zoom(d.parent);
-         } else {
-           //if(d.name==lockcell.name) { lockcell = null; return zoom(root); }
-           //else lockcell = d;
          }
          //return zoom(node == d.parent ? root : d.parent);
       });
@@ -192,12 +188,14 @@ function update_unit(idx) {
   d3.selectAll("text.amount").text(function(d) { 
     return CurrencyConvert(d.size, budget_unit, true);
   }); 
-  svg.selectAll("g.texts").transition().duration(d3.event.altKey?7500:750).style("display", function(d) {
+  setTimeout(function() {
+  svg.selectAll("g.texts").transition().duration(d3.event && d3.event.altKey?7500:7500).style("display", function(d) {
     if(kx*d.dx > this.childNodes[0].getComputedTextLength()
      && kx*d.dx > this.childNodes[1].getComputedTextLength()
      && ky*d.dy>20)
     return "block"; else return "none";
   });
+  }, 10);
 }
 
 function update_detail_amount() {
