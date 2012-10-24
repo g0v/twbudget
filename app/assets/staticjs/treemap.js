@@ -67,7 +67,7 @@ function foo(data) {
   var nodes = treemap.nodes(root)
       .filter(function(d) { return !d.children; });
   var lockcell = null;
-  var cell = svg.selectAll("g")
+  var cell = svg.selectAll("g.cell")
       .data(nodes)
     .enter().append("svg:g")
       .attr("class", "cell")
@@ -76,12 +76,6 @@ function foo(data) {
          var i;
          if(lockcell || d==lastcell) return; else lastcell=d;
          $("#budget-detail-depname-field").text(d.name);
-         /*$("#budget-detail-amount-field1-value").text(
-           CurrencyConvert(d.size,budget_unit)+CurrencyData[budget_unit][0]);
-         $("#budget-detail-amount-field1-unit").text(CurrencyData[budget_unit][1]);
-         $("#budget-detail-amount-field2").text(CurrencyConvert(d.size,
-           budget_unit==0?parseInt(Math.random()*(CurrencyData.length-1))+1:0));
-         */
          update_detail_amount();
          $("#budget-detail-category-field").text(d.cat);
          var scope = angular.element("#BudgetItem").scope()
@@ -95,7 +89,6 @@ function foo(data) {
            $(this).find("rect").css({"stroke": "rgb(255,0,0)"});
            lockcell = $(this);
            $("#budget-detail-depname-field").text(d.name);
-           //$("#budget-detail-amount-field").text(((d.size/100000000)|0)+"億");
            $("#budget-detail-category-field").text(d.cat);
            var scope = angular.element("#BudgetItem").scope()
            scope.$apply(function() { scope.key="view3:"+d.cat+":"+d.name; });
@@ -133,11 +126,11 @@ function foo(data) {
       .attr("dy", ".35em")
       .attr("text-anchor", "middle")
       .text(function(d) { return CurrencyConvert(d.size, budget_unit, true); });
-  texts.style("opacity", function(d) {
+  texts.style("display", function(d) {
     if(d.dx > this.childNodes[0].getComputedTextLength()
      && d.dx > this.childNodes[1].getComputedTextLength()
      && d.dy>20)
-    return 1; else return 0;
+    return "block"; else return "none";
   });
   d3.select("#treemap-backbtn").on("click",function() { zoom(root); $("#treemap-backbtn").fadeOut("slow"); });
 
