@@ -101,8 +101,9 @@ mod.BudgetItem = <[ $scope BudgetItem ]> +++ ($scope, BudgetItem) ->
         addtag: -> 
           if $scope.tagname then BudgetItem.addtag $scope.key, $scope.tagname, update_from_item
         addunit: ->
-          if !jQuery.isNumeric $scope.addunit_value then return $ \#addunit-value-group .addClass \error
-          $ \#addunit-value-group .removeClass \error
+          if !$scope.addunit_quantity then return $('#addunit-modal input:eq(0)') .tooltip("show")
+          if !$scope.addunit_unit then return $('#addunit-modal input:eq(1)') .tooltip("show")
+          if !jQuery.isNumeric $scope.addunit_value then return $('#addunit-modal input:eq(2)') .tooltip("show")
           console.log "add-unit: [quantifier: ",$scope.addunit_quantity,
             ",unit: ",$scope.addunit_unit,",value: ",$scope.addunit_value,"]"
           $ \#addunit-modal .modal \hide
