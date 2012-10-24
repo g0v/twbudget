@@ -100,6 +100,12 @@ mod.BudgetItem = <[ $scope BudgetItem ]> +++ ($scope, BudgetItem) ->
         cut: -> BudgetItem.update $scope.key, \cuts, update_from_item
         addtag: -> 
           if $scope.tagname then BudgetItem.addtag $scope.key, $scope.tagname, update_from_item
+        addunit: ->
+          if !jQuery.isNumeric $scope.addunit_value then return $ \#addunit-value-group .addClass \error
+          $ \#addunit-value-group .removeClass \error
+          console.log "add-unit: [quantifier: ",$scope.addunit_quantity,
+            ",unit: ",$scope.addunit_unit,",value: ",$scope.addunit_value,"]"
+          $ \#addunit-modal .modal \hide
         units: [
           ["" \元 \1 ]
           <[份 營養午餐 25]>
