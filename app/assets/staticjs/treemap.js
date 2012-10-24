@@ -118,30 +118,27 @@ function foo(data) {
       .attr("height", function(d) { return (d.dy>1?d.dy - 1:0); })
       .style("fill", function(d) { return color(d.parent.name); });
 
-  cell.append("svg:text")
+  var texts = cell.append("svg:g").attr("class", "texts");
+  texts.append("svg:text")
       .attr("class", "name")
       .attr("x", function(d) { return d.dx / 2; })
       .attr("y", function(d) { return d.dy / 2-7; })
       .attr("dy", ".35em")
       .attr("text-anchor", "middle")
-      .text(function(d) { return d.name; })
-      .style("opacity", function(d) { 
-         d.box = this.getBBox();
-         d.w=this.getComputedTextLength();  
-         return (d.dx>d.w) ? 1 : 0; });
-  cell.append("svg:text")
+      .text(function(d) { return d.name; });
+  texts.append("svg:text")
       .attr("class", "amount")
       .attr("x", function(d) { return d.dx / 2; })
       .attr("y", function(d) { return d.dy / 2+7; })
       .attr("dy", ".35em")
       .attr("text-anchor", "middle")
-      .text(function(d) { return CurrencyConvert(d.size, budget_unit, true); })
-      .style("opacity", function(d) { 
-         d.box = this.getBBox();
-         d.h = d.box.y + d.box.height
-         d.w = this.getComputedTextLength();
-         return (d.dx > d.w && d.h<d.dy)?1:0;
-      });
+      .text(function(d) { return CurrencyConvert(d.size, budget_unit, true); });
+  texts.style("opacity", function(d) {
+    if(d.dx > this.childNodes[0].getComputedTextLength()
+     && d.dx > this.childNodes[1].getComputedTextLength()
+     && d.dy>20)
+    return 1; else return 0;
+  });
   d3.select("#treemap-backbtn").on("click",function() { zoom(root); $("#treemap-backbtn").fadeOut("slow"); });
 
   /*d3.select("select").on("change", function() {
@@ -173,16 +170,17 @@ function zoom(d) {
 
   t.select("text.name")
       .attr("x", function(d) { return kx * d.dx / 2; })
-      .attr("y", function(d) { return ky * d.dy / 2 - 7; })
-      .style("opacity", function(d) { return (kx * d.dx > this.getBBox().width) ? 1 : 0; });
+      .attr("y", function(d) { return ky * d.dy / 2 - 7; });
 
   t.select("text.amount")
       .attr("x", function(d) { return kx * d.dx / 2; })
-      .attr("y", function(d) { return ky * d.dy / 2 + 7; })
-      .style("opacity", function(d) { 
-         var bbox = this.getBBox();
-         return (kx*d.dx > d.w && ky*d.dy > d.h ? 1 : 0);
-      });
+      .attr("y", function(d) { return ky * d.dy / 2 + 7; });
+  svg.selectAll("g.texts").transition().duration(d3.event.altKey?7500:750).style("opacity", function(d) {
+    if(kx*d.dx > this.childNodes[0].getComputedTextLength()
+     && kx*d.dx > this.childNodes[1].getComputedTextLength()
+     && ky*d.dy>20)
+    return 1; else return 0;
+  });
 
   node = d;
   d3.event.stopPropagation();
