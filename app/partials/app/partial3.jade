@@ -13,7 +13,7 @@
       select.span2(id="unit-selector",onchange="update_unit()")
         option(ng-repeat="unit in units",value="{{$index}}"){{unit[1]}}
       button.btn(type="button",onclick="update_unit(-1)") 隨便來一個
-      button.btn.disabled(data-toggle="modal",onclick='$("#addunit_value_group").removeClass("error");$("#addunit-modal").modal()') 我要加單位
+      button.btn(data-toggle="modal",onclick='$("#addunit_value_group").removeClass("error");$("#addunit-modal").modal()') 我要加單位
       .modal#addunit-modal.fade(role="dialog",tabindex="-1",aria-labelledby="budget-addunit-label",aria-hidden="true")
         .modal-header
           button.close(type="button",data-dismiss="modal",aria-hidden="true") x
