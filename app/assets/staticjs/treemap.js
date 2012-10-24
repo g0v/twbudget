@@ -5,6 +5,7 @@ function setdebit(v) {
   debit.text(v+"億");
 }
 setdebit(123);
+var kx = 1, ky = 1;
 var w = 680 - 80,
     h = 640 - 180,
     x = d3.scale.linear().range([0, w]),
@@ -82,8 +83,6 @@ function foo(data) {
          scope.$apply(function() { scope.key="view3:"+d.cat+":"+d.name; });
       })
       .on("click", function(d) { 
-         for(i in this) console.log(i);
-         console.log($(this).find("rect").css("stroke:#000"));
          if(lockcell && lockcell.find) lockcell.find("rect").css({"stroke": "none"});
          if(!lockcell || lockcell.get(0)!=$(this).get(0)) {
            $(this).find("rect").css({"stroke": "rgb(255,0,0)"});
@@ -149,7 +148,7 @@ function count(d) {
 
 var dx = 0;
 function zoom(d) {
-  var kx = w / d.dx, ky = h / d.dy;
+  kx = w / d.dx, ky = h / d.dy;
   x.domain([d.x, d.x + d.dx]);
   y.domain([d.y, d.y + d.dy]);
 
@@ -168,11 +167,11 @@ function zoom(d) {
   t.select("text.amount")
       .attr("x", function(d) { return kx * d.dx / 2; })
       .attr("y", function(d) { return ky * d.dy / 2 + 7; });
-  svg.selectAll("g.texts").transition().duration(d3.event.altKey?7500:750).style("opacity", function(d) {
+  svg.selectAll("g.texts").transition().duration(d3.event.altKey?7500:750).style("display", function(d) {
     if(kx*d.dx > this.childNodes[0].getComputedTextLength()
      && kx*d.dx > this.childNodes[1].getComputedTextLength()
      && ky*d.dy>20)
-    return 1; else return 0;
+    return "block"; else return "none";
   });
 
   node = d;
@@ -193,6 +192,12 @@ function update_unit(idx) {
   d3.selectAll("text.amount").text(function(d) { 
     return CurrencyConvert(d.size, budget_unit, true);
   }); 
+  svg.selectAll("g.texts").transition().duration(d3.event.altKey?7500:750).style("display", function(d) {
+    if(kx*d.dx > this.childNodes[0].getComputedTextLength()
+     && kx*d.dx > this.childNodes[1].getComputedTextLength()
+     && ky*d.dy>20)
+    return "block"; else return "none";
+  });
 }
 
 function update_detail_amount() {
