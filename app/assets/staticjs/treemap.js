@@ -84,7 +84,7 @@ function foo(data) {
          if(lockcell && lockcell.find) lockcell.find("rect").css({"stroke": "none"});
          if(!lockcell || lockcell.get(0)!=$(this).get(0)) {
            $(this).find("rect").css({"stroke": "rgb(255,0,0)"});
-           lockcell = $(this);
+           lockcell = $(this), lastcell = d;
            update_detail_amount();
            var scope = angular.element("#BudgetItem").scope()
            scope.$apply(function() { scope.key="view3:"+d.cat+":"+d.name; });
