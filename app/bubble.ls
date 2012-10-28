@@ -5,7 +5,7 @@ class BubbleChart
     @center = do
       x: @width / 2
       y: @height / 2
-    @change_scale = d3.scale.linear!domain([-0.25, 0.25])clamp(true)range [@height / 9 * 6, @height / 9 * 3]
+    @change_scale = d3.scale.linear!domain([-0.25, 0.25])clamp(true)range [@height / 9 * 5, @height / 9 * 4]
     @center = do
       x: @width / 2
       y: @height / 2
@@ -28,7 +28,7 @@ class BubbleChart
     @circles = null
     @fill_color = d3.scale.quantile!domain([ -0.25 -0.1 -0.02 0.02 0.1 0.25 ]).range <[ red orange gray lightgreen green ]>
     max_amount = d3.max @data, (d) -> parseInt d.amount
-    @radius_scale = ((d3.scale.pow!.exponent 0.5).domain [0, max_amount]).range [2, 85]
+    @radius_scale = ((d3.scale.pow!.exponent 0.5).domain [0, max_amount]).range [2, 65]
     @create_nodes!
     @create_vis!
   create_nodes: ~>
@@ -113,13 +113,14 @@ class BubbleChart
   hide_years: ~> years = (@vis.selectAll '.years').remove!
   show_details: (data, i, element) ~>
     (d3.select element).attr 'stroke', 'black'
-    content = "<span class="name">Title:</span><span class="value"> #{data.name} / #{data.id} </span><br/>"
-    content += "<span class="name">Amount:</span><span class="value"> $#{data.value}</span><br/>"
-    content += "<span class="name">Dep:</span><span class="value"> #{data.org}</span>"
-    content += "<span class="name">change:</span><span class="change"> #{(d3.format '+.2%') data.change}</span>"
+    content = "<span class='name'>Title:</span><span class='value'> #{data.name} / #{data.id} </span><br/>"
+    content += "<span class='name'>Amount:</span><span class='value'> $#{data.value}</span><br/>"
+    content += "<span class='name'>Dep:</span><span class='value'> #{data.org}</span>"
+    content += "<span class='name'>change:</span><span class='change'> #{(d3.format '+.2%') data.change}</span>"
     @tooltip.showTooltip content, d3.event
+    @do_show_details data if @do_show_details
   hide_details: (data, i, element) ~>
-    (d3.select element).attr 'stroke', (d) ~> (d3.rgb @fill_color d.group).darker!
+    (d3.select element).attr 'stroke', (d) ~> (d3.rgb @fill_color d.change).darker!
     @tooltip.hideTooltip!
 
 root = exports ? this

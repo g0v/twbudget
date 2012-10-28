@@ -19,11 +19,77 @@ dataOverYears = (y2012, y2013) ->
 
 root = exports ? this
 
+by_year = null
+init_year_data = (cb) ->
+    return cb by_year if by_year
+
+    by_year = {}
+    by_year.2007 <- mapforyear 2007
+    by_year.2008 <- mapforyear 2008
+    by_year.2009 <- mapforyear 2009
+    by_year.2010 <- mapforyear 2010
+    by_year.2011 <- mapforyear 2011
+    by_year.2012 <- mapforyear 2012
+    by_year.2013 <- mapforyear 2013
+
+    cb by_year
+
+bar_chart = (id) ->
+    by_year <- init_year_data!
+
+    data = [{year, amount: +(by_year[year][id]?amount ? 0)} for year in [2007 to 2013]]
+    margin = {top: 20, right: 20, bottom: 30, left: 40}
+    width = 960 - margin.left - margin.right
+    height = 200 - margin.top - margin.bottom
+
+    x = d3.scale.ordinal().rangeRoundBands([0, width], 0.1)
+
+    y = d3.scale.linear().range([height, 0])
+
+    xAxis = d3.svg.axis().scale(x).orient("bottom")
+
+    yAxis = d3.svg.axis().scale(y).orient("left")
+
+
+    svg = d3.select('#details #year_chart').html('')append("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+        .append("g")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+    x.domain data.map -> it.year
+    y.domain [0, d3.max(data, -> it.amount)]
+
+    svg.append("g")
+        .attr("class", "x axis")
+        .attr("transform", "translate(0," + height + ")")
+        .call(xAxis);
+
+    svg.append("g")
+        .attr("class", "y axis")
+        .call(yAxis)
+        .append("text")
+        .attr("transform", "rotate(-90)")
+        .attr("y", 6)
+        .attr("dy", ".71em")
+        .style("text-anchor", "end")
+        .text("amount");
+
+    svg.selectAll(\.bar)data(data)
+        .enter!append \rect
+        .attr \class \bar
+        .attr \x      -> x it.year
+        .attr \width  x.rangeBand!
+        .attr \y      -> y it.amount
+        .attr \height -> height - y(it.amount)
+
 test_bubble = ->
   chart = null
 
   render_vis = (csv) ->
     chart := new BubbleChart csv
+    chart.do_show_details = (data) ->
+        bar_chart data.id
     chart.start!
     root.display_all!
   root.display_all = ~>
@@ -40,6 +106,7 @@ test_bubble = ->
   y2012 <- mapforyear 2012
   y2013 <- mapforyear 2013
   data = dataOverYears y2012, y2013
+  data .= sort (a, b) -> b.amount - a.amount
   render_vis data
 
 testd3 = ->
