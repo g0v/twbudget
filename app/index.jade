@@ -6,8 +6,11 @@ html(lang='en')
     meta(name='viewport', content='width=device-width')
     meta(name='description', content='')
     meta(name='author', content='')
-    title(ng-bind-template='{{pageTitle}}') 中央政府全民預算稽核
+    title g0v.tw: 中央政府總預算
     link(rel='stylesheet', href='/css/app.css')
+    link(rel='stylesheet', href='http://fonts.googleapis.com/css?family=Cousine:700italic',type='text/css')
+    link(rel='stylesheet', href='http://fonts.googleapis.com/css?family=Orbitron:400,500',type='text/css')
+
     //-script(src='http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js')
     //if lte IE 7
       script(src='http://cdnjs.cloudflare.com/ajax/libs/json2/20110223/json2.js')
@@ -32,7 +35,8 @@ html(lang='en')
               span.icon-bar
               span.icon-bar
             .brand
-              a(href='/') 中央政府總預算
+              | G0v
+              span.tw .tw / 中央政府總預算
             .nav-collapse
               div(ng-include="'/partials/app/nav.html'")
       .container.main-content
