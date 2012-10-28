@@ -1,7 +1,7 @@
 # based on https://github.com/vlandham/vlandham.github.com/blob/master/vis/gates/coffee/vis.coffee
 class BubbleChart
-  (@data, @width = 940, @height = 900) ->
-    @tooltip = CustomTooltip 'gates_tooltip', 240
+  (@data, @width = 940, @height = 650) ->
+    @tooltip = CustomTooltip 'bubble_tooltip', 240
     @center = do
       x: @width / 2
       y: @height / 2
@@ -39,6 +39,7 @@ class BubbleChart
         value: d.amount
         d.name
         org: d.depname
+        orgcat: d.depcat
         d.change
         group: d.cat
         year: 2013
@@ -112,11 +113,13 @@ class BubbleChart
     (((((years.enter!.append 'text').attr 'class', 'years').attr 'x', (d) ~> years_x[d]).attr 'y', 40).attr 'text-anchor', 'middle').text ((d) -> d)
   hide_years: ~> years = (@vis.selectAll '.years').remove!
   show_details: (data, i, element) ~>
+    value = d3.format \,
+    change = d3.format \+.2%
     (d3.select element).attr 'stroke', 'black'
     content = "<span class='name'>Title:</span><span class='value'> #{data.name} / #{data.id} </span><br/>"
-    content += "<span class='name'>Amount:</span><span class='value'> $#{data.value}</span><br/>"
-    content += "<span class='name'>Dep:</span><span class='value'> #{data.org}</span>"
-    content += "<span class='name'>change:</span><span class='change'> #{(d3.format '+.2%') data.change}</span>"
+    content += "<span class='name'>Amount:</span><span class='value'> $#{value data.value}</span><br/>"
+    content += "<span class='name'>Dep:</span><span class='value'> #{data.org}/ #{data.orgcat} </span><br/>"
+    content += "<span class='name'>change:</span><span class='change'> #{change data.change}</span>"
     @tooltip.showTooltip content, d3.event
     @do_show_details data if @do_show_details
   hide_details: (data, i, element) ~>
