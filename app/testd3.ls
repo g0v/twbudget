@@ -23,7 +23,7 @@ by_year = null
 init_year_data = (cb) ->
     return cb by_year if by_year
 
-    by_year = {}
+    by_year := {}
     by_year.2007 <- mapforyear 2007
     by_year.2008 <- mapforyear 2008
     by_year.2009 <- mapforyear 2009
