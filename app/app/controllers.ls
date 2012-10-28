@@ -33,7 +33,6 @@ mod.AppCtrl = [
 
 mod.LoginController = <[ $scope $http authService ]> +++ ($scope, $http, authService) ->
     $scope.$on 'event:auth-loginRequired' ->
-      console.log \authrequired
       $scope.loginShown = true
     $scope.$on 'event:auth-loginConfirmed' ->
       $scope.loginShown = false
@@ -59,7 +58,6 @@ mod.LoginController = <[ $scope $http authService ]> +++ ($scope, $http, authSer
 mod.Profile = <[ $scope $http ]> +++ ($scope, $http) ->
     $scope.name = 'Guest';
     $http.get('/1/profile')success ({name}:res) ->
-        console.log "logged in", res
         $scope.name = name
 
 mod.MyCtrl1 = <[ $scope ProductSearch ]> +++ ($scope, productSearch) ->
@@ -76,18 +74,14 @@ mod.MyCtrl1 = <[ $scope ProductSearch ]> +++ ($scope, productSearch) ->
   $scope.search = 'HTC'
   $scope.cc = 1
   $scope.results <- productSearch.search("htc")
-  console.log \got results
 
 mod.BudgetItem = <[ $scope BudgetItem ]> +++ ($scope, BudgetItem) ->
 
     update_from_item = (res) ->
-        console.log \updatingscope, res
         $scope <<< res{nlikes,nhates,ncuts,nconfuses,tags}
 
     $scope.$watch \key ->
-        console.log \keychanged
         res <- BudgetItem.get $scope.key
-        console.log res
         update_from_item res
     $scope <<< do
         nlikes: '???'
@@ -104,8 +98,7 @@ mod.BudgetItem = <[ $scope BudgetItem ]> +++ ($scope, BudgetItem) ->
           if !$scope.addunit_quantity then return $('#addunit-modal input:eq(0)') .tooltip("show")
           if !$scope.addunit_unit then return $('#addunit-modal input:eq(1)') .tooltip("show")
           if !jQuery.isNumeric $scope.addunit_value then return $('#addunit-modal input:eq(2)') .tooltip("show")
-          console.log "add-unit: [quantifier: ",$scope.addunit_quantity,
-            ",unit: ",$scope.addunit_unit,",value: ",$scope.addunit_value,"]"
+          # console.log "add-unit: [quantifier: ",$scope.addunit_quantity, ",unit: ",$scope.addunit_unit,",value: ",$scope.addunit_value,"]"
           $ \#addunit-modal .modal \hide
         units: [
           ["" \元 \1 ]
@@ -130,7 +123,6 @@ mod.BudgetItem = <[ $scope BudgetItem ]> +++ ($scope, BudgetItem) ->
 mod.DailyBread = <[ $scope $http ]> +++ ($scope, $http) ->
     $scope.tax = 80000
     $scope.$watch 'tax' ->
-      console.log \tax $scope.tax
       window.__db?setTax $scope.tax
     dailybread!
 
