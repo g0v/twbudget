@@ -26,7 +26,7 @@ class BubbleChart
     @nodes = []
     @force = null
     @circles = null
-    @fill_color = d3.scale.quantile!domain([ -0.25 -0.1 -0.02 0.02 0.1 0.25 ]).range <[ red orange gray lightgreen green ]>
+    @fill_color = d3.scale.quantile!domain([ -0.5 -0.25 -0.1 -0.02 0.02 0.1 0.25 0.5 ]).range <[ red orange pink gray yellow lightgreen green ]>
     max_amount = d3.max @data, (d) -> parseInt d.amount
     @radius_scale = ((d3.scale.pow!.exponent 0.5).domain [0, max_amount]).range [2, 65]
     @create_nodes!
@@ -59,10 +59,43 @@ class BubbleChart
       .data(@nodes, -> it.id)
 
     that = this
-    # radius will be set to 0 initially.
-    # see transition below
+
+    for val, i in ([100, 10000, 100000, 284400].map -> it * 1000 * 1000)
+        r = @radius_scale val
+        legend = @vis.append \circle
+          .attr \r r
+          .attr \cx 120
+          .attr \cy ~> @height / 2 - r - 1
+          .attr \fill \none
+          .attr \stroke-width 2
+          .attr \stroke \gray
+          .attr \id \legend_1
+        legend.attr \stroke-dasharray, '5, 1, 5' if i == 3
+        @vis.append \text
+          .attr \x 120
+          .attr \y ~> @height / 2 - r * 2
+          .attr \text-anchor \bottom
+          .text CurrencyConvert(val) + (if i == 3 => '(2013預計舉債)' else '')
+    x = d3.scale.ordinal().rangeRoundBands([0, 300], 0.1)
+    x.domain @fill_color.quantiles!
+    change = d3.format \+%
+    change_legend = @vis.selectAll(\.change-lenged)data @fill_color.quantiles!
+    change_legend.enter!append \rect
+        .attr \class \change-legend
+        .attr \x -> x it
+        .attr \width -> x.rangeBand!
+        .attr \height 10
+        .attr \y 50
+        .attr \fill ~> @fill_color it
+        .attr \stroke \black
+    change_legend.enter!append \text
+        .attr \x -> x it
+        .attr \y 40
+        .attr \text-anchor \bottom
+        .text -> change it
+
     @circles.enter().append("circle")
-      .attr("r", 0)
+      .attr("r", -> it.radius)
       .attr("fill", (d) ~> @fill_color(d.change))
       .attr("stroke-width", 2)
       .attr("stroke", (d) ~> d3.rgb(@fill_color(d.change)).darker())
@@ -70,9 +103,6 @@ class BubbleChart
       .on("mouseover", (d,i) -> that.show_details(d,i,this))
       .on("mouseout", (d,i) -> that.hide_details(d,i,this))
 
-    # Fancy transition to make bubbles appear, ending with the
-    # correct radius
-    @circles.transition().duration(2000).attr("r", -> it.radius)
   charge: (d) -> (-Math.pow d.radius, 2) / 8
   start: ~> @force = (d3.layout.force!.nodes @nodes).size [@width, @height]
   display_group_all: ~>

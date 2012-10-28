@@ -38,7 +38,7 @@ bar_chart = (id) ->
     by_year <- init_year_data!
 
     data = [{year, amount: +(by_year[year][id]?amount ? 0)} for year in [2007 to 2013]]
-    margin = {top: 20, right: 20, bottom: 30, left: 90}
+    margin = {top: 20, right: 20, bottom: 30, left: 150}
     width = 960 - margin.left - margin.right
     height = 200 - margin.top - margin.bottom
 
@@ -107,6 +107,7 @@ test_bubble = ->
   y2013 <- mapforyear 2013
   data = dataOverYears y2012, y2013
   data .= sort (a, b) -> b.amount - a.amount
+  #data .= slice 0, 600
   render_vis data
 
 testd3 = ->
