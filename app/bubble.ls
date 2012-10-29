@@ -52,14 +52,13 @@ class BubbleChart
 
     for val, i in ([100, 10000, 100000, 284400].map -> it * 1000 * 1000)
         r = @radius_scale val
-        legend = @vis.append \circle
+        @vis.append \circle
           .attr \r r
           .attr \cx 300
           .attr \cy ~> @height / 2 - r - 1 - 30
           .attr \fill \none
           .attr \stroke-width 2
           .attr \stroke \gray
-          .attr \id \legend_1
             ..attr \stroke-dasharray, '5, 1, 5' if i == 3
         @vis.append \text
           .attr \x 300
@@ -69,21 +68,20 @@ class BubbleChart
           .text CurrencyConvert(val) + (if i == 3 => '(2013預計舉債)' else '')
 
     colors = [-1] +++ @fill_color.quantiles! +++ [NaN]
-    x = d3.scale.ordinal!rangeRoundBands([0, 300], 0.1)domain colors
-    y = d3.scale.ordinal!rangeRoundBands([0, 200], 0.1)domain colors
+    y = d3.scale.ordinal!rangeRoundBands([200, 0], 0.1)domain colors
     change = d3.format \+%
-    change_legend = @vis.selectAll(\.change-lenged)data colors
+    @vis.selectAll(\.change-lenged)data colors
         ..enter!append \rect
             .attr \class \change-legend
             .attr \x 60
             .attr \y -> 100 + y it
-            .attr \width -> x.rangeBand!
-            .attr \height 10
+            .attr \width -> 10
+            .attr \height -> y.rangeBand!
             .attr \fill ~> @fill_color it
-            .attr \stroke \black
+            .attr \stroke \none
         ..enter!append \text
-            .attr \x 100
-            .attr \y -> 100 + (if isNaN it => 9 else 0) + y it
+            .attr \x 80
+            .attr \y -> 100 + (if isNaN it => y.rangeBand!/2 else y.rangeBand!) + (y it)
             .attr \text-anchor \bottom
             .text -> match it
             | isNaN     => '新增'
