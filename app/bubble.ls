@@ -164,7 +164,7 @@ class BubbleChart
     @force.start!
 
     @vis.selectAll(\.attr-legend)remove!
-    @attr-legend = @vis.selectAll(\.attr-legend)data d3.entries centers
+    @vis.selectAll(\.attr-legend)data d3.entries centers
 #        ..enter!append \rect
 #            .attr \class \attr-legend
 #            .attr \x -> it.value.x
@@ -173,20 +173,22 @@ class BubbleChart
 #            .attr \height -> it.value.r
 #            .attr \strok \black
         ..enter!append \text
-            .attr \class \attr-legend
+            .attr \class "attr-legend fade"
             .attr \x -> it.value.x
             .attr \y -> it.value.top - 10
             .attr \text-anchor \bottom
             .text -> it.key + "\n" + CurrencyConvert(it.value.sum)
         ..exit!remove!
+    <~ (`setTimeout` 500ms)
+    @vis.selectAll(\.attr-legend.fade).classed \in true
 
   show_details: (data, i, element) ~>
     value = d3.format \,
     change = d3.format \+.2%
     (d3.select element).attr 'stroke', 'black'
-    content = "<span class='name'>Title:</span><span class='value'> #{data.name} / #{data.id} </span><br/>"
+    content = "<span class='name'>Title:</span><span class='value'> #{data.data.name} / #{data.id} </span><br/>"
     content += "<span class='name'>Amount:</span><span class='value'> $#{value data.value}</span><br/>"
-    content += "<span class='name'>Dep:</span><span class='value'> #{data.org}/ #{data.orgcat} </span><br/>"
+    content += "<span class='name'>Dep:</span><span class='value'> #{data.data.depname}/ #{data.data.depcat} </span><br/>"
     content += "<span class='name'>change:</span><span class='change'> #{change data.change}</span>"
     @tooltip.showTooltip content, d3.event
     @do_show_details data if @do_show_details
