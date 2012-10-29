@@ -11,12 +11,12 @@ ul.nav
       b.caret
     ul.dropdown-menu(id="unit-selector",ng-controller="UnitMapper",role="menu",aria-labelledby="dLabel")
       li(ng-repeat="item in units")
-        a(onclick="update_unit({{$index}})") 
+        a(onclick="UnitMapper.update({{$index}})") 
           i.icon-ok(style="margin:2px 3px 0 -5px;visibility:hidden;")
           {{item[1]}} 
       li.divider
       li 
-        a(onclick="update_unit(-1)") 隨便來一個
+        a(onclick="UnitMapper.update(-1)") 隨便來一個
       li.disabled 
         a(data-toggle="modal",onclick='$("#addunit-value-group").removeClass("error");$("#addunit-modal").modal()') 我要加單位
     .modal#addunit-modal.fade(role="dialog",tabindex="-1",aria-labelledby="budget-addunit-label",aria-hidden="true")
