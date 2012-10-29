@@ -11,7 +11,7 @@ dailybread = function () {
         if (style != undefined) {
          return style['icon'];
         }
-        return 'icons/unknown.svg';
+        return 'img/unknown.svg';
       });
       db.draw();
     } 
