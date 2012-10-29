@@ -27,6 +27,7 @@ var svg = d3.select("#treemap-root").append("div")
   .append("svg:svg")
     .attr("width", w)
     .attr("height", h)
+    .attr("id", "treemap-svg")
   .append("svg:g")
     .attr("transform", "translate(.5,.5)");
 
