@@ -1,0 +1,8 @@
+#!/bin/sh
+killall brunch
+rm -rf _public
+git checkout deploy
+git merge master
+brunch b -m
+git add -f -A public
+git commit -m 'regen'
