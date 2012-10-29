@@ -1,6 +1,8 @@
 .treemap-root(ng-controller="BudgetItem")
-  a.btn.default Default
-  a.btn.bycat 政事別
+  .btn-group(data-toggle="buttons-radio")
+    a.btn.default.active Default
+    a.btn.bycat 政事別
+    a.btn.bytop 主管單位
   #chart
   #details
     #info
