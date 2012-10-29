@@ -7,9 +7,9 @@
         #content-wrap(style='display: none;')
           #db-topbar.layout-row.layout-3col-15-70-15
            form.form-inline
-            label 每年繳納稅金
-              .input-prepend
+            label 每年繳納稅金 : 
+              .input-prepend.input-append
                   span.add-on $
-                  input.input-small(type="text",type="numbrer",id="db-tax",name="db-tax",ng-model="tax")
-              a.btn.btn-primary(ng-click="tax= tax + 5000") +
-              a.btn.btn-danger(ng-click="tax= tax - 5000") -
+                  input.input-small(type="text",id="db-tax",name="db-tax",ng-model="tax")
+                  a.btn.btn-primary(ng-click="tax= tax + 5000") +
+                  a.btn.btn-danger(ng-click="tax= tax - 5000") -
