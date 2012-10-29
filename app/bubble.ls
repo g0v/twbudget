@@ -146,7 +146,7 @@ class BubbleChart
             y: curr_y + y_offset / 2
             r: r
 
-    curr_y += y_offset
+    curr_y += y_offset * 2
     @vis.attr \height, curr_y if curr_y > @vis.attr \height
 
     move_towards = (alpha) ~>
@@ -163,7 +163,8 @@ class BubbleChart
           .attr \cy -> it.y
     @force.start!
 
-    @vis.selectAll(\.attr-legend)data d3.entries centers
+    @vis.selectAll(\.attr-legend)remove!
+    @attr-legend = @vis.selectAll(\.attr-legend)data d3.entries centers
 #        ..enter!append \rect
 #            .attr \class \attr-legend
 #            .attr \x -> it.value.x
@@ -177,6 +178,7 @@ class BubbleChart
             .attr \y -> it.value.top - 10
             .attr \text-anchor \bottom
             .text -> it.key + "\n" + CurrencyConvert(it.value.sum)
+        ..exit!remove!
 
   show_details: (data, i, element) ~>
     value = d3.format \,
