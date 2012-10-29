@@ -6,8 +6,8 @@ function setdebit(v) {
 }
 setdebit(123);
 var kx = 1, ky = 1;
-var w = 680 - 80,
-    h = 640 - 180,
+var w = 710 - 80,
+    h = 740 - 180,
     x = d3.scale.linear().range([0, w]),
     y = d3.scale.linear().range([0, h]),
     color = d3.scale.category20c(),
@@ -176,12 +176,14 @@ function textSize(d,item, values) {
 foo(parse(raw));
 
 function update_unit(idx) {
-  unit_selector=$("#unit-selector"); // move to sth like $(doc).ready
+  //unit_selector=$("#unit-selector"); // move to sth like $(doc).ready
+  if(budget_unit>=0) $("#unit-selector li:eq("+budget_unit+") a i").css({"visibility":"hidden"});
   if(idx==-1) {
     budget_unit = parseInt(Math.random()*CurrencyData.length);
-    $("#unit-selector option:eq("+budget_unit+")").attr("selected","selected");
+    $("#unit-selector li:eq("+budget_unit+") a i").style("display","inline-block");
   } else if(idx==undefined) budget_unit = unit_selector.val(); 
   else budget_unit = idx;
+  $("#unit-selector li:eq("+budget_unit+") a i").css({"visibility":"visible"});
   update_detail_amount();
   d3.selectAll("text.amount").text(function(d) { 
     return CurrencyConvert(d.size, budget_unit, true);

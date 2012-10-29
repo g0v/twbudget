@@ -1,3 +1,5 @@
+body
+  overflow: scroll
 div.categories
   padding: 10px
   position: relative
@@ -24,6 +26,9 @@ li.product
   list-style: none
   margin: 5px
   text-align: left
+
+.main-content
+  width: 1004px
 
 #treemap, #bubbletree, #aggregate
   margin: 10px
@@ -53,13 +58,6 @@ li.product
   background-position: -192px -912px
 .icon-big-ban-circle
   background-position: -432px -912px
-#treemap-root
-  position: absolute
-  top: 85px
-  left: 50%
-  width: 1000px
-  height: 610px
-  margin-left: -500px
 #treemap-root-inner 
   position: absolute
   margin-top: 0px
@@ -75,25 +73,23 @@ li.product
 #addunit-value-group.error .alert
   display: block!important
 #budget-detail
-  position: absolute
-  top: 35px 
-  left: 620px
-  width: 340px
-  height: 460px
+  float: right
+  width: 360px
+  height: 560px
   background: #eee
   box-shadow: 1px 5px 5px #888
 #budget-detail-inner
   margin: 10px
-  height: 440px
+  height: 540px
   background: #eee
 #budget-detail-info
   position: relative
-  height: 160px
+  height: 200px
 #budget-detail-amount
   position: absolute
   top: 0
   left: 0
-  margin-top: 70px
+  margin-top: 85px
   width: 100%
   text-align: center
 #budget-detail-amount-field1
@@ -111,12 +107,12 @@ li.product
   top: 0
   left: 0
   width: 100%
-  margin-top: 155px
+  margin-top: 195px
   text-align: right
 #budget-tagger .input-append
   margin-left: 23px
 #budget-tags
-  height: 60px
+  height: 105px
   overflow-x: hidden
 .budget-tag
   display: block
@@ -125,15 +121,11 @@ li.product
 #budget-vote-label
   text-align: center
 #BudgetItem
-  margin-left: 20px
+  margin-left: 0px
 .vote-btn 
   font-size: 12px
 .budget-treemap
   display: block
-  position: absolute
-  left: 0 
-  top: 35px
-  maring: 0
   box-shadow: 1px 5px 5px #888
   -moz-user-select: none
   -khtml-user-select: none
@@ -147,8 +139,8 @@ li.product
     stroke-width: 5px
 #treemap-backbtn
   position: absolute
-  top: 447px 
-  left: 540px
+  top: 558px 
+  left: 850px
   z-index: 10
 #debitmask
   background: #f99

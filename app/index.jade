@@ -27,16 +27,12 @@ html(lang='en')
 
   body(ng-controller='AppCtrl')
     .wrapper
-      .navbar
+      .navbar.site-heading
         .navbar-inner
           .container
-            a.btn.btn-navbar(data-toggle='collapse', data-target='.nav-collapse')
-              span.icon-bar
-              span.icon-bar
-              span.icon-bar
             .brand
-              | G0v
-              span.tw .tw / 中央政府總預算
+              img(src="img/logo.png",alt="Logo: G0V.tw")
+              span / 中央政府總預算
             .nav-collapse
               div(ng-include="'/partials/app/nav.html'")
       .container.main-content

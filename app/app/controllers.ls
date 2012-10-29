@@ -126,9 +126,11 @@ mod.DailyBread = <[ $scope $http ]> +++ ($scope, $http) ->
       window.__db?setTax $scope.tax
     dailybread!
 
+mod.UnitMapper = <[ $scope ]> +++ ($scope) ->
+  $scope.units=UnitMapper.table
+
 mod.MyCtrl2 = [
   '$scope'
-
 (s) ->
   s.Title = "MyCtrl2"
 ]

@@ -38,9 +38,9 @@ bar_chart = (id) ->
     by_year <- init_year_data!
 
     data = [{year, amount: +(by_year[year][id]?amount ? 0)} for year in [2007 to 2013]]
-    margin = {top: 20, right: 20, bottom: 30, left: 150}
-    width = 960 - margin.left - margin.right
-    height = 200 - margin.top - margin.bottom
+    margin = {top: 20, right: 20, bottom: 30, left: 100}
+    width = 400 - margin.left - margin.right
+    height = 250 - margin.top - margin.bottom
 
     x = d3.scale.ordinal().rangeRoundBands([0, width], 0.1)
 
@@ -58,7 +58,7 @@ bar_chart = (id) ->
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
     x.domain data.map -> it.year
-    y.domain [0, d3.max(data, -> it.amount)]
+    y.domain [0, d3.max(data, -> it.amount/1000000)]
 
     svg.append("g")
         .attr("class", "x axis")
@@ -70,18 +70,18 @@ bar_chart = (id) ->
         .call(yAxis)
         .append("text")
         .attr("transform", "rotate(-90)")
-        .attr("y", 6)
+        .attr("y", -86)
         .attr("dy", ".71em")
         .style("text-anchor", "end")
-        .text("amount");
+        .text("金額(百萬元)");
 
     svg.selectAll(\.bar)data(data)
         .enter!append \rect
         .attr \class \bar
         .attr \x      -> x it.year
         .attr \width  x.rangeBand!
-        .attr \y      -> y it.amount
-        .attr \height -> height - y(it.amount)
+        .attr \y      -> y it.amount/1000000
+        .attr \height -> height - y(it.amount/1000000)
 
 test_bubble = ->
   chart = null

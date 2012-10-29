@@ -6,30 +6,6 @@
     #debitmask 2,500億
   button#treemap-backbtn.btn
     i.icon-big-back
-  #budget-unit
-    .input-prepend.input-append
-      span.add-on 單位換算
-      select.span2(id="unit-selector",onchange="update_unit()")
-        option(ng-repeat="unit in units",value="{{$index}}"){{unit[1]}}
-      button.btn(type="button",onclick="update_unit(-1)") 隨便來一個
-      button.btn(data-toggle="modal",onclick='$("#addunit-value-group").removeClass("error");$("#addunit-modal").modal()') 我要加單位
-      .modal#addunit-modal.fade(role="dialog",tabindex="-1",aria-labelledby="budget-addunit-label",aria-hidden="true")
-        .modal-header
-          button.close(type="button",data-dismiss="modal",aria-hidden="true") x
-          h3#budget-addunit-label 我要加單位
-        .modal-body(style="text-align:center")
-          .input-append
-            span.add-on 一
-            input.input-mini(title="量詞欄位不可空白",ng-model="addunit_quantity",type="text",placeholder="量詞,如:個 或 塊")
-            input.input-medium(title="單位欄位不可空白",ng-model="addunit_unit",type="text",placeholder="單位,如:蘋果 或 金條")
-            span.add-on 等於
-            input.span2(title="價錢欄位需填數字",ng-model="addunit_value",type="text",placeholder="價錢,如:50 或 2000 (全數字)")
-            span.add-on 元
-          #budget-addunit-result 
-            預覽: 一{{addunit_quantity}}{{addunit_unit}} 等於 {{addunit_value}} 元
-        .modal-footer
-          button.btn(data-dismiss="modal",aria-hidden="true") 取消
-          button.btn.btn-primary(ng-click="addunit()") 送出
   #budget-detail
     #budget-detail-inner
       #budget-detail-info

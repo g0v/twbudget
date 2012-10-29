@@ -5,6 +5,38 @@ ul.nav
     a(ng-href='/view3') 鳥瞰圖
   li(ng-class="getClass('/view4')")
     a(ng-href='/view4') 變化圖
+  li.dropdown
+    a.dropdown-toggle(id="dLabel",role="button",data-toggle="dropdown",data-target="#") 
+      單位換算 
+      b.caret
+    ul.dropdown-menu(id="unit-selector",ng-controller="UnitMapper",role="menu",aria-labelledby="dLabel")
+      li(ng-repeat="item in units")
+        a(onclick="update_unit({{$index}})") 
+          i.icon-ok(style="margin:2px 3px 0 -5px;visibility:hidden;")
+          {{item[1]}} 
+      li.divider
+      li 
+        a(onclick="update_unit(-1)") 隨便來一個
+      li.disabled 
+        a(data-toggle="modal",onclick='$("#addunit-value-group").removeClass("error");$("#addunit-modal").modal()') 我要加單位
+    .modal#addunit-modal.fade(role="dialog",tabindex="-1",aria-labelledby="budget-addunit-label",aria-hidden="true")
+      .modal-header
+        button.close(type="button",data-dismiss="modal",aria-hidden="true") x
+        h3#budget-addunit-label 我要加單位
+      .modal-body(style="text-align:center")
+        .input-append
+          span.add-on 一
+          input.input-mini(title="量詞欄位不可空白",ng-model="addunit_quantity",type="text",placeholder="量詞,如:個 或 塊")
+          input.input-medium(title="單位欄位不可空白",ng-model="addunit_unit",type="text",placeholder="單位,如:蘋果 或 金條")
+          span.add-on 等於
+          input.span2(title="價錢欄位需填數字",ng-model="addunit_value",type="text",placeholder="價錢,如:50 或 2000 (全數字)")
+          span.add-on 元
+        #budget-addunit-result
+          預覽: 一{{addunit_quantity}}{{addunit_unit}} 等於 {{addunit_value}} 元
+      .modal-footer
+        button.btn(data-dismiss="modal",aria-hidden="true") 取消
+        button.btn.btn-primary(ng-click="addunit()") 送出
+
 ul.nav.pull-right
   li(ng-class="getClass('/profile')")
     a(ng-href='/profile') 我的帳號
