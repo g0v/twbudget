@@ -3,7 +3,7 @@ class BubbleChart
   (@data, @width = 1004, @height = 650) ->
     @tooltip = CustomTooltip 'bubble_tooltip', 240
     @center = do
-      x: @width / 2
+      x: @width / 2 + 210
       y: @height / 2
     @change_scale = d3.scale.linear!domain([-0.25, 0.25])clamp(true)range [@height / 9 * 5, @height / 9 * 4]
     @center = do
@@ -106,7 +106,7 @@ class BubbleChart
       .friction(0.9)
       .on "tick", (e) ~>
         @circles.each(this.move_towards_center(e.alpha))
-          .attr \cx -> it.x + 210
+          .attr \cx -> it.x
           .attr \cy -> it.y
     @force.start!
 
