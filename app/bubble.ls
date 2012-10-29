@@ -93,7 +93,7 @@ class BubbleChart
             .attr \stroke \black
         ..enter!append \text
             .attr \x 100
-            .attr \y -> 110 + (if isNaN it => 0 else -25) + y it
+            .attr \y -> 100 + (if isNaN it => 9 else 0) + y it
             .attr \text-anchor \bottom
             .text -> match it
             | isNaN     => '新增'

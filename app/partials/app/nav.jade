@@ -12,7 +12,6 @@ ul.nav
     ul.dropdown-menu(id="unit-selector",ng-controller="UnitMapper",role="menu",aria-labelledby="dLabel")
       li(ng-repeat="item in units")
         a(onclick="UnitMapper.update({{$index}})") 
-          i.icon-ok(style="margin:2px 3px 0 -5px;visibility:hidden;")
           {{item[1]}} 
       li.divider
       li 

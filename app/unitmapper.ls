@@ -31,12 +31,14 @@ UnitMapper =
 
   update: (idx) ->
     if this.unit>=0 
-      $('#unit-selector li:eq('+this.unit+') a i').css {"visibility":"hidden"}
+      #$('#unit-selector li:eq('+this.unit+') a i').css {"visibility":"hidden"}
+      $('#unit-selector li:eq('+this.unit+') ').removeClass \active
     this.unit = if idx==-1 then parseInt Math.random()*this.table.length
                       else if idx==undefined then 0 
                       else idx
 
-    $('#unit-selector li:eq('+this.unit+') a i').css visibility:\visible
+    #$('#unit-selector li:eq('+this.unit+') a i').css visibility:\visible
+    $('#unit-selector li:eq('+this.unit+')').addClass \active
       
     d3.selectAll(\text.amount).text (d) ->
       UnitMapper.convert d.size, UnitMapper.unit, true
@@ -57,7 +59,7 @@ UnitMapper =
     <[碗 鬍鬚張魯肉飯 68]>
     <[個 便當 50]>
     <[杯 珍奶 30]>
-    <[份 雞排加珍奶60]>
+    <[份 雞排加珍奶 60]>
     <[個 晨水匾 700000000]>
     <[個 夢想家 200000000]>
     <[個 林益世(粗估) 83000000]>
