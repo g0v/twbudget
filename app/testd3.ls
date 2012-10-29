@@ -109,6 +109,8 @@ test_bubble = ->
   data .= sort (a, b) -> b.amount - a.amount
   #data .= slice 0, 600
   render_vis data
+  $('.btn.bycat')click -> chart.display_by_attr \cat
+  $('.btn.default')click -> chart.display_group_all!
 
 testd3 = ->
     cell = ->

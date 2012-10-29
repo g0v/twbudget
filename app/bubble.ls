@@ -9,16 +9,6 @@ class BubbleChart
     @center = do
       x: @width / 2
       y: @height / 2
-    @year_centers = do
-      '2008': do
-        x: @width / 3
-        y: @height / 2
-      '2009': do
-        x: @width / 2
-        y: @height / 2
-      '2010': do
-        x: 2 * @width / 3
-        y: @height / 2
 
     @layout_gravity = -0.01
     @damper = 0.1
@@ -37,7 +27,7 @@ class BubbleChart
         id: d.code
         radius: @radius_scale parseInt d.amount
         value: d.amount
-        d.name
+        data: d
         org: d.depname
         orgcat: d.depcat
         d.change
@@ -112,6 +102,7 @@ class BubbleChart
   charge: (d) -> (-Math.pow d.radius, 2) / 8
   start: ~> @force = (d3.layout.force!.nodes @nodes).size [@width, @height]
   display_group_all: ~>
+    @vis.selectAll(\.attr-legend)remove!
     @force.gravity(@layout_gravity)
       .charge(this.charge)
       .friction(0.9)
@@ -121,33 +112,74 @@ class BubbleChart
           .attr \cy -> it.y
     @force.start!
 
-    @hide_years()
-
   move_towards_center: (alpha) ~>
     (d) ~>
       cy = (@change_scale d.change) ? @center.y
       cy = @center.y if isNaN cy
       d.x = d.x + (@center.x - d.x) * (@damper + 0.02) * alpha
       d.y = d.y + (cy - d.y) * (@damper + 0.02) * alpha
-  display_by_year: ~>
-    (((@force.gravity @layout_gravity).charge @charge).friction 0.9).on 'tick', (e) ~> ((@circles.each @move_towards_year e.alpha).attr 'cx', (d) -> d.x).attr 'cy', (d) -> d.y
+
+
+  display_by_attr: (attr) ->
+    nest = d3.nest
+    nest = d3.nest!key -> it[attr]
+    entries = nest.entries @data
+    sums = nest.rollup -> it.map (.amount) .map(-> +it).reduce (+)
+        .entries @data
+        .sort (a, b) -> (b.values - a.values)
+    curr_x = 130
+    curr_y = 100
+    y_offset = null
+    centers = {}
+    for {key,values}:entry in sums
+        r = @radius_scale values
+        curr_x += Math.max(150, r * 2)
+        if curr_x > @width - 130
+            curr_x = 130 + r * 2
+            curr_y += y_offset
+            y_offset = null
+
+        y_offset ?= r * 2 + 50
+
+        centers[key] = do
+            sum: values
+            top: curr_y
+            x: curr_x - r
+            y: curr_y + y_offset / 2
+            r: r
+
+    curr_y += y_offset
+    @vis.attr \height, curr_y if curr_y > @vis.attr \height
+
+    move_towards = (alpha) ~>
+      (d) ~>
+        target = centers[ d.data[attr] ]
+        d.x = d.x + (target.x - d.x) * (@damper + 0.02) * alpha * 1.1
+        d.y = d.y + (target.y - d.y) * (@damper + 0.02) * alpha * 1.1
+    @force.gravity @layout_gravity
+      .charge @charge
+      .friction 0.9
+      .on \tick (e) ~>
+        @circles.each(move_towards(e.alpha))
+          .attr \cx -> it.x
+          .attr \cy -> it.y
     @force.start!
-    @display_years!
-  move_towards_year: (alpha) ~>
-    (d) ~>
-      target = @year_centers[d.year]
-      d.x = d.x + (target.x - d.x) * (@damper + 0.02) * alpha * 1.1
-      d.y = d.y + (target.y - d.y) * (@damper + 0.02) * alpha * 1.1
-  display_years: ~>
-    years_x = {
-      '2008': 160
-      '2009': @width / 2
-      '2010': @width - 160
-    }
-    years_data = d3.keys years_x
-    years = (@vis.selectAll '.years').data years_data
-    (((((years.enter!.append 'text').attr 'class', 'years').attr 'x', (d) ~> years_x[d]).attr 'y', 40).attr 'text-anchor', 'middle').text ((d) -> d)
-  hide_years: ~> years = (@vis.selectAll '.years').remove!
+
+    @vis.selectAll(\.attr-legend)data d3.entries centers
+#        ..enter!append \rect
+#            .attr \class \attr-legend
+#            .attr \x -> it.value.x
+#            .attr \y -> it.value.y
+#            .attr \width -> it.value.r
+#            .attr \height -> it.value.r
+#            .attr \strok \black
+        ..enter!append \text
+            .attr \class \attr-legend
+            .attr \x -> it.value.x
+            .attr \y -> it.value.top - 10
+            .attr \text-anchor \bottom
+            .text -> it.key + "\n" + CurrencyConvert(it.value.sum)
+
   show_details: (data, i, element) ~>
     value = d3.format \,
     change = d3.format \+.2%
