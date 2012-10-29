@@ -4,5 +4,5 @@ rm -rf _public
 git checkout deploy
 git merge master
 brunch b -m
-git add -f -A public
+git add -f -A _public
 git commit -m 'regen'
