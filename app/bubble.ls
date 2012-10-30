@@ -1,6 +1,6 @@
 # based on https://github.com/vlandham/vlandham.github.com/blob/master/vis/gates/coffee/vis.coffee
 class BubbleChart
-  ({@data, @width = 1004, @height = 650, @damper = 0.1, @layout_gravity = 0.01}) ->
+  ({@data, @width = 1004, @height = 650, @damper = 0.1, @layout_gravity = 0.01, @amount_attr = \amount}) ->
     $('#bubble_tooltip').remove!
     @tooltip = CustomTooltip 'bubble_tooltip', 370
     @center = do
@@ -10,15 +10,16 @@ class BubbleChart
     @nodes = []
     @change_scale = d3.scale.linear!domain([-0.25, 0.25])clamp(true)range [@height / 9 * 5, @height / 9 * 4]
     @fill_color = d3.scale.quantile!domain([ -0.5 -0.25 -0.1 -0.02 0.02 0.1 0.25 0.5 ]).range <[ red orange pink gray yellow lightgreen green ]>
-    max_amount = d3.max @data, (d) -> parseInt d.amount
-    @radius_scale = ((d3.scale.pow!.exponent 0.5).domain [0, max_amount]).range [2, 65]
+    @radius_scale = d3.scale.pow!exponent 0.5
+      .domain [0, d3.max @data, (d) ~> +d[@amount_attr]]
+      .range [2, 65]
     @create_nodes!
     @create_vis!
   create_nodes: ->
     @nodes = @data.map (d) ~> do
         id: d.code
-        radius: @radius_scale parseInt d.amount
-        value: d.amount
+        radius: @radius_scale +d[@amount_attr]
+        value: +d[@amount_attr]
         data: d
         org: d.depname
         orgcat: d.depcat
@@ -86,15 +87,15 @@ class BubbleChart
       .on("mouseout", (d,i) -> that.hide_details(d,i,this))
 
   charge: (d) -> (-Math.pow d.radius, 2) / 8
-  start: -> @force = (d3.layout.force!.nodes @nodes).size [@width, @height]
+  start: -> @force = d3.layout.force!nodes(@nodes)size [@width, @height]
   display_group_all: ->
     @tooltip.fixPosition true,$ \#bubble-info
     @vis.selectAll(\.attr-legend)remove!
-    @force.gravity(@layout_gravity)
-      .charge(this.charge)
-      .friction(0.9)
-      .on "tick", (e) ~>
-        @circles.each(this.move_towards_center(e.alpha))
+    @force.gravity @layout_gravity
+      .charge @charge
+      .friction 0.9
+      .on \tick (e) ~>
+        @circles.each @move_towards_center e.alpha
           .attr \cx -> it.x
           .attr \cy -> it.y
     @force.start!
@@ -109,10 +110,10 @@ class BubbleChart
 
   display_by_attr: (attr) ->
     @tooltip.fixPosition false
-    nest = d3.nest
     nest = d3.nest!key -> it[attr]
     entries = nest.entries @data
-    sums = nest.rollup -> it.map (.amount) .map(-> +it).reduce (+)
+    amount_attr = @amount_attr
+    sums = nest.rollup -> it.map (.[amount_attr]) .map(-> +it).reduce (+)
         .entries @data
         .sort (a, b) -> (b.values - a.values)
     curr_x = 430
@@ -148,7 +149,7 @@ class BubbleChart
       .charge @charge
       .friction 0.9
       .on \tick (e) ~>
-        @circles.each(move_towards(e.alpha))
+        @circles.each move_towards e.alpha
           .attr \cx -> it.x
           .attr \cy -> it.y
     @force.start!
