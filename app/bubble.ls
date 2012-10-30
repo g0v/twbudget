@@ -75,14 +75,14 @@ class BubbleChart
             | (== -1)   => ''       # XXX: match -1 does not work
             | otherwise => change it
 
-    @circles.enter().append("circle")
-      .attr("r", -> it.radius)
-      .attr("fill", (d) ~> @fill_color(d.change))
-      .attr("stroke-width", 2)
-      .attr("stroke", (d) ~> d3.rgb(@fill_color(d.change)).darker())
-      .attr("id", (d) -> "bubble_#{d.id}")
-      .on("mouseover", (d,i) ~> @show_details(d,i,d3.event.target))
-      .on("mouseout", (d,i) ~> @hide_details(d,i,d3.event.target))
+    @circles.enter!append \circle
+      .attr \r -> it.radius
+      .attr \fill ~> @fill_color it.change
+      .attr \stroke-width, 2
+      .attr \stroke ~> d3.rgb(@fill_color(it.change))darker!
+      .attr \id -> "bubble_#{it.id}"
+      .on \mouseover (d,i) ~> @show_details d, i, d3.event.target
+      .on \mouseout  (d,i) ~> @hide_details d, i, d3.event.target
 
   charge: (d) -> (-Math.pow d.radius, 2) / 8
   start: -> @force = d3.layout.force!nodes(@nodes)size [@width, @height]
