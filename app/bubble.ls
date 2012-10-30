@@ -37,8 +37,6 @@ class BubbleChart
     @circles = @vis.selectAll("circle")
       .data(@nodes, -> it.id)
 
-    that = this
-
     for val, i in ([100, 10000, 100000, 284400].map -> it * 1000 * 1000)
         r = @radius_scale val
         @vis.append \circle
@@ -83,8 +81,8 @@ class BubbleChart
       .attr("stroke-width", 2)
       .attr("stroke", (d) ~> d3.rgb(@fill_color(d.change)).darker())
       .attr("id", (d) -> "bubble_#{d.id}")
-      .on("mouseover", (d,i) -> that.show_details(d,i,this))
-      .on("mouseout", (d,i) -> that.hide_details(d,i,this))
+      .on("mouseover", (d,i) ~> @show_details(d,i,d3.event.target))
+      .on("mouseout", (d,i) ~> @hide_details(d,i,d3.event.target))
 
   charge: (d) -> (-Math.pow d.radius, 2) / 8
   start: -> @force = d3.layout.force!nodes(@nodes)size [@width, @height]
