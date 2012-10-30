@@ -14,25 +14,20 @@ class BubbleChart
     @radius_scale = ((d3.scale.pow!.exponent 0.5).domain [0, max_amount]).range [2, 65]
     @create_nodes!
     @create_vis!
-  create_nodes: ~>
-    @data.forEach (d) ~>
-      node = {
+  create_nodes: ->
+    @nodes = @data.map (d) ~> do
         id: d.code
         radius: @radius_scale parseInt d.amount
         value: d.amount
         data: d
         org: d.depname
         orgcat: d.depcat
-        d.change
+        change: d.change
         group: d.cat
         year: 2013
         x: Math.random! * 900
         y: Math.random! * 800
-      }
-      @nodes.push node
-    @nodes.sort ((a, b) -> b.value - a.value)
-    @nodes
-  create_vis: ~>
+  create_vis: ->
     @vis = d3.select(\#chart)append \svg
       .attr \width @width
       .attr \height @height
