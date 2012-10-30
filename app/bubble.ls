@@ -102,8 +102,8 @@ class BubbleChart
     (d) ~>
       cy = (@change_scale d.change) ? @center.y
       cy = @center.y if isNaN cy
-      d.x = d.x + (@center.x - d.x) * (@damper + 0.02) * alpha
-      d.y = d.y + (cy - d.y) * (@damper + 0.02) * alpha
+      d.x += (@center.x - d.x) * (@damper + 0.02) * alpha
+      d.y += (cy - d.y) * (@damper + 0.02) * alpha
 
 
   display_by_attr: (attr) ->
@@ -142,8 +142,8 @@ class BubbleChart
       (d) ~>
         {x,y,r} = centers[ d.data[attr] ]
         factor = (@damper + 0.22 + (100-(r <? 100))/130) * alpha * 1.1
-        d.x = d.x + (x - d.x) * factor
-        d.y = d.y + (y - d.y) * factor
+        d.x += (x - d.x) * factor
+        d.y += (y - d.y) * factor
     @force.gravity @layout_gravity
       .charge @charge
       .friction 0.9
