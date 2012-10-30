@@ -1,5 +1,6 @@
 function CustomTooltip(tooltipId, width){
 	var tooltipId = tooltipId;
+        var positionFixed = false;
 	$("body").append("<div class='tooltip' id='"+tooltipId+"'></div>");
 	
 	if(width){
@@ -12,11 +13,11 @@ function CustomTooltip(tooltipId, width){
 		$("#"+tooltipId).html(content);
 		$("#"+tooltipId).show();
 		
-		updatePosition(event);
+		if(event) updatePosition(event);
 	}
 	
 	function hideTooltip(){
-		$("#"+tooltipId).hide();
+		if(!positionFixed) $("#"+tooltipId).hide();
 	}
 	
 	function updatePosition(event){
@@ -38,12 +39,28 @@ function CustomTooltip(tooltipId, width){
 		 if (tttop < wscrY + yOffset){
 		 	tttop = curY + yOffset;
 		 } 
-		 $(ttid).css('top', tttop + 'px').css('left', ttleft + 'px');
+		 if(!positionFixed) $(ttid).css('top', tttop + 'px').css('left', ttleft + 'px');
 	}
+
+        function fixPosition(fixed,parent) {
+		positionFixed = fixed;
+		var node = $("#"+tooltipId);
+		node.remove();
+		if(fixed) {
+			node.css({top:"0px",left:"0px",width:"100%",height:"100%"});
+			parent.append(node);
+			showTooltip();
+                } else {
+			node.css({top:"0px",left:"0px",width:"auto",height:"auto"});
+			$(document.body).append(node);
+			hideTooltip();
+		}
+        }
 	
 	return {
 		showTooltip: showTooltip,
 		hideTooltip: hideTooltip,
-		updatePosition: updatePosition
+		updatePosition: updatePosition,
+                fixPosition: fixPosition
 	}
 }

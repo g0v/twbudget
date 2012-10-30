@@ -39,8 +39,8 @@ bar_chart = (id) ->
 
     data = [{year, amount: +(by_year[year][id]?amount ? 0)} for year in [2007 to 2013]]
     margin = {top: 20, right: 20, bottom: 30, left: 100}
-    width = 400 - margin.left - margin.right
-    height = 250 - margin.top - margin.bottom
+    width = 370 - margin.left - margin.right
+    height = 150 - margin.top - margin.bottom
 
     x = d3.scale.ordinal().rangeRoundBands([0, width], 0.1)
 

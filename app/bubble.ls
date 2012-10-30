@@ -2,7 +2,7 @@
 class BubbleChart
   (@data, @width = 1004, @height = 650) ->
     $('#bubble_tooltip').remove!
-    @tooltip = CustomTooltip 'bubble_tooltip', 400
+    @tooltip = CustomTooltip 'bubble_tooltip', 370
     @center = do
       x: @width / 2 + 210
       y: @height / 2
@@ -98,6 +98,7 @@ class BubbleChart
   charge: (d) -> (-Math.pow d.radius, 2) / 8
   start: ~> @force = (d3.layout.force!.nodes @nodes).size [@width, @height]
   display_group_all: ~>
+    @tooltip.fixPosition true,$ \#bubble-info
     @vis.selectAll(\.attr-legend)remove!
     @force.gravity(@layout_gravity)
       .charge(this.charge)
@@ -117,13 +118,14 @@ class BubbleChart
 
 
   display_by_attr: (attr) ->
+    @tooltip.fixPosition false
     nest = d3.nest
     nest = d3.nest!key -> it[attr]
     entries = nest.entries @data
     sums = nest.rollup -> it.map (.amount) .map(-> +it).reduce (+)
         .entries @data
         .sort (a, b) -> (b.values - a.values)
-    curr_x = 530
+    curr_x = 430
     curr_y = 100
     y_offset = null
     centers = {}
@@ -131,7 +133,7 @@ class BubbleChart
         r = @radius_scale values
         curr_x += Math.max(150, r * 2)
         if curr_x > @width - 130
-            curr_x = 130 + r * 2
+            curr_x = 100 + r * 2
             curr_y += y_offset
             y_offset = null
 
