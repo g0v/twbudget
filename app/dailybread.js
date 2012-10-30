@@ -36,9 +36,9 @@ dailybread = function () {
     yepnope({
       load: [
         // 'http://wheredoesmymoneygo.org/wp-content/themes/wdmmg/wdmmg.css',
-        'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.6/themes/ui-lightness/jquery-ui.css',
-        'http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js',
-        'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js',
+        //'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.6/themes/ui-lightness/jquery-ui.css',
+        //'http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js',
+        //'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js',
         os_path + '/lib/vendor/base64.js',
         os_path + '/lib/vendor/underscore.js',
         os_path + '/lib/vendor/raphael-min.js',
@@ -48,6 +48,8 @@ dailybread = function () {
       ],
       complete: function () { jQuery(function ($) { db_init() } ); }
     });
-
+    if(dailybread.loaded) db_init(); // db_init if re-enter partial2
 }
 
+
+dailybread.loaded = 1;
