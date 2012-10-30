@@ -135,7 +135,7 @@ class BubbleChart
             curr_y += y_offset
             y_offset = null
 
-        y_offset ?= r * 2 + 50
+        y_offset ?= r + 100
 
         centers[key] = do
             sum: values
@@ -150,8 +150,8 @@ class BubbleChart
     move_towards = (alpha) ~>
       (d) ~>
         target = centers[ d.data[attr] ]
-        d.x = d.x + (target.x - d.x) * (@damper + 0.02) * alpha * 1.1
-        d.y = d.y + (target.y - d.y) * (@damper + 0.02) * alpha * 1.1
+        d.x = d.x + (target.x - d.x) * (@damper + 0.22 + (100-(if target.r>100 then 100 else target.r))/130) * alpha * 1.1
+        d.y = d.y + (target.y - d.y) * (@damper + 0.22 + (100-(if target.r>100 then 100 else target.r))/130) * alpha * 1.1
     @force.gravity @layout_gravity
       .charge @charge
       .friction 0.9
@@ -165,21 +165,32 @@ class BubbleChart
     @vis.selectAll(\.attr-legend)data d3.entries centers
 #        ..enter!append \rect
 #            .attr \class \attr-legend
-#            .attr \x -> it.value.x
-#            .attr \y -> it.value.y
+#            .attr \x -> it.value.x - it.value.r/2
+#            .attr \y -> it.value.y - it.value.r/2
 #            .attr \width -> it.value.r
 #            .attr \height -> it.value.r
 #            .attr \strok \black
+#            .style \opacity \0.5
+#        ..enter!append \rect
+#            .attr \class \attr-legend
+#            .attr \x -> it.value.x - 60
+#            .attr \y -> it.value.y - it.value.r*2/3 - 44
+#            .attr \rx -> 5
+#            .attr \ry -> 5
+#            .attr \width -> 120
+#            .attr \height -> 36
+#            .attr \strok \black
+#            .style \opacity \0.2
         ..enter!append \text
-            .attr \class "attr-legend fade"
+            .attr \class "attr-legend fade bubbletext"
             .attr \x -> it.value.x
-            .attr \y -> it.value.top - 10
+            .attr \y -> it.value.y - it.value.r*2/3 - 28
             .attr \text-anchor \middle
             .text -> it.key
         ..enter!append \text
-            .attr \class "attr-legend fade amount"
+            .attr \class "attr-legend fade amount bubbletext"
             .attr \x -> it.value.x
-            .attr \y -> it.value.top + 4
+            .attr \y -> it.value.y - it.value.r*2/3 - 14
             .attr \text-anchor \middle
             .text -> UnitMapper.convert(it.value.sum, null, true)
         ..exit!remove!
