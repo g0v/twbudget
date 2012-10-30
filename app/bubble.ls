@@ -122,7 +122,7 @@ class BubbleChart
     sums = nest.rollup -> it.map (.amount) .map(-> +it).reduce (+)
         .entries @data
         .sort (a, b) -> (b.values - a.values)
-    curr_x = 130
+    curr_x = 530
     curr_y = 100
     y_offset = null
     centers = {}
