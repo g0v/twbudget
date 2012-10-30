@@ -17,8 +17,6 @@ dataOverYears = (y2012, y2013) ->
         entry.amount = 0 if entry.amount is \NaN
         entry
 
-root = exports ? this
-
 by_year = null
 init_year_data = (cb) ->
     return cb by_year if by_year
@@ -86,23 +84,13 @@ bar_chart = (id) ->
 test_bubble = ->
   chart = null
 
-  render_vis = (csv) ->
-    chart := new BubbleChart csv
-    chart.do_show_details = (data) ->
+  render_vis = (data) ->
+    chart := new BubbleChart {data}
+      ..do_show_details = (data) ->
         bar_chart data.id
-    chart.start!
-    root.display_all!
-  root.display_all = ~>
-    chart.display_group_all()
-  root.display_year = ~>
-    chart.display_by_year()
-  root.toggle_view = (view_type) ~>
-    if view_type == 'year'
-      root.display_year!
-    else
-      root.display_all!
+      ..start!
+      ..display_group_all!
 
-#  return d3.csv "/data/gates_money.csv", render_vis
   y2012 <- mapforyear 2012
   y2013 <- mapforyear 2013
   data = dataOverYears y2012, y2013

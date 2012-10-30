@@ -1,19 +1,14 @@
 # based on https://github.com/vlandham/vlandham.github.com/blob/master/vis/gates/coffee/vis.coffee
 class BubbleChart
-  (@data, @width = 1004, @height = 650) ->
+  ({@data, @width = 1004, @height = 650, @damper = 0.1, @layout_gravity = 0.01}) ->
     $('#bubble_tooltip').remove!
     @tooltip = CustomTooltip 'bubble_tooltip', 370
     @center = do
       x: @width / 2 + 210
       y: @height / 2
-    @change_scale = d3.scale.linear!domain([-0.25, 0.25])clamp(true)range [@height / 9 * 5, @height / 9 * 4]
 
-    @layout_gravity = 0.01
-    @damper = 0.1
-    @vis = null
     @nodes = []
-    @force = null
-    @circles = null
+    @change_scale = d3.scale.linear!domain([-0.25, 0.25])clamp(true)range [@height / 9 * 5, @height / 9 * 4]
     @fill_color = d3.scale.quantile!domain([ -0.5 -0.25 -0.1 -0.02 0.02 0.1 0.25 0.5 ]).range <[ red orange pink gray yellow lightgreen green ]>
     max_amount = d3.max @data, (d) -> parseInt d.amount
     @radius_scale = ((d3.scale.pow!.exponent 0.5).domain [0, max_amount]).range [2, 65]
