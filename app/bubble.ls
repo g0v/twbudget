@@ -111,7 +111,7 @@ class BubbleChart
     nest = d3.nest!key -> it[attr]
     entries = nest.entries @data
     amount_attr = @amount_attr
-    sums = nest.rollup -> it.map (.[amount_attr]) .map(-> +it).reduce (+)
+    sums = nest.rollup -> it.map (.[amount_attr]) .reduce (+)
         .entries @data
         .sort (a, b) -> (b.values - a.values)
     curr_x = 430
