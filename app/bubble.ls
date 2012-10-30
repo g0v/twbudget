@@ -86,8 +86,8 @@ class BubbleChart
       .on("mouseout", (d,i) -> that.hide_details(d,i,this))
 
   charge: (d) -> (-Math.pow d.radius, 2) / 8
-  start: ~> @force = (d3.layout.force!.nodes @nodes).size [@width, @height]
-  display_group_all: ~>
+  start: -> @force = (d3.layout.force!.nodes @nodes).size [@width, @height]
+  display_group_all: ->
     @tooltip.fixPosition true,$ \#bubble-info
     @vis.selectAll(\.attr-legend)remove!
     @force.gravity(@layout_gravity)
@@ -99,7 +99,7 @@ class BubbleChart
           .attr \cy -> it.y
     @force.start!
 
-  move_towards_center: (alpha) ~>
+  move_towards_center: (alpha) ->
     (d) ~>
       cy = (@change_scale d.change) ? @center.y
       cy = @center.y if isNaN cy
@@ -189,7 +189,7 @@ class BubbleChart
     <~ (`setTimeout` 500ms)
     @vis.selectAll(\.attr-legend.fade).classed \in true
 
-  show_details: (data, i, element) ~>
+  show_details: (data, i, element) ->
     value = d3.format \,
     change = d3.format \+.2%
     (d3.select element).attr 'stroke', 'black'
@@ -200,7 +200,7 @@ class BubbleChart
     content += "<div id='year-chart'></div>"
     @tooltip.showTooltip content, d3.event
     @do_show_details data if @do_show_details
-  hide_details: (data, i, element) ~>
+  hide_details: (data, i, element) ->
     (d3.select element).attr 'stroke', (d) ~> (d3.rgb @fill_color d.change).darker!
     @tooltip.hideTooltip!
 
