@@ -140,9 +140,10 @@ class BubbleChart
 
     move_towards = (alpha) ~>
       (d) ~>
-        target = centers[ d.data[attr] ]
-        d.x = d.x + (target.x - d.x) * (@damper + 0.22 + (100-(if target.r>100 then 100 else target.r))/130) * alpha * 1.1
-        d.y = d.y + (target.y - d.y) * (@damper + 0.22 + (100-(if target.r>100 then 100 else target.r))/130) * alpha * 1.1
+        {x,y,r} = centers[ d.data[attr] ]
+        factor = (@damper + 0.22 + (100-(r <? 100))/130) * alpha * 1.1
+        d.x = d.x + (x - d.x) * factor
+        d.y = d.y + (y - d.y) * factor
     @force.gravity @layout_gravity
       .charge @charge
       .friction 0.9
