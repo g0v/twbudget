@@ -6,9 +6,6 @@ class BubbleChart
       x: @width / 2 + 210
       y: @height / 2
     @change_scale = d3.scale.linear!domain([-0.25, 0.25])clamp(true)range [@height / 9 * 5, @height / 9 * 4]
-    @center = do
-      x: @width / 2
-      y: @height / 2
 
     @layout_gravity = -0.01
     @damper = 0.1
