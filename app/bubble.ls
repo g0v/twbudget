@@ -2,7 +2,7 @@
 class BubbleChart
   (@data, @width = 1004, @height = 650) ->
     $('#bubble_tooltip').remove!
-    @tooltip = CustomTooltip 'bubble_tooltip', 240
+    @tooltip = CustomTooltip 'bubble_tooltip', 400
     @center = do
       x: @width / 2 + 210
       y: @height / 2
@@ -188,6 +188,7 @@ class BubbleChart
     content += "<span class='name'>Amount:</span><span class='value'> $#{value data.value}</span><br/>"
     content += "<span class='name'>Dep:</span><span class='value'> #{data.data.depname}/ #{data.data.depcat} </span><br/>"
     content += "<span class='name'>change:</span><span class='change'> #{change data.change}</span>"
+    content += "<div id='year-chart'></div>"
     @tooltip.showTooltip content, d3.event
     @do_show_details data if @do_show_details
   hide_details: (data, i, element) ~>

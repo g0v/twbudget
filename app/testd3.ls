@@ -51,7 +51,7 @@ bar_chart = (id) ->
     yAxis = d3.svg.axis().scale(y).orient("left")
 
 
-    svg = d3.select('#details #year_chart').html('')append("svg")
+    svg = d3.select('#year-chart').html('')append("svg")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
         .append("g")
