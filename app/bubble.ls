@@ -53,14 +53,14 @@ class BubbleChart
         @vis.append \circle
           .attr \r r
           .attr \cx 300
-          .attr \cy ~> @height / 2 - r - 1 - 30
+          .attr \cy ~> @height / 2 - r - 1 - 60
           .attr \fill \none
           .attr \stroke-width 2
           .attr \stroke \gray
             ..attr \stroke-dasharray, '5, 1, 5' if i == 3
         @vis.append \text
           .attr \x 300
-          .attr \y ~> @height / 2 - r * 2 - 7 - 30
+          .attr \y ~> @height / 2 - r * 2 - 7 - 40
           .attr \text-anchor \bottom
           .attr \text-anchor \middle
           .text CurrencyConvert(val) + (if i == 3 => '(2013預計舉債)' else '')
@@ -72,14 +72,14 @@ class BubbleChart
         ..enter!append \rect
             .attr \class \change-legend
             .attr \x 60
-            .attr \y -> 100 + y it
+            .attr \y -> 60 + y it
             .attr \width -> 10
             .attr \height -> y.rangeBand!
             .attr \fill ~> @fill_color it
             .attr \stroke \none
         ..enter!append \text
             .attr \x 80
-            .attr \y -> 100 + (if isNaN it => y.rangeBand!/2 else y.rangeBand!) + (y it)
+            .attr \y -> 60 + (if isNaN it => y.rangeBand!/2 else y.rangeBand!) + (y it)
             .attr \text-anchor \bottom
             .text -> match it
             | isNaN     => '新增'
