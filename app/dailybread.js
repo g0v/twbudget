@@ -46,10 +46,10 @@ dailybread = function () {
         os_path + '/app/dailybread/css/dailybread.css',
         os_path + '/app/dailybread/js/cofog.js'
       ],
-      complete: function () { jQuery(function ($) { db_init() } ); }
+      complete: function () {dailybread.loaded=1; jQuery(function ($) { db_init() } ); }
     });
-    if(dailybread.loaded) db_init(); // db_init if re-enter partial2
+    if(dailybread.loaded==1) db_init(); // db_init if re-enter partial2
 }
 
 
-dailybread.loaded = 1;
+dailybread.loaded = 0;
