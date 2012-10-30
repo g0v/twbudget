@@ -174,8 +174,14 @@ class BubbleChart
             .attr \class "attr-legend fade"
             .attr \x -> it.value.x
             .attr \y -> it.value.top - 10
-            .attr \text-anchor \bottom
-            .text -> it.key + "\n" + CurrencyConvert(it.value.sum)
+            .attr \text-anchor \middle
+            .text -> it.key
+        ..enter!append \text
+            .attr \class "attr-legend fade amount"
+            .attr \x -> it.value.x
+            .attr \y -> it.value.top + 4
+            .attr \text-anchor \middle
+            .text -> UnitMapper.convert(it.value.sum, null, true)
         ..exit!remove!
     <~ (`setTimeout` 500ms)
     @vis.selectAll(\.attr-legend.fade).classed \in true

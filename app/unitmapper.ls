@@ -41,7 +41,7 @@ UnitMapper =
     $('#unit-selector li:eq('+this.unit+')').addClass \active
       
     d3.selectAll(\text.amount).text (d) ->
-      UnitMapper.convert d.size, UnitMapper.unit, true
+      UnitMapper.convert d.size || d.value.sum, UnitMapper.unit, true
     jQuery.each $(".unit-convert"), ->
       $(this).text UnitMapper.convert $(this).attr("cc-value"), UnitMapper.unit, true
     jQuery.each this.callbacks, (x)-> this()
