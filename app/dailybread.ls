@@ -68,7 +68,7 @@ OpenSpending.DailyBread = (elem) ->
     
     # Slice off more specific selections
     self.areas = self.areas.slice(0, tierId + 1)
-    tier.find(".db-area-col").removeClass("active").end().find("[data-db-area=" + areaId + "]").addClass "active"
+    tier.find(".db-area-col").css({"opacity":"1"}).end().find("[data-db-area=" + areaId + "]").css {"opacity":"0.5"}
     self.drawTier tierId + 1
     
     # Hide old tiers
