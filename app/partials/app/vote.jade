@@ -1,0 +1,29 @@
+#budget-vote
+  #budget-vote-label
+    span.label 透過按一下表達你對於此預算的看法！
+  #BudgetItem.btn-toolbar
+    .btn-group
+      button.btn.vote-btn(ng-click="like()")
+        span#vote1 {{nlikes || 0}} 人
+        br
+        i.icon-big-plus
+        br
+        希望追加
+      button.btn.vote-btn(ng-click="confuse()")
+        span#vote2 {{nconfuses || 0}} 人
+        br
+        i.icon-big-question-sign 
+        br
+        表示不懂
+      button.btn.vote-btn(ng-click="hate()")
+        span#vote3 {{nhates || 0}} 人
+        br
+        i.icon-big-minus
+        br
+        建議減少
+      button.btn.vote-btn.btn-danger(ng-click="cut()")
+        span#vote4 {{ncuts || 0}} 人
+        br
+        i.icon-big-ban-circle
+        br
+        要求刪除

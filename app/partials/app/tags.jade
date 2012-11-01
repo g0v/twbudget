@@ -1,0 +1,7 @@
+#budget-tagger
+  .input-append
+    input.span2(ng-model="tagname",size="13",type="text",placeholder="例如: 林益世")
+    button.btn(type="button",ng-click="addtag()") 標記相關人士
+  #budget-tags
+    span.badge.budget-tag(ng-repeat="tag in tags") 
+      {{tag}}  
