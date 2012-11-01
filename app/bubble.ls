@@ -143,7 +143,7 @@ class BubbleChart
     for {key,values}:entry in sums
         r = @radius_scale values
         curr_x += Math.max(150, r * 2)
-        if curr_x > @width - (if curr_y<=100 then 100 else 50)
+        if curr_x > @width - 50
             if curr_y <=350 then curr_x = 430 + Math.max(150,r*2)
             else curr_x = 50 + r * 2 
             curr_y += y_offset
