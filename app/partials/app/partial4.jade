@@ -3,7 +3,32 @@
     a.btn.default.active Default
     a.btn.bycat 政事別
     a.btn.bytop 主管單位
+  #bubble-circle-size.btn 圖例
   #bubble-info
-  #chart
+    #bubble-info-inner
+      #bubble-detail-info
+        #bubble-detail-names
+          i.icon-big-info-sign(style="margin-top:-9px")
+          span#bubble-detail-name 教育部
+          |(
+          span#bubble-detail-depname 教育部
+          )
+        #bubble-detail-amount
+          span#bubble-detail-amount-value 123
+          span#bubble-detail-amount-unit 元
+          |( 
+          span#bubble-detail-amount-change +25%
+          |&nbsp;)
+          br
+          |( 即為
+          span#bubble-detail-amount-alt 123 杯珍奶
+          |&nbsp;)
+      hr
+      #bubble-detail-change-bar
+      hr
+      include tags
+      hr
+      include vote
+  #bubble-chart
   script
     test_bubble();

@@ -1,4 +1,6 @@
 @import 'vendor//styles/bootstrap/_mixins.scss'
+text
+    font-size: 13px
 #details
     position: absolute
     height: 250px
@@ -10,18 +12,53 @@
     +border-radius(4px)
     box-shadow: 1px 3px 4px 1px #888
 
+#bubble-circle-size
+    position: absolute
+    top: 0px
+    left: 560px
 #bubble-info
     position: absolute
-    top: 370px
-    left: 0px
-    width: 370px
-    height: 224px
+    top: 55px
+    left: 5px
+    width: 360px
+    height: 535px
     z-index: -1
+    background: #eee
+    box-shadow: 0px 0px 5px
 
+#bubble-info-inner
+    margin: 10px
+    #budget-tags
+        height: 75px
+    hr
+        margin: 5px
+
+#bubble-detail-info
+    height: 105px
 .bubbletext
     font-size: 13px
 
-#year-chart
+#bubble-chart
+    margin-top: -30px
+#year-chart /* todo: remove */
+    height: 150px
+    rect
+        fill: steelblue
+
+#bubble-detail-amount
+    margin-top: 10px
+    text-align: center
+
+#bubble-detail-amount-value
+    font-size: 24px
+
+#bubble-detail-names
+    line-height: 20px
+
+#bubble-detail-name
+    font-size: 19px
+
+#bubble-detail-change-bar
     height: 150px
     rect
         fill: steelblue

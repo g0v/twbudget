@@ -2,7 +2,7 @@
 class BubbleChart
   ({@data, @width = 1004, @height = 650, @damper = 0.1, @layout_gravity = 0.01, @amount_attr = \amount}) ->
     $('#bubble_tooltip').remove!
-    @tooltip = CustomTooltip 'bubble_tooltip', 370
+    #@tooltip = CustomTooltip 'bubble_tooltip', 370
     @center = do
       x: @width / 2 + 210
       y: @height / 2
@@ -29,7 +29,7 @@ class BubbleChart
         x: Math.random! * 900
         y: Math.random! * 800
   create_vis: ->
-    @vis = d3.select(\#chart)append \svg
+    @vis = d3.select(\#bubble-chart)append \svg
       .attr \width @width
       .attr \height @height
       .attr \id \svg_vis
@@ -37,39 +37,23 @@ class BubbleChart
     @circles = @vis.selectAll("circle.budget")
       .data(@nodes, -> it.id)
 
-    for val, i in ([100, 10000, 100000, 284400].map -> it * 1000 * 1000)
-        r = @radius_scale val
-        @vis.append \circle
-          .attr \r r
-          .attr \cx 300
-          .attr \cy ~> @height / 2 - r - 1 - 60
-          .attr \fill \none
-          .attr \stroke-width 2
-          .attr \stroke \gray
-            ..attr \stroke-dasharray, '5, 1, 5' if i == 3
-        @vis.append \text
-          .attr \x 300
-          .attr \y ~> @height / 2 - r * 2 - 7 - 40
-          .attr \text-anchor \bottom
-          .attr \text-anchor \middle
-          .text CurrencyConvert(val) + (if i == 3 => '(2013預計舉債)' else '')
-
     colors = [-1] +++ @fill_color.quantiles! +++ [NaN]
+    x = d3.scale.ordinal!rangeRoundBands([200, 0], 0.1)domain colors
     y = d3.scale.ordinal!rangeRoundBands([200, 0], 0.1)domain colors
     change = d3.format \+%
     @vis.selectAll(\.change-lenged)data colors
         ..enter!append \rect
             .attr \class \change-legend
-            .attr \x 60
-            .attr \y -> 60 + y it
-            .attr \width -> 10
-            .attr \height -> y.rangeBand!
+            .attr \x -> 260 + (x it)*1.5
+            .attr \y 20
+            .attr \width -> x.rangeBand!
+            .attr \height -> 10
             .attr \fill ~> @fill_color it
             .attr \stroke \none
         ..enter!append \text
-            .attr \x 80
-            .attr \y -> 60 + (if isNaN it => y.rangeBand!/2 else y.rangeBand!) + (y it)
-            .attr \text-anchor \bottom
+            .attr \x -> 246 + (if isNaN it => x.rangeBand!/2 else x.rangeBand!) + (x it)*1.55
+            .attr \y 15
+            .attr \text-anchor \right
             .text -> match it
             | isNaN     => '新增'
             | (== -1)   => ''       # XXX: match -1 does not work
@@ -82,13 +66,47 @@ class BubbleChart
       .attr \stroke-width, 2
       .attr \stroke ~> d3.rgb(@fill_color(it.change))darker!
       .attr \id -> "bubble_#{it.id}"
-      .on \mouseover (d,i) ~> @show_details d, i, d3.event.target
+      .on \mousemove (d,i) ~> @show_details d, i, d3.event.target
       .on \mouseout  (d,i) ~> @hide_details d, i, d3.event.target
 
+    @depict = @vis.append \g
+          .style \opacity 0.0
+          .attr \transform "translate(430,150)"
+    @depict.append \rect
+          .attr \width 550
+          .attr \height 350
+          .attr \rx 10
+          .attr \ry 10
+          .attr \fill \#222
+    for val, i in ([100, 10000, 100000, 284400].map -> it * 1000 * 1000)
+        r = @radius_scale val
+        @depict.append \circle
+          .attr \r r
+          .attr \cx 275 - r
+          .attr \cy 310 - 2 * r
+          .attr \fill \none
+          .attr \stroke-width 2
+          .attr \stroke \#fff
+            ..attr \stroke-dasharray, '5, 1, 5' if i == 3
+        @depict.append \text
+          .attr \x 285
+          .attr \y 315 - 2 * r
+          .attr \text-anchor \bottom
+          .attr \text-anchor \left
+          .attr \fill \#fff
+          .text CurrencyConvert(val) + (if i == 3 => '(2013預計舉債)' else '')
+    d3.select('#bubble-circle-size').on \mouseover (d,i) ~>
+      @depict.transition().duration(750).style \opacity 0.7
+      .style \display \block
+    .on \mouseout (d,i) ~>
+      @depict.transition().duration(750).style \opacity 0.0
+      @depict.transition().delay(750).style \display \none
+      #setTimeout( ~> @depict.style( \display \none )
+      #,750)
   charge: (d) -> (-Math.pow d.radius, 2) / 8
   start: -> @force = d3.layout.force!nodes(@nodes)size [@width, @height]
   display_group_all: ->
-    @tooltip.fixPosition true,$ \#bubble-info
+    #@tooltip.setPosition \default,$ \#bubble-info
     @vis.selectAll(\.attr-legend)remove!
     @force.gravity @layout_gravity
       .charge @charge
@@ -110,7 +128,7 @@ class BubbleChart
 
 
   display_by_attr: (attr) ->
-    @tooltip.fixPosition false
+    #@tooltip.setPosition \float
     nest = d3.nest!key -> it[attr]
     entries = nest.entries @data
     amount_attr = @amount_attr
@@ -124,12 +142,13 @@ class BubbleChart
     for {key,values}:entry in sums
         r = @radius_scale values
         curr_x += Math.max(150, r * 2)
-        if curr_x > @width - 130
-            curr_x = 100 + r * 2
+        if curr_x > @width - (if curr_y<=100 then 100 else 50)
+            if curr_y <=350 then curr_x = 430 + Math.max(150,r*2)
+            else curr_x = 50 + r * 2 
             curr_y += y_offset
             y_offset = null
 
-        y_offset ?= r + 120
+        y_offset ?= r + 170
 
         centers[key] = do
             key: key
@@ -158,8 +177,8 @@ class BubbleChart
     group_sparser = (d) ~> # group hover test function. not used currently
                            # to use this, add (d)~> in group_relocate
       a = d.group.r**2
-      b = ((d3.event.pageX - $('#chart svg').offset().left - d.x )**2)  +
-          ((d3.event.pageY - $('#chart svg').offset().top  - d.y )**2)
+      b = ((d3.event.pageX - $('#bubble-chart svg').offset().left - d.x )**2)  +
+          ((d3.event.pageY - $('#bubble-chart svg').offset().top  - d.y )**2)
       console.log a + ' vs ' + b
       if a>b && !d.group.sparse
         d.group.sparse = true
@@ -169,9 +188,20 @@ class BubbleChart
         d.group.sparse = false
         @circles.each group_relocate(d,false)
         @force.start(0.1)
-      
+    @lockcell = null
     @circles.each (d,i) -> d.c = centers[d.data[attr]]
     .each (d,i) -> group_relocate(d, d.c,true)
+    .on("click", (d,i) ~>
+      if @lockcell==d then @lockcell=null
+      else lockcell=d
+      #@tooltip.setPosition (if !lockcell then \float else \center) ,$ \#bubble-info
+      #if @lockcell==d
+        #@lockcell=null
+        #@tooltip.setPosition \float ,$ \#bubble-info
+      #else 
+        #@lockcell = d
+        #@tooltip.setPosition \center ,$ \#bubble-info
+    )
 
     if !@groups then @groups = {}
     if !@groups[attr]
@@ -242,10 +272,16 @@ class BubbleChart
     content += "<span class='name'>Dep:</span><span class='value'> #{data.data.depname}/ #{data.data.depcat} </span><br/>"
     content += "<span class='name'>change:</span><span class='change'> #{change data.change}</span>"
     content += "<div id='year-chart'></div>"
-    @tooltip.showTooltip content, d3.event
+    content += "<div id='bubble-buttons'></div>"
+    $('#bubble-detail-name').text(data.data.name)
+    $('#bubble-detail-depname').text(data.data.depname)
+    $('#bubble-detail-amount-value').text(value data.value)
+    $('#bubble-detail-amount-change').text(change data.change)
+    $('#bubble-detail-amount-alt').text UnitMapper.convert data.value,-1,true
+    #@tooltip.showTooltip content, d3.event
     @do_show_details data if @do_show_details
   hide_details: (data, i, element) ->
     (d3.select element).attr 'stroke', (d) ~> (d3.rgb @fill_color d.change).darker!
-    @tooltip.hideTooltip!
+    #@tooltip.hideTooltip!
 
 root = exports ? this

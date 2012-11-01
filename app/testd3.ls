@@ -36,9 +36,9 @@ bar_chart = (id) ->
     by_year <- init_year_data!
 
     data = [{year, amount: +((by_year[year] && by_year[year][id])?amount ? 0)} for year in [2007 to 2013]]
-    margin = {top: 20, right: 20, bottom: 30, left: 100}
-    width = 370 - margin.left - margin.right
-    height = 150 - margin.top - margin.bottom
+    margin = {top: 10, right: 30, bottom: 20, left: 90}
+    width = 360 - margin.left - margin.right
+    height = 140 - margin.top - margin.bottom
 
     x = d3.scale.ordinal().rangeRoundBands([0, width], 0.1)
 
@@ -49,7 +49,7 @@ bar_chart = (id) ->
     yAxis = d3.svg.axis().scale(y).orient("left")
 
 
-    svg = d3.select('#year-chart').html('')append("svg")
+    svg = d3.select('#bubble-detail-change-bar').html('')append("svg")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
         .append("g")
@@ -118,7 +118,7 @@ testd3 = ->
         .sticky true
         .value -> it.change
 
-    div = d3.select(\#chart).append("div")
+    div = d3.select(\#bubble-chart).append("div")
         .style \position \relative
         .style \width  width + \px
         .style \height height + \px
