@@ -71,6 +71,7 @@ class BubbleChart
 
     @depict = @vis.append \g
           .style \opacity 0.0
+          .style \display \none
           .attr \transform "translate(430,150)"
     @depict.append \rect
           .attr \width 550
@@ -275,7 +276,9 @@ class BubbleChart
     content += "<div id='bubble-buttons'></div>"
     $('#bubble-detail-name').text(data.data.name)
     $('#bubble-detail-depname').text(data.data.depname)
-    $('#bubble-detail-amount-value').text(value data.value)
+    $('#bubble-detail-amount-value').text(UnitMapper.convert data.value,undefined,false)
+    $('#bubble-detail-amount-quantifier').text(UnitMapper.getQuantifier!)
+    $('#bubble-detail-amount-unit').text(UnitMapper.getUnit!)
     $('#bubble-detail-amount-change').text(change data.change)
     $('#bubble-detail-amount-alt').text UnitMapper.convert data.value,-1,true
     #@tooltip.showTooltip content, d3.event
