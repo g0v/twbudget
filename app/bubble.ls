@@ -2,7 +2,7 @@
 class BubbleChart
   ({@data, @width = 1004, @height = 650, @damper = 0.1, @layout_gravity = 0.01, @amount_attr = \amount}) ->
     $('#bubble_tooltip').remove!
-    #@tooltip = CustomTooltip 'bubble_tooltip', 370
+    @tooltip = CustomTooltip 'bubble_tooltip', 370
     @center = do
       x: @width / 2 + 210
       y: @height / 2
@@ -66,8 +66,7 @@ class BubbleChart
         .style \opacity,1.0 if @lockcell.node
       if !d || d.id==@lockcell.id
         if @mode!='default'
-          d3.select \#bubble-info .transition! .duration 475 .style \opacity 0.2
-          d3.select \#bubble-info .transition! .delay 475 .style \z-index -1
+          d3.select \#bubble-info .style \z-index -1 .transition! .duration 475 .style \opacity 0.2
         @lockcell
           ..id = null
           ..node = null
@@ -311,19 +310,19 @@ class BubbleChart
     content += "<span class='name'>Amount:</span><span class='value'> $#{value data.value}</span><br/>"
     content += "<span class='name'>Dep:</span><span class='value'> #{data.data.depname}/ #{data.data.depcat} </span><br/>"
     content += "<span class='name'>change:</span><span class='change'> #{change data.change}</span>"
-    content += "<div id='year-chart'></div>"
-    content += "<div id='bubble-buttons'></div>"
+    content += "<div id='bubble-detail-change-bar2'></div>"
     $('#bubble-detail-name').text(data.data.name)
-    $('#bubble-detail-depname').text(data.data.depname)
+    $('#bubble-detail-depname').text(data.data.depname+'/'+data.data.depcat)
     $('#bubble-detail-amount-value').text(UnitMapper.convert data.value,undefined,false)
     $('#bubble-detail-amount-quantifier').text(UnitMapper.getQuantifier!)
     $('#bubble-detail-amount-unit').text(UnitMapper.getUnit!)
     $('#bubble-detail-amount-change').text(change data.change)
     $('#bubble-detail-amount-alt').text UnitMapper.convert data.value,-1,true
-    #@tooltip.showTooltip content, d3.event
-    @do_show_details data if @do_show_details
+    @tooltip.showTooltip content, d3.event if @mode!='default'
+    @do_show_details data,(if element then @mode else 'default') if @do_show_details
+    if !element then @tooltip.hideTooltip!
   hide_details: (data, i, element) ->
     (d3.select element).attr 'stroke', (d) ~> (d3.rgb @fill_color d.change).darker!
-    #@tooltip.hideTooltip!
+    @tooltip.hideTooltip!
 
 root = exports ? this

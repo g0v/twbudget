@@ -32,7 +32,7 @@ init_year_data = (cb) ->
 
     cb by_year
 
-bar_chart = (id) ->
+bar_chart = (id,mode) ->
     by_year <- init_year_data!
 
     data = [{year, amount: +((by_year[year] && by_year[year][id])?amount ? 0)} for year in [2007 to 2013]]
@@ -49,7 +49,7 @@ bar_chart = (id) ->
     yAxis = d3.svg.axis().scale(y).orient("left")
 
 
-    svg = d3.select('#bubble-detail-change-bar').html('')append("svg")
+    svg = d3.select('#bubble-detail-change-bar'+if mode=='default' then '' else '2').html('')append("svg")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
         .append("g")
@@ -86,8 +86,8 @@ test_bubble = ->
 
   render_vis = (data) ->
     chart := new BubbleChart {data}
-      ..do_show_details = (data) ->
-        bar_chart data.id
+      ..do_show_details = (data, mode) ->
+        bar_chart data.id, mode
       ..start!
       ..display_group_all!
 
