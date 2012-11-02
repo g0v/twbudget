@@ -7,6 +7,7 @@ class BubbleChart
       x: @width / 2 + 210
       y: @height / 2
 
+    @mode = 'default'
     @nodes = []
     @change_scale = d3.scale.linear!domain([-0.25, 0.25])clamp(true)range [@height / 9 * 5, @height / 9 * 4]
     @fill_color = d3.scale.quantile!domain([ -0.5 -0.25 -0.1 -0.02 0.02 0.1 0.25 0.5 ]).range <[ red orange pink gray yellow lightgreen green ]>
@@ -58,7 +59,33 @@ class BubbleChart
             | isNaN     => '新增'
             | (== -1)   => ''       # XXX: match -1 does not work
             | otherwise => change it
+    @locking = (d,i) ~>
+      @lockcell.node
+        .attr \fill ~> @fill_color it.change
+        .attr \stroke, (d) ~> (d3.rgb @fill_color d.change).darker! 
+        .style \opacity,1.0 if @lockcell.node
+      if !d || d.id==@lockcell.id
+        if @mode!='default'
+          d3.select \#bubble-info .transition! .duration 475 .style \opacity 0.2
+          d3.select \#bubble-info .transition! .delay 475 .style \z-index -1
+        @lockcell
+          ..id = null
+          ..node = null
+        return 
+      d3.select \#bubble-info .style \z-index,100 .transition! .duration 475 .style \opacity 0.9 
+      @lockcell
+        ..id = d.id
+        ..node = d3.select d3.event.target
+      @show_details d, i
+      @lockcell.node
+        .attr \fill, 'url(#MyGradient)'
+        .attr \stroke, \#f00
+        .style \opacity,0.5
 
+    @lockcell = {node: null, id: null}
+    d3.select '\#bubble-info-close' .on('click', (d,i) ~>
+      @locking null,i
+    )
     @circles.enter!append \circle
       .attr \class -> \bubble-budget
       .attr \r -> it.radius
@@ -66,8 +93,9 @@ class BubbleChart
       .attr \stroke-width, 2
       .attr \stroke ~> d3.rgb(@fill_color(it.change))darker!
       .attr \id -> "bubble_#{it.id}"
-      .on \mousemove (d,i) ~> @show_details d, i, d3.event.target
-      .on \mouseout  (d,i) ~> @hide_details d, i, d3.event.target
+      .on \mousemove (d,i) ~> if !@lockcell.node then @show_details d, i, d3.event.target
+      .on \mouseout  (d,i) ~> if !@lockcell.node then @hide_details d, i, d3.event.target
+      .on \click (d,i) ~> @locking d,i  
 
     @depict = @vis.append \g
           .style \opacity 0.0
@@ -108,6 +136,11 @@ class BubbleChart
   start: -> @force = d3.layout.force!nodes(@nodes)size [@width, @height]
   display_group_all: ->
     #@tooltip.setPosition \default,$ \#bubble-info
+    @mode = 'default'
+    d3.select \#bubble-info .transition! .duration 750 .style \width \360px .style \opacity 1.0 .style \margin-right \-100px
+    d3.select \#bubble-info .transition! .ease -> 1
+      .delay 750 .style \position \absolute .style \left \5px .style \margin-left \0 .style \top \55px .style \z-index -1
+    d3.select \#bubble-info-close .transition! .duration 750 .style \opacity 0.0
     @vis.selectAll(\.attr-legend)remove!
     @force.gravity @layout_gravity
       .charge @charge
@@ -130,13 +163,19 @@ class BubbleChart
 
   display_by_attr: (attr) ->
     #@tooltip.setPosition \float
+    #d3.select \#bubble-info .transition! .duration 750 .style \opacity 0.0
+    @mode = attr
+    d3.select \#bubble-info .transition! .duration 750 .style \width \994px .style \opacity 0.2
+    d3.select \#bubble-info-close .transition! .duration 750 .style \opacity 1.0 .style \margin-right \0px
+    d3.select \#bubble-info .transition! .ease -> 1
+      .delay 750 .style \position \fixed .style \left \50% .style \margin-left \-497px .style \top \107px .style \z-index -1
     nest = d3.nest!key -> it[attr]
     entries = nest.entries @data
     amount_attr = @amount_attr
     sums = nest.rollup -> it.map (.[amount_attr]) .map(-> +it).reduce (+)
         .entries @data
         .sort (a, b) -> (b.values - a.values)
-    curr_x = 430
+    curr_x = 50
     curr_y = 100
     y_offset = null
     centers = {}
@@ -144,8 +183,9 @@ class BubbleChart
         r = @radius_scale values
         curr_x += Math.max(150, r * 2)
         if curr_x > @width - 50
-            if curr_y <=350 then curr_x = 430 + Math.max(150,r*2)
-            else curr_x = 50 + r * 2 
+            #if curr_y <=350 then curr_x = 430 + Math.max(150,r*2)
+            #else curr_x = 50 + r * 2 todo: remove
+            curr_x = 50 + r * 2
             curr_y += y_offset
             y_offset = null
 
@@ -189,12 +229,11 @@ class BubbleChart
         d.group.sparse = false
         @circles.each group_relocate(d,false)
         @force.start(0.1)
-    @lockcell = null
     @circles.each (d,i) -> d.c = centers[d.data[attr]]
     .each (d,i) -> group_relocate(d, d.c,true)
-    .on("click", (d,i) ~>
-      if @lockcell==d then @lockcell=null
-      else lockcell=d
+    #.on("click", (d,i) ~>
+      #if @lockcell==d then @lockcell=null
+      #else lockcell=d
       #@tooltip.setPosition (if !lockcell then \float else \center) ,$ \#bubble-info
       #if @lockcell==d
         #@lockcell=null
@@ -202,7 +241,7 @@ class BubbleChart
       #else 
         #@lockcell = d
         #@tooltip.setPosition \center ,$ \#bubble-info
-    )
+    #)
 
     if !@groups then @groups = {}
     if !@groups[attr]
@@ -267,7 +306,7 @@ class BubbleChart
   show_details: (data, i, element) ->
     value = d3.format \,
     change = d3.format \+.2%
-    (d3.select element).attr 'stroke', 'black'
+    if element then (d3.select element).attr 'stroke', 'black'
     content = "<span class='name'>Title:</span><span class='value'> #{data.data.name} / #{data.id} </span><br/>"
     content += "<span class='name'>Amount:</span><span class='value'> $#{value data.value}</span><br/>"
     content += "<span class='name'>Dep:</span><span class='value'> #{data.data.depname}/ #{data.data.depcat} </span><br/>"

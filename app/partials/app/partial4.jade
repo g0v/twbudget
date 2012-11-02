@@ -13,6 +13,7 @@
           |(
           span#bubble-detail-depname ???
           )
+          i#bubble-info-close.icon-big-close.pull-right(style="margin-top:-5px")
         #bubble-detail-amount
           span#bubble-detail-amount-value ???
           span#bubble-detail-amount-quantifier
@@ -33,3 +34,10 @@
   #bubble-chart
   script
     test_bubble();
+  svg
+    g
+      defs
+        radialGradient(id="MyGradient",gradientUnits="userSpaceOnUse",cx="500",cy="350",r="500",fx="400",fy="200")
+         stop(offset="0%",stop-color="red")
+         stop(offset="50%",stop-color="blue")
+         stop(offset="100%",stop-color="red")
