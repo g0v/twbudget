@@ -24,7 +24,9 @@
     "bcrypt": "*",
     "cookie-sessions": "git://github.com/clkao/cookie-sessions.git",
     "passport-local": "*",
-    "passport-facebook": "*"
+    "passport-facebook": "*",
+    "passport-github": "*",
+    "passport-twitter": "*"
   },
   "devDependencies": {
     "testacular": ">= 0.0.16",

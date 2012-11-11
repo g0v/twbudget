@@ -21,6 +21,8 @@ dependencies:
   'cookie-sessions': 'git://github.com/clkao/cookie-sessions.git'
   'passport-local': '*'
   'passport-facebook': '*'
+  'passport-github': '*'
+  'passport-twitter': '*'
 devDependencies:
   testacular: '>= 0.0.16'
   LiveScript: '1.1.x'
