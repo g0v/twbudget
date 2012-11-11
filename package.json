@@ -1,17 +1,19 @@
 {
-  "author": "Kyle Finley",
-  "name": "sapling-seed",
-  "description": "AngularJS + Brunch",
+  "author": "g0v.tw",
+  "name": "g0v.tw",
+  "description": "g0v.tw",
   "version": "0.0.1",
-  "homepage": "https://github.com/scotch/angular-brunch-seed",
+  "homepage": "https://github.com/g0v/twbudget",
   "repository": {
     "type": "git",
-    "url": "https://github.com/scotch/angular-brunch-seed"
+    "url": "https://github.com/g0v/twbudget"
   },
   "engines": {
-    "node": "~0.6.10 || 0.8 || 0.9"
+    "node": "0.8.x",
+    "npm": "1.1.x"
   },
   "scripts": {
+    "prepublish": "./node_modules/.bin/lsc -cj package.ls",
     "start": "brunch watch --server",
     "test": "testacular test/testacular.config.js"
   },
@@ -22,29 +24,23 @@
     "bcrypt": "*",
     "cookie-sessions": "git://github.com/clkao/cookie-sessions.git",
     "passport-local": "*",
-    "passport-facebook": "*",
-    "passport-github": "*",
-    "passport-twitter": "*",
+    "passport-facebook": "*"
+  },
+  "devDependencies": {
+    "testacular": ">= 0.0.16",
+    "LiveScript": "1.1.x",
     "jade": "*",
     "q": "*",
     "brunch": ">= 1.4 < 1.5",
-
     "javascript-brunch": ">= 1.0 < 1.5",
     "LiveScript-brunch": ">= 1.0 < 1.5",
-
     "css-brunch": ">= 1.0 < 1.5",
     "less-brunch": ">= 1.0 < 1.5",
     "sass-brunch": ">= 1.0 < 1.5",
-
     "jade-brunch": ">= 1.0 < 1.5",
     "static-jade-brunch": ">= 1.4.0 <= 1.4.5 || >= 1.4.8 < 1.5",
-
     "auto-reload-brunch": ">= 1.3 < 1.5",
-
     "uglify-js-brunch": ">= 1.0 < 1.5",
     "clean-css-brunch": ">= 1.0 < 1.5"
-  },
-  "devDependencies": {
-    "testacular": ">= 0.0.16"
   }
 }
