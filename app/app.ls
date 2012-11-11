@@ -9,7 +9,7 @@ App.config [ '$routeProvider' '$locationProvider'
     .when \/view4, templateUrl: \/partials/app/partial4.html
     .when \/profile, templateUrl: \/partials/app/profile.html
     # Catch all
-    .otherwise redirectTo: \/view2
+    .otherwise redirectTo: \/view4
 
   # Without serve side support html5 must be disabled.
   $locationProvider.html5Mode true
