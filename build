@@ -8,6 +8,6 @@ git checkout $branch
 git merge master
 ./node_modules/.bin/brunch b -m
 make server
-git add -f -A _public server
+git add -f -A _public server lib
 git commit -m 'regen'
 git push $branch $branch:master
