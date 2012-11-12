@@ -6,6 +6,7 @@ killall brunch
 rm -rf _public
 git checkout $branch
 git merge master
+rm -rf _public
 ./node_modules/.bin/brunch b -m
 make server
 git add -f -A _public server lib
