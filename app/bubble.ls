@@ -136,6 +136,8 @@ class BubbleChart
   display_group_all: ->
     #@tooltip.setPosition \default,$ \#bubble-info
     @mode = 'default'
+    i=parseInt Math.random!*@nodes.length
+    @show_details @nodes[i],i
     d3.select \#bubble-info .transition! .duration 750 .style \width \360px .style \opacity 1.0 .style \margin-right \-100px
     d3.select \#bubble-info .transition! .ease -> 1
       .delay 750 .style \position \absolute .style \left \5px .style \margin-left \0 .style \top \55px .style \z-index -1
