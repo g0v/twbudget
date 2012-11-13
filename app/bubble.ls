@@ -93,6 +93,10 @@ class BubbleChart
       .attr \stroke ~> d3.rgb(@fill_color(it.change))darker!
       .attr \id -> "bubble_#{it.id}"
       .on \mousemove (d,i) ~> if !@lockcell.node then @show_details d, i, d3.event.target
+      .on \mouseover (d,i) ~>
+        if !@lockcell.node
+          scope = angular.element \#BudgetItem .scope!
+          scope.$apply -> scope.key=d.id
       .on \mouseout  (d,i) ~> if !@lockcell.node then @hide_details d, i, d3.event.target
       .on \click (d,i) ~> @locking d,i  
 
