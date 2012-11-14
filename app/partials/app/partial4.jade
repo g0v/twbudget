@@ -6,31 +6,34 @@
   #bubble-circle-size.btn 圖例
   #bubble-info
     #bubble-info-inner
-      #bubble-detail-info
-        #bubble-detail-names
-          i.icon-big-info-sign(style="margin-top:-9px")
-          span#bubble-detail-name ???
-          |(
-          span#bubble-detail-depname ???
-          )
-          i#bubble-info-close.icon-big-close.pull-right(style="margin-top:-5px")
-        #bubble-detail-amount
-          span#bubble-detail-amount-value ???
-          span#bubble-detail-amount-quantifier
-          span#bubble-detail-amount-unit 元
-          |( 
-          span#bubble-detail-amount-change ???
-          |&nbsp;)
-          br
-          |( 即為
-          span#bubble-detail-amount-alt ???
-          |&nbsp;)
-      hr
-      #bubble-detail-change-bar
-      hr
-      include tags
-      hr
-      include vote
+      i#bubble-info-close.icon-big-close(style="margin-top:-5px")
+      #bubble-info-left
+        #bubble-detail-info
+          #bubble-detail-names
+            i.icon-big-info-sign(style="margin-top:-9px")
+            span#bubble-detail-name ???
+            |(
+            span#bubble-detail-depname ???
+            )
+          #bubble-detail-amount
+            span#bubble-detail-amount-value ???
+            span#bubble-detail-amount-quantifier
+            span#bubble-detail-amount-unit 元
+            |( 
+            span#bubble-detail-amount-change ???
+            |&nbsp;)
+            br
+            |( 即為
+            span#bubble-detail-amount-alt ???
+            |&nbsp;)
+        hr
+        #bubble-detail-change-bar
+        hr
+        include tags
+        hr
+        include vote
+      #bubble-info-right
+        .fb-comments(style="display:none",data-href="http://g0v.tw/?code=1",data-num-posts="2",data-width="470")
   #bubble-chart
   script
     test_bubble();

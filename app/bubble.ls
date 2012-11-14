@@ -59,7 +59,7 @@ class BubbleChart
             | isNaN     => '新增'
             | (== -1)   => ''       # XXX: match -1 does not work
             | otherwise => change it
-    @locking = (d,i) ~>
+    @locking = (d,i,node) ~>
       @lockcell.node
         .attr \fill ~> @fill_color it.change
         .attr \stroke, (d) ~> (d3.rgb @fill_color d.change).darker! 
@@ -74,7 +74,7 @@ class BubbleChart
       d3.select \#bubble-info .style \z-index,100 .transition! .duration 475 .style \opacity 0.9 
       @lockcell
         ..id = d.id
-        ..node = d3.select d3.event.target
+        ..node = d3.select node || d3.event.target
       @show_details d, i
       @lockcell.node
         .attr \fill, 'url(#MyGradient)'
@@ -99,7 +99,11 @@ class BubbleChart
           scope.$apply -> scope.key=d.id
       .on \mouseout  (d,i) ~> if !@lockcell.node then @hide_details d, i, d3.event.target
       .on \click (d,i) ~> @locking d,i  
-
+    @code = angular.element \#BudgetItem .scope! .code
+    @circles.each (d,i) ~>
+      if d.id==@code
+        @show_details d, i, @circles[0][i]
+        @locking d, i, @circles[0][i]
     @depict = @vis.append \g
           .style \opacity 0.0
           .style \display \none
@@ -140,8 +144,11 @@ class BubbleChart
   display_group_all: ->
     #@tooltip.setPosition \default,$ \#bubble-info
     @mode = 'default'
-    i=parseInt Math.random!*@nodes.length
-    @show_details @nodes[i],i
+    if !angular.element \#BudgetItem .scope! .code
+      i=parseInt Math.random!*@nodes.length
+      @show_details @nodes[i],i
+    d3.select \#bubble-info-right .transition! .duration 750 .style \opacity 0.0
+    d3.select \#bubble-info-right .transition! .delay 750 .style \display \none
     d3.select \#bubble-info .transition! .duration 750 .style \width \360px .style \opacity 1.0 .style \margin-right \-100px
     d3.select \#bubble-info .transition! .ease -> 1
       .delay 750 .style \position \absolute .style \left \5px .style \margin-left \0 .style \top \55px .style \z-index -1
@@ -170,6 +177,8 @@ class BubbleChart
     #@tooltip.setPosition \float
     #d3.select \#bubble-info .transition! .duration 750 .style \opacity 0.0
     @mode = attr
+    d3.select \#bubble-info-right .style \display \block
+    d3.select \#bubble-info-right .transition! .duration 750 .style \opacity 1.0
     d3.select \#bubble-info .transition! .duration 750 .style \width \994px .style \opacity 0.2
     d3.select \#bubble-info-close .transition! .duration 750 .style \opacity 1.0 .style \margin-right \0px
     d3.select \#bubble-info .transition! .ease -> 1

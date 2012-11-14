@@ -92,3 +92,4 @@
 
     @include \auth
     @get '/:what': sendFile \index.html
+    @get '/budget/:code': sendFile \index.html

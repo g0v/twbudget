@@ -75,8 +75,8 @@ mod.MyCtrl1 = <[ $scope ProductSearch ]> +++ ($scope, productSearch) ->
   $scope.cc = 1
   $scope.results <- productSearch.search("htc")
 
-mod.BudgetItem = <[ $scope BudgetItem ]> +++ ($scope, BudgetItem) ->
-
+mod.BudgetItem = <[ $scope $route BudgetItem ]> +++ ($scope, $route, BudgetItem) ->
+    $scope.code = $route.current.params.code
     update_from_item = (res) ->
         $scope <<< res{nlikes,nhates,ncuts,nconfuses,tags}
 
