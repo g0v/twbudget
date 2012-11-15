@@ -66,12 +66,22 @@ class BubbleChart
         .style \opacity,1.0 if @lockcell.node
       if !d || d.id==@lockcell.id
         if @mode!='default'
-          d3.select \#bubble-info .style \z-index -1 .transition! .duration 475 .style \opacity 0.2
+          InfoPanel.setState 2
+        else InfoPanel.setState 1
         @lockcell
           ..id = null
           ..node = null
         return 
-      d3.select \#bubble-info .style \z-index,100 .transition! .duration 475 .style \opacity 0.9 
+      InfoPanel.setState 3
+      d3.select '#bubble-info-right *' .remove!
+      d3.select \#bubble-info-right .insert \fb:comments, \:first-child 
+        .attr \href, \http://g0v.tw/budget/ + d.id
+        .attr \num-posts, \2
+        .attr \width, \470
+        .attr \class, \fb-comments
+      FB.XFBML.parse(document.getElementById("bubble-info-right"))
+
+      #alert \data-href +"http://g0v.tw/budget/"+d.id
       @lockcell
         ..id = d.id
         ..node = d3.select node || d3.event.target
@@ -137,8 +147,6 @@ class BubbleChart
     .on \mouseout (d,i) ~>
       @depict.transition().duration(750).style \opacity 0.0
       @depict.transition().delay(750).style \display \none
-      #setTimeout( ~> @depict.style( \display \none )
-      #,750)
   charge: (d) -> (-Math.pow d.radius, 2) / 8
   start: -> @force = d3.layout.force!nodes(@nodes)size [@width, @height]
   display_group_all: ->
@@ -147,12 +155,7 @@ class BubbleChart
     if !angular.element \#BudgetItem .scope! .code
       i=parseInt Math.random!*@nodes.length
       @show_details @nodes[i],i
-    d3.select \#bubble-info-right .transition! .duration 750 .style \opacity 0.0
-    d3.select \#bubble-info-right .transition! .delay 750 .style \display \none
-    d3.select \#bubble-info .transition! .duration 750 .style \width \360px .style \opacity 1.0 .style \margin-right \-100px
-    d3.select \#bubble-info .transition! .ease -> 1
-      .delay 750 .style \position \absolute .style \left \5px .style \margin-left \0 .style \top \55px .style \z-index -1
-    d3.select \#bubble-info-close .transition! .duration 750 .style \opacity 0.0
+    InfoPanel.setState 1
     @vis.selectAll(\.attr-legend)remove!
     @force.gravity @layout_gravity
       .charge @charge
@@ -175,14 +178,8 @@ class BubbleChart
 
   display_by_attr: (attr) ->
     #@tooltip.setPosition \float
-    #d3.select \#bubble-info .transition! .duration 750 .style \opacity 0.0
     @mode = attr
-    d3.select \#bubble-info-right .style \display \block
-    d3.select \#bubble-info-right .transition! .duration 750 .style \opacity 1.0
-    d3.select \#bubble-info .transition! .duration 750 .style \width \994px .style \opacity 0.2
-    d3.select \#bubble-info-close .transition! .duration 750 .style \opacity 1.0 .style \margin-right \0px
-    d3.select \#bubble-info .transition! .ease -> 1
-      .delay 750 .style \position \fixed .style \left \50% .style \margin-left \-497px .style \top \107px .style \z-index -1
+    InfoPanel.setState 2
     nest = d3.nest!key -> it[attr]
     entries = nest.entries @data
     amount_attr = @amount_attr
