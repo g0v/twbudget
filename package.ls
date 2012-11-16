@@ -24,10 +24,10 @@ dependencies:
   'passport-facebook': '0.1.x'
   'passport-github': '0.1.x'
   'passport-twitter': '0.1.x'
+  jade: '0.27.x'
 devDependencies:
   testacular: '>= 0.0.16'
   LiveScript: '1.1.x'
-  jade: '*'
   q: '*'
   brunch: '>= 1.4 < 1.5'
   'javascript-brunch': '>= 1.0 < 1.5'
