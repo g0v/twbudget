@@ -81,7 +81,6 @@ class BubbleChart
         .attr \class, \fb-comments
       FB.XFBML.parse(document.getElementById("bubble-info-right"))
 
-      #alert \data-href +"http://g0v.tw/budget/"+d.id
       @lockcell
         ..id = d.id
         ..node = d3.select node || d3.event.target
@@ -108,12 +107,11 @@ class BubbleChart
           scope = angular.element \#BudgetItem .scope!
           scope.$apply -> scope.key=d.id
       .on \mouseout  (d,i) ~> if !@lockcell.node then @hide_details d, i, d3.event.target
-      .on \click (d,i) ~> @locking d,i  
+      .on \click (d,i) ~> 
+        @locking d,i  
+        @force.start!
     @code = angular.element \#BudgetItem .scope! .code
-    @circles.each (d,i) ~>
-      if d.id==@code
-        @show_details d, i, @circles[0][i]
-        @locking d, i, @circles[0][i]
+
     @depict = @vis.append \g
           .style \opacity 0.0
           .style \display \none
@@ -147,7 +145,9 @@ class BubbleChart
     .on \mouseout (d,i) ~>
       @depict.transition().duration(750).style \opacity 0.0
       @depict.transition().delay(750).style \display \none
-  charge: (d) -> (-Math.pow d.radius, 2) / 8
+  charge: (d) ~> 
+    if d.id==@lockcell.id then return -1000
+    else return (-Math.pow d.radius, 2) / 8
   start: -> @force = d3.layout.force!nodes(@nodes)size [@width, @height]
   display_group_all: ->
     #@tooltip.setPosition \default,$ \#bubble-info
@@ -155,11 +155,17 @@ class BubbleChart
     if !angular.element \#BudgetItem .scope! .code
       i=parseInt Math.random!*@nodes.length
       @show_details @nodes[i],i
-    InfoPanel.setState 1
+    if !@code then InfoPanel.setState 1
+    @circles.each (d,i) ~>
+      if d.id==@code
+        InfoPanel.setState 3
+        @show_details d, i, @circles[0][i]
+        @locking d, i, @circles[0][i]
+
     @vis.selectAll(\.attr-legend)remove!
     @force.gravity @layout_gravity
       .charge @charge
-      .friction 0.9
+      .friction 0.7
       .on \tick (e) ~>
         @circles.each @move_towards_center e.alpha
           .attr \cx -> it.x
@@ -218,13 +224,9 @@ class BubbleChart
         if sparse
           d.des_x = des.x+Math.random!*80-40
           d.des_y = des.y+Math.random!*80-40
-        #  d.x = des.x+Math.random!*70-35
-        #  d.y = des.y+Math.random!*70-35
         else
           d.des_x = des.x+Math.random!*10-5
           d.des_y = des.y+Math.random!*10-5
-        #  d.x = des.x+Math.random!*10-5
-        #  d.y = des.y+Math.random!*10-5
 
     group_sparser = (d) ~> # group hover test function. not used currently
                            # to use this, add (d)~> in group_relocate
@@ -242,17 +244,6 @@ class BubbleChart
         @force.start(0.1)
     @circles.each (d,i) -> d.c = centers[d.data[attr]]
     .each (d,i) -> group_relocate(d, d.c,true)
-    #.on("click", (d,i) ~>
-      #if @lockcell==d then @lockcell=null
-      #else lockcell=d
-      #@tooltip.setPosition (if !lockcell then \float else \center) ,$ \#bubble-info
-      #if @lockcell==d
-        #@lockcell=null
-        #@tooltip.setPosition \float ,$ \#bubble-info
-      #else 
-        #@lockcell = d
-        #@tooltip.setPosition \center ,$ \#bubble-info
-    #)
 
     if !@groups then @groups = {}
     if !@groups[attr]
