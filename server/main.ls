@@ -11,6 +11,7 @@
     @app.use @passport.session!
     @use @app.router
     @app.set("trust proxy", true);
+    @app.set("views", "#{__dirname}/../app")
 
     RealBin = require \path .dirname do
         require \fs .realpathSync __filename
@@ -91,5 +92,10 @@
         done(null, item)
 
     @include \auth
+    @include \codemap
+    codemap = @codemap
     @get '/:what': sendFile \index.html
-    @get '/budget/:code': sendFile \index.html
+    @get '/budget/:code': ->
+        code = (@request.path.match /\/budget\/(\S+)/)[1]
+        @render 'index.jade': og_title: codemap[code] || '', og_url: 'budget/'+code
+      #sendFile \index.html

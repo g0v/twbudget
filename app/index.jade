@@ -1,12 +1,23 @@
 !!! 5
-html(lang='en')
+html(lang='en',prefix="og: http://ogp.me/ns#")
   head
     meta(charset='utf-8')
     meta(http-equiv="X-UA-Compatible", content="IE=edge,chrome=1")
     meta(name='viewport', content='width=device-width')
     meta(name='description', content='')
     meta(name='author', content='')
-    title g0v.tw: 中央政府總預算
+    if locals.og_title!=undefined
+      meta(property='og:title',content='g0v.tw : 中央政府總預算 #{locals.og_title}')
+      meta(property='og:type',content='website')
+      meta(property='og:url',content='http://g0v.tw/#{locals.og_url}')
+      meta(property='og:image',content='/img/g0v.png')
+      title g0v.tw: 中央政府總預算 #{locals.og_title}
+    else
+      meta(property='og:title',content='g0v.tw : 中央政府總預算')
+      meta(property='og:type',content='website')
+      meta(property='og:url',content='http://g0v.tw/')
+      meta(property='og:image',content='/img/g0v.png')
+      title g0v.tw: 中央政府總預算
     link(rel='shortcut icon',href='/img/favicon.ico')
     link(rel='stylesheet', href='/css/app.css')
     link(rel='stylesheet', href='http://fonts.googleapis.com/css?family=Cousine:700italic',type='text/css')
