@@ -146,8 +146,9 @@ class BubbleChart
       @depict.transition().duration(750).style \opacity 0.0
       @depict.transition().delay(750).style \display \none
   charge: (d) ~> 
-    if d.id==@lockcell.id then return -1000
-    else return (-Math.pow d.radius, 2) / 8
+    return 
+     if d.id==@lockcell.id then -Math.pow d.radius>?20, 2
+     else (-Math.pow d.radius, 2 ) / 8
   start: -> @force = d3.layout.force!nodes(@nodes)size [@width, @height]
   display_group_all: ->
     #@tooltip.setPosition \default,$ \#bubble-info
@@ -321,6 +322,8 @@ class BubbleChart
     $('#bubble-detail-amount-unit').text(UnitMapper.getUnit!)
     $('#bubble-detail-amount-change').text(change data.change)
     $('#bubble-detail-amount-alt').text UnitMapper.convert data.value,-1,true
+    $('#bubble-detail-link').attr \href, 'http://g0v.tw/budget/'+data.data.code
+    $('#bubble-detail-link').text 'http://g0v.tw/budget/'+data.data.code
     @tooltip.showTooltip content, d3.event if @mode!='default'
     @do_show_details data,(if element then @mode else 'default') if @do_show_details
     if !element then @tooltip.hideTooltip!
