@@ -8,6 +8,7 @@ git checkout $branch
 git merge master
 rm -rf _public
 ./node_modules/.bin/brunch b -m
+make clean-server
 make server
 git add -f -A _public server lib
 git commit -m 'regen'
