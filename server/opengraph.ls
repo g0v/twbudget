@@ -55,7 +55,6 @@
     if !item then return ret
     ret.og_title = " : 預算項目「" + item[3] + "」(屬於" + item[4] + " > " + item[5] + " > " + item[6] + ")"
     ret.og_url = "budget/"+code
-    ret.og_description = 
-      "【"+item[4]+" > " + item[5] + " > " + item[6] + " > " + item[3] + "】的年度預算為" + CurrencyConvert(item[1],0,true) + ", 相當於" + (CurrencyConvert item[1],(code%CurrencyData.length),true) + ", 也等於" + (CurrencyConvert item[1],parseInt((code+CurrencyData.length/2)%CurrencyData.length),true)
+    ret.og_description = "【"+item[4]+" > " + item[5] + " > " + item[6] + " > " + item[3] + "】的年度預算為" + CurrencyConvert(item[1],0,true) + ", 相當於" + (CurrencyConvert item[1],(code%CurrencyData.length),true) + ", 也等於" + (CurrencyConvert item[1],parseInt((code+CurrencyData.length/2)%CurrencyData.length),true)
     return ret;
   
