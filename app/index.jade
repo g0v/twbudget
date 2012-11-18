@@ -11,12 +11,14 @@ html(lang='en',prefix="og: http://ogp.me/ns#")
       meta(property='og:type',content='website')
       meta(property='og:url',content='http://g0v.tw/#{locals.og_url}')
       meta(property='og:image',content='http://g0v.tw/img/g0v.png')
+      meta(property='og:description',content='#{locals.og_description}')
       title g0v.tw: 中央政府總預算 #{locals.og_title}
     else
       meta(property='og:title',content='g0v.tw : 中央政府總預算')
       meta(property='og:type',content='website')
       meta(property='og:url',content='http://g0v.tw/')
       meta(property='og:image',content='http://g0v.tw/img/g0v.png')
+      meta(property='og:description',content='零時政府 g0v.tw : 中央政府總預算 Visualization')
       title g0v.tw: 中央政府總預算
     link(rel='shortcut icon',href='/img/favicon.ico')
     link(rel='stylesheet', href='/css/app.css')

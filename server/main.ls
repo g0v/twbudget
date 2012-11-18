@@ -92,10 +92,16 @@
         done(null, item)
 
     @include \auth
-    @include \codemap
-    codemap = @codemap
+    @include \opengraph
+    @csv2012 = null
+    @loadCsv \app/assets/data/tw2012ap.csv, (hash) ~> 
+      @csv2012 = hash
+    getOpenGraph = (code) ~> @getOpenGraph @csv2012,code
     @get '/:what': sendFile \index.html
     @get '/budget/:code': ->
         code = (@request.path.match /\/budget\/(\S+)/)[1]
-        @render 'index.jade': og_title: codemap[code] || '', og_url: 'budget/'+code
+        console.log \----
+        console.log getOpenGraph code
+        console.log \----
+        @render 'index.jade': getOpenGraph code
       #sendFile \index.html
