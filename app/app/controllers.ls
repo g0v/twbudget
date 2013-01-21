@@ -31,7 +31,7 @@ mod.AppCtrl = [
       return ''
 ]
 
-mod.LoginController = <[ $scope $http authService ]> +++ ($scope, $http, authService) ->
+mod.LoginController = <[ $scope $http authService ]> ++ ($scope, $http, authService) ->
     $scope.$on 'event:auth-loginRequired' ->
       $scope.loginShown = true
     $scope.$on 'event:auth-loginConfirmed' ->
@@ -55,12 +55,12 @@ mod.LoginController = <[ $scope $http authService ]> +++ ($scope, $http, authSer
             $scope.message = if typeof it is \object => it.message else it
 
 
-mod.Profile = <[ $scope $http ]> +++ ($scope, $http) ->
+mod.Profile = <[ $scope $http ]> ++ ($scope, $http) ->
     $scope.name = 'Guest';
     $http.get('/1/profile')success ({name}:res) ->
         $scope.name = name
 
-mod.MyCtrl1 = <[ $scope ProductSearch ]> +++ ($scope, productSearch) ->
+mod.MyCtrl1 = <[ $scope ProductSearch ]> ++ ($scope, productSearch) ->
   $scope.updateblah = (which) ->
     i = parseInt $('#categories')scrollLeft!/150
     if $scope.category_index_old!=i then
@@ -75,7 +75,7 @@ mod.MyCtrl1 = <[ $scope ProductSearch ]> +++ ($scope, productSearch) ->
   $scope.cc = 1
   $scope.results <- productSearch.search("htc")
 
-mod.BudgetItem = <[ $scope $route BudgetItem ]> +++ ($scope, $route, BudgetItem) ->
+mod.BudgetItem = <[ $scope $route BudgetItem ]> ++ ($scope, $route, BudgetItem) ->
     $scope.code = $route.current.params.code
     update_from_item = (res) ->
         $scope <<< res{nlikes,nhates,ncuts,nconfuses,tags}
@@ -120,13 +120,13 @@ mod.BudgetItem = <[ $scope $route BudgetItem ]> +++ ($scope, $route, BudgetItem)
           <[座 硬兔的小島 2000080000000]>
         ]
 
-mod.DailyBread = <[ $scope $http ]> +++ ($scope, $http) ->
+mod.DailyBread = <[ $scope $http ]> ++ ($scope, $http) ->
     $scope.tax = 80000
     $scope.$watch 'tax' ->
       window.__db?setTax $scope.tax
     dailybread!
 
-mod.UnitMapper = <[ $scope ]> +++ ($scope) ->
+mod.UnitMapper = <[ $scope ]> ++ ($scope) ->
   $scope.units=UnitMapper.table
 
 mod.MyCtrl2 = [

@@ -12,7 +12,8 @@ OpenSpending.DailyBread = (elem) ->
   @divby = 365
   @init = ->
     @setSalary 22000 # default starting salary
-    @$e.find(".wdmmg-slider").slider
+    /* TODO remove after confirming that this is redundent
+    @$e.find(".wdmmg-slider").slider do
       value: @salaryVal
       min: 10000
       max: 200000
@@ -20,10 +21,9 @@ OpenSpending.DailyBread = (elem) ->
       animate: true
       slide: ->
         self.sliderSlide.apply self, arguments_
-
       change: ->
         self.sliderChange.apply self, arguments_
-
+    */
     @$e.delegate ".db-area-col", "click", self.handleClick
 
   @formatCurrency = (val, prec, sym, dec, sep) ->
@@ -32,7 +32,7 @@ OpenSpending.DailyBread = (elem) ->
     sym = sym or "$"
     dec = dec or "."
     sep = sep or ","
-    str = undefined
+    str = null
     valAry = val.toFixed(prec).split(".")
     sepAry = []
     i = valAry[0].length
@@ -159,7 +159,7 @@ OpenSpending.DailyBread = (elem) ->
   @taxAndDataForTier = (tierId) ->
     data = self.data
     tax = self.taxVal
-    areaId = undefined
+    areaId = null
     i = 0
     tot = tierId
 
@@ -177,8 +177,8 @@ OpenSpending.DailyBread = (elem) ->
     iconRad = 35
     $(".db-area-icon svg", t).remove()
     $(".db-area-icon", t).each (i, e) ->
-      iconUrl = undefined
-      paper = undefined
+      iconUrl = null
+      paper = null
       iconUrl = $(e).data("svg-url")
       paper = Raphael(e, iconRad + iconRad, iconRad + iconRad + 5)
       paper.circle(iconRad, iconRad, iconRad).attr do
@@ -196,8 +196,8 @@ OpenSpending.DailyBread = (elem) ->
           svg = $(svg)
           svg = svg[svg.length - 1]
         return  unless svg.getElementsByTagName
-        j = undefined
-        icon = undefined
+        j = null
+        icon = null
         joined = ""
         paths = svg.getElementsByTagName("path")
         j = 0
@@ -205,7 +205,7 @@ OpenSpending.DailyBread = (elem) ->
           joined += paths[j].getAttribute("d") + " "
           j++
         icon = paper.path(joined)
-        icon.attr
+        icon.attr do
           fill: "white"
           stroke: "none"
 

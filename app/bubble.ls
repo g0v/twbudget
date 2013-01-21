@@ -38,7 +38,7 @@ class BubbleChart
     @circles = @vis.selectAll("circle.budget")
       .data(@nodes, -> it.id)
 
-    colors = [-1] +++ @fill_color.quantiles! +++ [NaN]
+    colors = [-1] ++ @fill_color.quantiles! ++ [NaN]
     x = d3.scale.ordinal!rangeRoundBands([200, 0], 0.1)domain colors
     y = d3.scale.ordinal!rangeRoundBands([200, 0], 0.1)domain colors
     change = d3.format \+%
@@ -317,7 +317,7 @@ class BubbleChart
     content += "<div id='bubble-detail-change-bar2'></div>"
     $('#bubble-detail-name').text(data.data.name)
     $('#bubble-detail-depname').text(data.data.depname+'/'+data.data.depcat)
-    $('#bubble-detail-amount-value').text(UnitMapper.convert data.value,undefined,false)
+    $('#bubble-detail-amount-value').text(UnitMapper.convert data.value,null,false)
     $('#bubble-detail-amount-quantifier').text(UnitMapper.getQuantifier!)
     $('#bubble-detail-amount-unit').text(UnitMapper.getUnit!)
     $('#bubble-detail-amount-change').text(change data.change)

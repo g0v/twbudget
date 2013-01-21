@@ -5,7 +5,7 @@ mod = {}
 
 mod.version = -> "0.1"
 
-mod.ProductSearch = <[ $http ]> +++ ($http) ->
+mod.ProductSearch = <[ $http ]> ++ ($http) ->
     currentQuery = ''
     results = {}
 
@@ -18,7 +18,7 @@ mod.ProductSearch = <[ $http ]> +++ ($http) ->
       console.log \more
       results[which]products.push name: 'newly added'
 
-mod.BudgetItem = <[ $http ]> +++ ($http) ->
+mod.BudgetItem = <[ $http ]> ++ ($http) ->
     get: (key, cb) ->
         $http.get("/1/budgetitems/#key")success cb
     update: (key, verb, cb) ->
