@@ -34,7 +34,7 @@ UnitMapper =
       #$('#unit-selector li:eq('+this.unit+') a i').css {"visibility":"hidden"}
       $('#unit-selector li:eq('+this.unit+') ').removeClass \active
     this.unit = if idx==-1 then parseInt Math.random()*this.table.length
-                      else if idx==null then 0 
+                      else if idx==void then 0 
                       else idx
 
     #$('#unit-selector li:eq('+this.unit+') a i').css visibility:\visible

@@ -32,7 +32,7 @@ OpenSpending.DailyBread = (elem) ->
     sym = sym or "$"
     dec = dec or "."
     sep = sep or ","
-    str = null
+    str = void
     valAry = val.toFixed(prec).split(".")
     sepAry = []
     i = valAry[0].length
@@ -159,7 +159,7 @@ OpenSpending.DailyBread = (elem) ->
   @taxAndDataForTier = (tierId) ->
     data = self.data
     tax = self.taxVal
-    areaId = null
+    areaId = void
     i = 0
     tot = tierId
 
@@ -177,8 +177,8 @@ OpenSpending.DailyBread = (elem) ->
     iconRad = 35
     $(".db-area-icon svg", t).remove()
     $(".db-area-icon", t).each (i, e) ->
-      iconUrl = null
-      paper = null
+      iconUrl = void
+      paper = void
       iconUrl = $(e).data("svg-url")
       paper = Raphael(e, iconRad + iconRad, iconRad + iconRad + 5)
       paper.circle(iconRad, iconRad, iconRad).attr do
@@ -196,8 +196,8 @@ OpenSpending.DailyBread = (elem) ->
           svg = $(svg)
           svg = svg[svg.length - 1]
         return  unless svg.getElementsByTagName
-        j = null
-        icon = null
+        j = void
+        icon = void
         joined = ""
         paths = svg.getElementsByTagName("path")
         j = 0

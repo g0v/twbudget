@@ -317,7 +317,7 @@ class BubbleChart
     content += "<div id='bubble-detail-change-bar2'></div>"
     $('#bubble-detail-name').text(data.data.name)
     $('#bubble-detail-depname').text(data.data.depname+'/'+data.data.depcat)
-    $('#bubble-detail-amount-value').text(UnitMapper.convert data.value,null,false)
+    $('#bubble-detail-amount-value').text(UnitMapper.convert data.value,void,false)
     $('#bubble-detail-amount-quantifier').text(UnitMapper.getQuantifier!)
     $('#bubble-detail-amount-unit').text(UnitMapper.getUnit!)
     $('#bubble-detail-amount-change').text(change data.change)
