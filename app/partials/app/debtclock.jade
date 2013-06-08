@@ -2,10 +2,9 @@
   #debtclock-dashboard
     #debtclock-total-number
       現有國債：
-      span#debtclock_total {{total.debt | currency}}
-      元
+      span#debtclock_total {{ total.debt | unitconvert }}
     #debtclock-total-person
       （平均每人負擔：
-      span#debtclock_perperson {{total.avg | currency}}
+      span#debtclock_perperson {{ total.avg | number:0 }}
       元）
 
