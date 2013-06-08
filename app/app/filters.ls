@@ -1,14 +1,5 @@
 # Filters
 
-#angular.module('app.filters', []).
-#  filter \commafy, ->
-#    (num) ->
-#      num = num + ""
-#      re = /(-?\d+)(\d{3})/
-#      while re.test(num)
-#        num = num.replace(re, "$1,$2")
-#      num
-
 angular.module('app.filters', []).
   filter \interpolate, [\version, (version) ->
     (text) -> String(text).replace(/\%VERSION\%/mg, version) ]
