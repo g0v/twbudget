@@ -1,6 +1,16 @@
 # twbudget
 ### visualizing taiwan central government spending
 
+## Prerequisites
+
+Mac OS X and [Homebrew](http://mxcl.github.io/homebrew/):
+
+	$ brew install node        # Install nodejs and npm
+	$ brew install brew-gem    # Install sass
+	$ brew gem sass
+	$ brew install mongodb     # Install mongodb
+	$ mongod                   # Run mongodb in foreground
+
 ## build
 
 * `./scripts/init.sh` to install node packages
