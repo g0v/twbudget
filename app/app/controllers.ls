@@ -120,6 +120,25 @@ mod.BudgetItem = <[ $scope $route BudgetItem ]> ++ ($scope, $route, BudgetItem) 
           <[座 硬兔的小島 2000080000000]>
         ]
 
+mod.DebtClock = <[ $scope $timeout ]> ++ ($scope, $timeout) ->
+    $scope.data = { yr2008: { base: 13171112000000, interest: 7389 } }
+    console.log($scope.data.yr2008.base)
+    console.log($scope.data.yr2008.interest)
+    $scope.refreshDebtClock = ->
+        now = new Date()
+        spday = new Date(2008, 1-1, 1);
+        message = ''
+        a = ((now.getTime() - spday.getTime()) / (1000) * $scope.data.yr2008.interest) + $scope.data.yr2008.base;
+        a = Math.ceil a
+        $scope.total = { debt: a, avg: Math.round(a / 23000000) }
+    $scope.scheduleDebtClockRefresh = ->
+        timeoutId = $timeout !->
+            $scope.refreshDebtClock!
+            $scope.scheduleDebtClockRefresh!
+        , 1000
+    $scope.scheduleDebtClockRefresh!
+
+
 mod.DailyBread = <[ $scope $http ]> ++ ($scope, $http) ->
     $scope.tax = 80000
     $scope.$watch 'tax' ->
