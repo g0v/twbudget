@@ -8,6 +8,7 @@ App.config [ '$routeProvider' '$locationProvider'
     .when \/view3, templateUrl: \/partials/app/partial3.html
     .when \/view4, templateUrl: \/partials/app/partial4.html
     .when \/budget/:code, templateUrl: \/partials/app/partial4.html
+    .when \/debtclock, templateUrl: \/partials/app/debtclock.html
     .when \/profile, templateUrl: \/partials/app/profile.html
     # Catch all
     .otherwise redirectTo: \/view4
