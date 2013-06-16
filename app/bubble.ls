@@ -10,7 +10,7 @@ class BubbleChart
     @mode = 'default'
     @nodes = []
     @change_scale = d3.scale.linear!domain([-0.25, 0.25])clamp(true)range [@height / 9 * 5, @height / 9 * 4]
-    @fill_color = d3.scale.quantile!domain([ -0.5 -0.25 -0.1 -0.02 0.02 0.1 0.25 0.5 ]).range <[ red orange pink gray yellow lightgreen green ]>
+    @fill_color = d3.scale.quantile!domain([ -0.5 -0.25 -0.1 -0.02 0 0.02 0.1 0.25 0.5 ]).range <[ #C51B7D #DE77AE #F1B6DA #FDE0EF #E6F5D0 #B8E186 #7FBC41 #4D9221 ]>
     @radius_scale = d3.scale.pow!exponent 0.5
       .domain [0, d3.max @data, (d) ~> +d[@amount_attr]]
       .range [2, 65]
