@@ -100,5 +100,5 @@
     @get '/:what': sendFile \index.html
     @get '/budget/:code': ->
         code = (@request.path.match /\/budget\/(\S+)/)[1]
-        @render 'index.jade': getOpenGraph code
+        @render 'index.static.jade': getOpenGraph code
       #sendFile \index.html
