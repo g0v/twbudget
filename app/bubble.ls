@@ -62,7 +62,7 @@ class BubbleChart
     @locking = (d,i,node) ~>
       @lockcell.node
         .attr \fill ~> @fill_color it.change
-        .attr \stroke, (d) ~> (d3.rgb @fill_color d.change).darker! 
+        .attr \stroke, (d) ~> (d3.rgb @fill_color d.change).darker!
         .style \opacity,1.0 if @lockcell.node
       if !d || d.id==@lockcell.id
         if @mode!='default'
@@ -71,11 +71,11 @@ class BubbleChart
         @lockcell
           ..id = null
           ..node = null
-        return 
+        return
       InfoPanel.setState 3
       d3.select '#bubble-info-right *' .remove!
-      d3.select \#bubble-info-right .insert \fb:comments, \:first-child 
-        .attr \href, \http://g0v.tw/budget/ + d.id
+      d3.select \#bubble-info-right .insert \fb:comments, \:first-child
+        .attr \href, \http://budget.g0v.tw/budget/ + d.id
         .attr \num-posts, \2
         .attr \width, \470
         .attr \class, \fb-comments
@@ -107,8 +107,8 @@ class BubbleChart
           scope = angular.element \#BudgetItem .scope!
           scope.$apply -> scope.key=d.id
       .on \mouseout  (d,i) ~> if !@lockcell.node then @hide_details d, i, d3.event.target
-      .on \click (d,i) ~> 
-        @locking d,i  
+      .on \click (d,i) ~>
+        @locking d,i
         @force.start!
     @code = angular.element \#BudgetItem .scope! .code
 
@@ -145,8 +145,8 @@ class BubbleChart
     .on \mouseout (d,i) ~>
       @depict.transition().duration(750).style \opacity 0.0
       @depict.transition().delay(750).style \display \none
-  charge: (d) ~> 
-    return 
+  charge: (d) ~>
+    return
      if d.id==@lockcell.id then -Math.pow d.radius>?20, 2
      else (-Math.pow d.radius, 2 ) / 8
   start: -> @force = d3.layout.force!nodes(@nodes)size [@width, @height]
@@ -237,7 +237,7 @@ class BubbleChart
       console.log a + ' vs ' + b
       if a>b && !d.group.sparse
         d.group.sparse = true
-        @circles.each group_relocate(d,true) 
+        @circles.each group_relocate(d,true)
         @force.start(0.1)
       if a<=b && d.group.sparse
         d.group.sparse = false
@@ -322,8 +322,8 @@ class BubbleChart
     $('#bubble-detail-amount-unit').text(UnitMapper.getUnit!)
     $('#bubble-detail-amount-change').text(change data.change)
     $('#bubble-detail-amount-alt').text UnitMapper.convert data.value,-1,true
-    $('#bubble-detail-link').attr \href, 'http://g0v.tw/budget/'+data.data.code
-    $('#bubble-detail-link').text 'http://g0v.tw/budget/'+data.data.code
+    $('#bubble-detail-link').attr \href, 'http://budget.g0v.tw/budget/'+data.data.code
+    $('#bubble-detail-link').text 'http://budget.g0v.tw/budget/'+data.data.code
     @tooltip.showTooltip content, d3.event if @mode!='default'
     @do_show_details data,(if element then @mode else 'default') if @do_show_details
     if !element then @tooltip.hideTooltip!
