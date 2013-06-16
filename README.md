@@ -1,6 +1,8 @@
 # twbudget
 ### visualizing taiwan central government spending
 
+![twbudget](https://raw.github.com/g0v/twbudget/master/thumbnail.png "twbudget")
+
 ## Prerequisites
 
 Mac OS X and [Homebrew](http://mxcl.github.io/homebrew/):
