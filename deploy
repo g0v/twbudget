@@ -1,0 +1,15 @@
+#!/bin/sh
+branch=$1
+echo $branch
+killall brunch
+rm -rf _public
+git checkout $branch
+git merge $branch/master
+git merge master
+rm -rf _public
+BUILD=git-`git describe --always` ./node_modules/.bin/brunch b -o
+make clean-server
+make server
+git add -f -A _public server lib
+git commit -m 'regen'
+git push $branch $branch:master
