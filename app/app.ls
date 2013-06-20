@@ -32,6 +32,8 @@ angular.module \app, <[ partials ngResource app.controllers app.directives app.f
 .run <[$rootScope $state $stateParams $location]> ++ ($rootScope, $state, $stateParams, $location) ->
   $rootScope.$state = $state
   $rootScope.$stateParam = $stateParams
-  #$rootScope.go = -> $location.path it
+  $rootScope.go = -> $location.path it
   #$rootScope._build = window.global.config.BUILD
-
+  $rootScope.$on \$stateChangeSuccess (e, {url,name}) ->
+    console.log window.ga, 'send' 'pageview' page: url, title: name
+    window?ga? 'send' 'pageview' page: url, title: name
