@@ -124,8 +124,8 @@ mod.BudgetItem = <[ $scope $state BudgetItem ]> ++ ($scope, $state, BudgetItem) 
 
 mod.DebtClock = <[ $scope $timeout ]> ++ ($scope, $timeout) ->
     $scope.data = { yr2008: { base: 13171112000000, interest: 7389 } }
-    console.log($scope.data.yr2008.base)
-    console.log($scope.data.yr2008.interest)
+    #console.log($scope.data.yr2008.base)
+    #console.log($scope.data.yr2008.interest)
     $scope.refreshDebtClock = ->
         now = new Date()
         spday = new Date(2008, 1-1, 1);

@@ -234,7 +234,7 @@ class BubbleChart
       a = d.group.r**2
       b = ((d3.event.pageX - $('#bubble-chart svg').offset().left - d.x )**2)  +
           ((d3.event.pageY - $('#bubble-chart svg').offset().top  - d.y )**2)
-      console.log a + ' vs ' + b
+      #console.log a + ' vs ' + b
       if a>b && !d.group.sparse
         d.group.sparse = true
         @circles.each group_relocate(d,true)
