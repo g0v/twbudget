@@ -75,8 +75,10 @@ mod.MyCtrl1 = <[ $scope ProductSearch ]> ++ ($scope, productSearch) ->
   $scope.cc = 1
   $scope.results <- productSearch.search("htc")
 
-mod.BudgetItem = <[ $scope $route BudgetItem ]> ++ ($scope, $route, BudgetItem) ->
-    $scope.code = $route.current.params.code
+mod.BudgetItem = <[ $scope $state BudgetItem ]> ++ ($scope, $state, BudgetItem) ->
+    $scope.$watch '$state.params.code' (code) ->
+      $scope.code = code
+
     update_from_item = (res) ->
         $scope <<< res{nlikes,nhates,ncuts,nconfuses,tags}
 
@@ -92,7 +94,7 @@ mod.BudgetItem = <[ $scope $route BudgetItem ]> ++ ($scope, $route, BudgetItem) 
         hate: -> BudgetItem.update $scope.key, \hates, update_from_item
         confuse: -> BudgetItem.update $scope.key, \confuses, update_from_item
         cut: -> BudgetItem.update $scope.key, \cuts, update_from_item
-        addtag: -> 
+        addtag: ->
           if $scope.tagname then BudgetItem.addtag $scope.key, $scope.tagname, update_from_item
         addunit: ->
           if !$scope.addunit_quantity then return $('#addunit-modal input:eq(0)') .tooltip("show")

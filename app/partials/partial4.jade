@@ -1,4 +1,4 @@
-.treemap-root(ng-controller="BudgetItem")
+.treemap-root
   .btn-group(data-toggle="buttons-radio")
     a.btn.default.active Default
     a.btn.bycat 政事別
@@ -19,7 +19,7 @@
             span#bubble-detail-amount-value ???
             span#bubble-detail-amount-quantifier
             span#bubble-detail-amount-unit 元
-            |( 
+            |(
             span#bubble-detail-amount-change ???
             |&nbsp;)
             br
@@ -28,7 +28,7 @@
             |&nbsp;)
             br
             #bubble-detail-amount-link
-              span 連結到此項 : 
+              span 連結到此項 :
               a#bubble-detail-link(href="view4") http://g0v.tw/view4
         hr
         #bubble-detail-change-bar

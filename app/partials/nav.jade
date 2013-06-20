@@ -4,21 +4,21 @@ ul.nav
   li(ng-class="getClass('/view3')")
     a(ng-href='/view3') 鳥瞰圖
   li(ng-class="getClass('/view4')")
-    a(ng-href='/view4') 變化圖
+    a(ng-href='/budget') 變化圖
   li(ng-class="getClass('/debtclock')")
     a(ng-href='/debtclock') 國債鐘
   li.dropdown
-    a.dropdown-toggle(id="dLabel",role="button",data-toggle="dropdown",data-target="#") 
-      單位換算 
+    a.dropdown-toggle(id="dLabel",role="button",data-toggle="dropdown",data-target="#")
+      單位換算
       b.caret
     ul.dropdown-menu(id="unit-selector",ng-controller="UnitMapper",role="menu",aria-labelledby="dLabel")
       li(ng-repeat="item in units")
-        a(onclick="UnitMapper.update({{$index}})") 
-          {{item[1]}} 
+        a(onclick="UnitMapper.update({{$index}})")
+          {{item[1]}}
       li.divider
-      li 
+      li
         a(onclick="UnitMapper.update(-1)") 隨便來一個
-      li.disabled 
+      li.disabled
         a(data-toggle="modal",onclick='$("#addunit-value-group").removeClass("error");$("#addunit-modal").modal()') 我要加單位
     .modal#addunit-modal.fade(role="dialog",tabindex="-1",aria-labelledby="budget-addunit-label",aria-hidden="true")
       .modal-header
