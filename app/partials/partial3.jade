@@ -1,6 +1,4 @@
 #treemap-root(ng-controller="BudgetItem")
-  script(src="/staticjs/output.json")
-  script(src="/staticjs/treemap.js")
   #treemap-root-inner
     #debitmask 2,500億
   button#treemap-backbtn.btn
@@ -26,3 +24,7 @@
       include tags
       hr
       include vote
+  script.
+    setTimeout(function() {
+        initTreeMap();
+    }, 500);
