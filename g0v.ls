@@ -1,10 +1,11 @@
 #!/usr/bin/env lsc -cj
 author: 'clkao'
-contributors: <[tkirby CA jeffhung]>
+contributors: <[tkirby CA jeffhung ipa]>
 status: 'alpha'
-name: 'budget.g0v.tw'
+name: 'budget'
+name_zh: '中央政府總預算'
 description: 'Taiwan Central Government Budget'
-'description.zh': '中央政府總預算'
+description_zh: '中央政府總預算'
 homepage: 'http://budget.g0v.tw/'
 repository:
   type: 'git'
