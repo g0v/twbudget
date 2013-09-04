@@ -6,7 +6,7 @@
 ## Prerequisites
 
 
-Windows 7(32-bit):
+### Windows 7(32-bit):
 
 1.Install the correct Windows SDK from [here](http://go.microsoft.com/?linkid=7729279) for the Node modules requiring rebuild for installation such as bcrypt.	
 
@@ -16,17 +16,17 @@ Windows 7(32-bit):
 
 4.Same as below except "brew" is not available on Windows so please install below modules separately.
 	
-Mac OS X and [Homebrew](http://mxcl.github.io/homebrew/):
+### Mac OS X and [Homebrew](http://mxcl.github.io/homebrew/):
 
 	$ brew install node        # Install nodejs and npm
 	$ brew install brew-gem    # Install sass
-	$ brew gem sass
+	$ gem install sass
 	$ brew install mongodb     # Install mongodb
 	$ mongod                   # Run mongodb in foreground
 
 ## build
 
-* `./scripts/init.sh` to install node packages
+* `npm i` to install node packages
 
 ### Running the app during development
 
