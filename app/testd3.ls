@@ -5,15 +5,15 @@ mapforyear = (year, cb) ->
 dataforyear = (year, cb) ->
     json <- d3.csv "/data/tw#{year}ap.csv"
     json = d3.nest!
-        .key -> it.cat 
-        .key -> it.depname 
+        .key -> it.cat
+        .key -> it.depname
         .map json
     cb {key: \root, values: json}
 
-dataOverYears = (y2012, y2013) ->
-    for code, entry of y2013
-        entry.byYear = { 2013: +entry.amount, 2012: +y2012[code]?amount }
-        entry.change = (entry.byYear.2013 - entry.byYear.2012) / entry.byYear.2012 if entry.byYear.2012
+dataOverYears = (y2013, y2014) ->
+    for code, entry of y2014
+        entry.byYear = { 2014: +entry.amount, 2013: +y2013[code]?amount }
+        entry.change = (entry.byYear.2014 - entry.byYear.2013) / entry.byYear.2013 if entry.byYear.2013
         entry.amount = 0 if entry.amount is \NaN
         entry
 
@@ -29,13 +29,14 @@ init_year_data = (cb) ->
     by_year.2011 <- mapforyear 2011
     by_year.2012 <- mapforyear 2012
     by_year.2013 <- mapforyear 2013
+    by_year.2014 <- mapforyear 2014
 
     cb by_year
 
 bar_chart = (id,mode) ->
     by_year <- init_year_data!
 
-    data = [{year, amount: +((by_year[year] && by_year[year][id])?amount ? 0)} for year in [2007 to 2013]]
+    data = [{year, amount: +((by_year[year] && by_year[year][id])?amount ? 0)} for year in [2007 to 2014]]
     margin = {top: 10, right: 30, bottom: 20, left: 90}
     width = 360 - margin.left - margin.right
     height = 140 - margin.top - margin.bottom
@@ -91,9 +92,9 @@ test_bubble = ->
       ..start!
       ..display_group_all!
 
-  y2012 <- mapforyear 2012
   y2013 <- mapforyear 2013
-  data = dataOverYears y2012, y2013
+  y2014 <- mapforyear 2014
+  data = dataOverYears y2013, y2014
   data .= sort (a, b) -> b.amount - a.amount
   #data .= slice 0, 600
   render_vis data
@@ -123,12 +124,12 @@ testd3 = ->
         .style \width  width + \px
         .style \height height + \px
 
-    y2012 <- mapforyear 2012
     y2013 <- mapforyear 2013
-    data = dataOverYears y2012, y2013
+    y2014 <- mapforyear 2014
+    data = dataOverYears y2013, y2014
     json = d3.nest!
-        .key -> it.cat 
-        .key -> it.depname 
+        .key -> it.cat
+        .key -> it.depname
         .entries data
     json = {key: \root, values: json}
 
@@ -140,15 +141,15 @@ testd3 = ->
         .call cell
         .text -> if it.values then null else it.name
 
-    d3.select(\#y2013).on \click ->
+    d3.select(\#y2014).on \click ->
         div.selectAll("div")
-            .data treemap.value -> it.byYear?2013
+            .data treemap.value -> it.byYear?2014
         .transition()
             .duration(1500)
             .call(cell)
-    d3.select(\#y2012).on \click ->
+    d3.select(\#y2013).on \click ->
         div.selectAll("div")
-            .data treemap.value -> it.byYear?2012
+            .data treemap.value -> it.byYear?2013
         .transition()
             .duration(1500)
             .call(cell)
