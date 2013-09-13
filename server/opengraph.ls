@@ -45,16 +45,16 @@
         arr[i] = arr[i].split \,
         hash[arr[i][1]] = arr[i]
       cb(hash)
-  
+
   @getOpenGraph = (hash, code) ->
     item = hash[code]
-    ret = 
+    ret =
       og_title: ""
       og_url: ""
       og_description: ""
     if !item then return ret
     ret.og_title = " : 預算項目「" + item[3] + "」(屬於" + item[4] + " > " + item[5] + " > " + item[6] + ")"
     ret.og_url = "budget/"+code
-    ret.og_description = "【"+item[4]+" > " + item[5] + " > " + item[6] + " > " + item[3] + "】的年度預算為" + CurrencyConvert(item[1],0,true) + ", 相當於" + (CurrencyConvert item[1],parseInt(Math.random!*CurrencyData.length),true) + ", 也等於" + (CurrencyConvert item[1],parseInt(Math.random!*CurrencyData.length),true)
+    ret.og_description = "【"+item[4]+" > " + item[5] + " > " + item[6] + " > " + item[3] + "】的年度預算為" + CurrencyConvert(item[2],0,true) + ", 相當於" + (CurrencyConvert item[2],parseInt(Math.random!*CurrencyData.length),true) + ", 也等於" + (CurrencyConvert item[2],parseInt(Math.random!*CurrencyData.length),true)
     return ret;
-  
+
