@@ -15,7 +15,7 @@ angular.module \app, <[ partials ngResource app.controllers app.directives app.f
       templateUrl: '/partials/partial4.html'
       controller: \BudgetItem
     .state 'budget.detail' do
-      url: '/budget/{code}'
+      url: '/{code}'
       templateUrl: '/partials/partial4.html'
     .state 'debtclock' do
       url: '/debtclock'
