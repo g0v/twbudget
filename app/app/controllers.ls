@@ -1,4 +1,3 @@
-
 mod = {}
 
 mod.AppCtrl = [
@@ -123,16 +122,20 @@ mod.BudgetItem = <[ $scope $state BudgetItem ]> ++ ($scope, $state, BudgetItem) 
         ]
 
 mod.DebtClock = <[ $scope $timeout ]> ++ ($scope, $timeout) ->
-    $scope.data = { yr2008: { base: 13171112000000, interest: 7389 } }
+    # Source: http://www.dgbas.gov.tw/ct.asp?xItem=33906&CtNode=5736&mp=1 總說明 P13
+    national-debt-2012 = 59412yi * 10000 * 10000 # 依國際貨幣基金定義
+    national-payable-2012 = 109703yi * * 10000 * 10000 # 潛藏負債, 不含地方政府部份
+    
+    $scope.data = { yr2012: { base: national-debt-2012 + national-payable-2012, interest: 7389 } }
     #console.log($scope.data.yr2008.base)
     #console.log($scope.data.yr2008.interest)
     $scope.refreshDebtClock = ->
         now = new Date()
-        spday = new Date(2008, 1-1, 1);
+        spday = new Date(2013, 1-1, 1);
         message = ''
-        a = ((now.getTime() - spday.getTime()) / (1000) * $scope.data.yr2008.interest) + $scope.data.yr2008.base;
+        a = ((now.getTime() - spday.getTime()) / (1000) * $scope.data.yr2012.interest) + $scope.data.yr2012.base;
         a = Math.ceil a
-        $scope.total = { debt: a, avg: Math.round(a / 23000000) }
+        $scope.total = { debt: a, avg: Math.round(a / 23367320) }
     $scope.scheduleDebtClockRefresh = ->
         timeoutId = $timeout !->
             $scope.refreshDebtClock!
