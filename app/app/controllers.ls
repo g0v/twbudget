@@ -123,10 +123,10 @@ mod.BudgetItem = <[ $scope $state BudgetItem ]> ++ ($scope, $state, BudgetItem) 
 
 mod.DebtClock = <[ $scope $timeout ]> ++ ($scope, $timeout) ->
     # Source: http://www.dgbas.gov.tw/ct.asp?xItem=33906&CtNode=5736&mp=1 總說明 P13
-    national-debt-2012 = 59412yi * 10000 * 10000 # 依國際貨幣基金定義
-    national-payable-2012 = 109703yi * * 10000 * 10000 # 潛藏負債, 不含地方政府部份
-    
-    $scope.data = { yr2012: { base: national-debt-2012 + national-payable-2012, interest: 7389 } }
+    national-debt = 59412yi * 10000wan * 10000ntd # 依國際貨幣基金定義
+    national-payable = 109703yi * 10000wan * 10000ntd # 潛藏負債, 不含地方政府部份
+
+    $scope.data = { yr2012: { base: national-debt + national-payable, interest: 7389 } }
     #console.log($scope.data.yr2008.base)
     #console.log($scope.data.yr2008.interest)
     $scope.refreshDebtClock = ->
