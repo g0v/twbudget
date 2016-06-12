@@ -1,4 +1,14 @@
 {
+  "name": "twbudget",
+  "name_zh": "中央政府總預算",
+  "status": "Alpha",
+  "tags": [
+    "angularjs",
+    "livescript",
+    "sass",
+    "bootstrap"
+  ],
+  "licenses": "MIT",
   "author": "clkao",
   "contributors": [
     "zbryikt",
@@ -6,9 +16,6 @@
     "jeffhung",
     "ipa"
   ],
-  "status": "alpha",
-  "name": "budget",
-  "name_zh": "中央政府總預算",
   "description": "Taiwan Central Government Budget",
   "description_zh": "中央政府總預算視覺化",
   "homepage": "http://budget.g0v.tw/",
@@ -16,17 +23,6 @@
     "type": "git",
     "url": "https://github.com/g0v/twbudget"
   },
-  "licenses": [
-    {
-      "type": "MIT"
-    }
-  ],
-  "keywords": [
-    "angularjs",
-    "livescript",
-    "sass",
-    "bootstrap"
-  ],
   "audience": [
     "public"
   ],
