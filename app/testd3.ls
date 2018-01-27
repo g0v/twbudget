@@ -60,7 +60,7 @@ bar_chart = (id,mode) ->
         .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-    x.domain data.map -> it.year
+    x.domain data.map -> ('0' + (it.year % 100)).slice(-2)
     y.domain [0, d3.max(data, -> it.amount/1000000)]
 
     svg.append("g")
