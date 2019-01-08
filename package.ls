@@ -8,16 +8,16 @@ repository:
   type: 'git'
   url: 'https://github.com/g0v/twbudget'
 engines:
-  node: '0.8.x'
-  npm: '1.1.x'
+  node: '4.4.x'
+  npm: '2.15.x'
 scripts:
-  prepublish: './node_modules/.bin/lsc -cj package.ls'
+  prepublish: 'lsc -cj package.ls'
   start: 'node server/app.js'
 dependencies:
   zappajs: '0.4.x'
   mongoose: '3.2.x'
   passport: '0.1.x'
-  bcrypt: '0.7.x'
+  bcrypt: '*'
   'cookie-sessions': 'git://github.com/clkao/cookie-sessions.git'
   'passport-local': '0.1.x'
   'passport-facebook': '0.1.x'
