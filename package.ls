@@ -14,7 +14,7 @@ scripts:
   prepublish: 'lsc -cj package.ls'
   start: 'node server/app.js'
 dependencies:
-  zappajs: '0.4.x'
+  zappajs: '0.6.x'
   mongoose: '3.2.x'
   passport: '0.1.x'
   bcrypt: '*'
