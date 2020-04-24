@@ -17,8 +17,7 @@
     "ipa"
   ],
   "description": "Taiwan Central Government Budget project supercharges citizens with the power of visualization and social network to supervise government spending.  Provide different perspectives of budget data like historical trend, cross-department comparison, public opinion and  component breakdown of tax by government spending with interactive treemap, bubble chart and feedback mechanism.",
-  "description_zh": "中央政府總預算視覺化專案利用資料視覺化與社群網路的力量提升公民對政府預算規畫的監督能力。此專案利用各種互動式的視覺化技>巧 ( 包含樹狀圖 ( treemap ) 、泡泡圖 (Bubble Chart ) 搭配民眾反饋機制來展示預算數字的各種面向，例如歷史趨勢、跨部門比較
-、公眾意見與稅金的拆解。",
+  "description_zh": "中央政府總預算視覺化專案利用資料視覺化與社群網路的力量提升公民對政府預算規畫的監督能力。此專案利用各種互動式的視覺化技>巧 ( 包含樹狀圖 ( treemap ) 、泡泡圖 (Bubble Chart ) 搭配民眾反饋機制來展示預算數字的各種面向，例如歷史趨勢、跨部門比較、公眾意見與稅金的拆解。",
   "homepage": "http://budget.g0v.tw/",
   "repository": {
     "type": "git",
