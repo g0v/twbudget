@@ -18,7 +18,7 @@
   },
   "dependencies": {
     "zappajs": "0.6.x",
-    "mongoose": "3.2.x",
+    "mongoose": "5.9.x",
     "passport": "0.1.x",
     "bcrypt": "*",
     "cookie-sessions": "git://github.com/clkao/cookie-sessions.git",
